@@ -66,12 +66,24 @@ public class AlloyManager implements Listener {
         }
 
         if (drop.getType() != Material.AIR) {
-            if (e.getBlock().getRelative(BlockFace.DOWN).getType() != Material.HOPPER) {
-                e.getBlock().getLocation().getWorld().dropItem(e.getBlock().getLocation().add(0, -1, 0), drop);
-            } else {
+            if (e.getBlock().getRelative(BlockFace.DOWN).getType() == Material.HOPPER) {
                 InventoryHolder hopper = (InventoryHolder) e.getBlock().getRelative(BlockFace.DOWN).getState();
-                hopper.getInventory().addItem(drop);
+
+                boolean isThereNotFullStacks = false;
+                for (ItemStack item : hopper.getInventory().getContents()) {
+                    if (item.isSimilar(drop) && item.getAmount() < item.getMaxStackSize()) {
+                        isThereNotFullStacks = true;
+                        break;
+                    }
+                }
+
+                if (hopper.getInventory().firstEmpty() != -1 || isThereNotFullStacks) {
+                    hopper.getInventory().addItem(drop);
+                    return;
+                }
             }
         }
+
+        e.getBlock().getLocation().getWorld().dropItem(e.getBlock().getLocation().add(0, 1, 0), drop);
     }
 }
