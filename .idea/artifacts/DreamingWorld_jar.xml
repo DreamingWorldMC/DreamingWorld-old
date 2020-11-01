@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="DreamingWorld:jar">
+    <output-path>$USER_HOME$/DreamingWorld/Testing/plugins</output-path>
+    <root id="archive" name="DreamingWorld.jar">
+      <element id="module-output" name="DreamingWorld" />
+    </root>
+  </artifact>
+</component>
