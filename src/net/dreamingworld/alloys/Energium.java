@@ -25,7 +25,7 @@ public class Energium extends OreAlloy {
 
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.GRAY + "This stone is ignium but in flint");
-        lore.add(ChatColor.GRAY + "100% eco friendly");
+        lore.add(ChatColor.GREEN + "100% eco friendly");
         meta.setLore(lore);
 
         meta.addEnchant(Enchantment.ARROW_DAMAGE, 1, true);
