@@ -1,6 +1,7 @@
 package net.dreamingworld.alloys;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -62,7 +63,14 @@ public class AlloyManager implements Listener {
             }
         }
 
-        if (drop.getType() != Material.AIR)
-            e.getBlock().getLocation().getWorld().dropItem(e.getBlock().getLocation().add(0, -1, 0), drop);
+        if (drop.getType() != Material.AIR) {
+            if (e.getBlock().getRelative(BlockFace.DOWN).getType() != Material.HOPPER) {
+                e.getBlock().getLocation().getWorld().dropItem(e.getBlock().getLocation().add(0, -1, 0), drop);
+            }
+            else {
+                e.getBlock().getRelative(BlockFace.DOWN)
+
+            }
+        }
     }
 }

@@ -1,8 +1,6 @@
 package net.dreamingworld;
 
-import net.dreamingworld.alloys.AlloyManager;
-import net.dreamingworld.alloys.Energium;
-import net.dreamingworld.alloys.Ignium;
+import net.dreamingworld.alloys.*;
 import net.dreamingworld.commands.CommandDwgive;
 import net.dreamingworld.crafting.CraftingManager;
 import org.bukkit.Bukkit;
@@ -41,6 +39,8 @@ public class DreamingWorld extends JavaPlugin {
 
         alloyManager.registerAlloy(Material.COAL_ORE, new Ignium());
         alloyManager.registerAlloy(Material.COAL_ORE, new Energium());
+        alloyManager.registerAlloy(Material.IRON_ORE, new Uranium());
+        alloyManager.registerAlloy(Material.IRON_ORE, new Manium());
 
         getLogger().info("k-pop is shit");
     }
