@@ -41,6 +41,7 @@ public class DreamingWorld extends JavaPlugin {
         alloyManager.registerAlloy(Material.COAL_ORE, new Energium());
         alloyManager.registerAlloy(Material.IRON_ORE, new Uranium());
         alloyManager.registerAlloy(Material.IRON_ORE, new Manium());
+        alloyManager.registerAlloy(Material.LONG_GRASS, new MysticPeddle());
 
         getLogger().info("k-pop is shit");
     }
