@@ -2,11 +2,13 @@ package net.dreamingworld.alloys;
 
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
+import org.bukkit.craftbukkit.v1_8_R3.block.CraftHopper;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -66,10 +68,9 @@ public class AlloyManager implements Listener {
         if (drop.getType() != Material.AIR) {
             if (e.getBlock().getRelative(BlockFace.DOWN).getType() != Material.HOPPER) {
                 e.getBlock().getLocation().getWorld().dropItem(e.getBlock().getLocation().add(0, -1, 0), drop);
-            }
-            else {
-                e.getBlock().getRelative(BlockFace.DOWN)
-
+            } else {
+                InventoryHolder hopper = (InventoryHolder) e.getBlock().getRelative(BlockFace.DOWN).getState();
+                hopper.getInventory().addItem(drop);
             }
         }
     }
