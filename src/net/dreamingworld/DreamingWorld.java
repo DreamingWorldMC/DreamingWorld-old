@@ -6,6 +6,7 @@ import net.dreamingworld.core.ItemManager;
 import net.dreamingworld.core.alloys.AlloyManager;
 import net.dreamingworld.core.commands.CommandDwgive;
 import net.dreamingworld.core.crafting.CraftingManager;
+import net.dreamingworld.gameplay.manacraft.Manacraft;
 import net.dreamingworld.gameplay.manacraft.blocks.BasicManaGenerator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -52,7 +53,7 @@ public class DreamingWorld extends JavaPlugin {
         alloyManager.registerAlloy(Material.IRON_ORE, new Manium());
         alloyManager.registerAlloy(Material.LONG_GRASS, new MysticPeddle());
 
-        blockManager.registerBlock(new BasicManaGenerator());
+        Manacraft.initialize();
 
         getLogger().info("k-pop is shit");
     }
