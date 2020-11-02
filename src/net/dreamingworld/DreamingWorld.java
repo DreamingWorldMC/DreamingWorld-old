@@ -7,7 +7,6 @@ import net.dreamingworld.core.alloys.AlloyManager;
 import net.dreamingworld.core.commands.CommandDwgive;
 import net.dreamingworld.core.crafting.CraftingManager;
 import net.dreamingworld.gameplay.manacraft.Manacraft;
-import net.dreamingworld.gameplay.manacraft.blocks.BasicManaGenerator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

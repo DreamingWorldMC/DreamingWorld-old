@@ -1,9 +1,11 @@
 package net.dreamingworld.gameplay.manacraft.blocks;
 
 import net.dreamingworld.DreamingWorld;
+import net.dreamingworld.core.PacketWizard;
 import net.dreamingworld.core.Util;
 import net.dreamingworld.core.blocks.CustomBlock;
 import net.dreamingworld.core.crafting.CustomRecipe;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -42,6 +44,6 @@ public class BasicManaGenerator extends CustomBlock {
 
     @Override
     public void tick(Location location) {
-        location.getWorld().playEffect(location, Effect.MOBSPAWNER_FLAMES, 10);
+        PacketWizard.sendParticle(EnumParticle.ENCHANTMENT_TABLE, location.add(0.5, 0.5, 0.5), 100);
     }
 }
