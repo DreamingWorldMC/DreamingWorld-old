@@ -3,12 +3,15 @@ package net.dreamingworld.core.blocks;
 import net.dreamingworld.DreamingWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
+import java.io.File;
 import java.util.*;
 
 public class BlockManager implements Listener {
@@ -29,6 +32,16 @@ public class BlockManager implements Listener {
         Bukkit.getPluginManager().registerEvents(block, DreamingWorld.getInstance());
 
         blocks.put(block.getId(), block);
+    }
+
+    public String getCustomBlockAt(Location location) {
+        Chunk chunk = location.getChunk();
+        File chunkFile = new File(DreamingWorld.dataDirectory + "blocks/" + chunk.getWorld().getName() + "/", chunk.getX() + "_" + chunk.getZ());
+        if (!chunkFile.exists())
+            return null;
+
+        YamlConfiguration data = YamlConfiguration.loadConfiguration(chunkFile);
+        return data.getString("blocks." + location.getBlockX() + "_" + location.getBlockY() + "_" + location.getBlockZ());
     }
 
 
