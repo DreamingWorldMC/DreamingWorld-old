@@ -1,8 +1,7 @@
-package net.dreamingworld.alloys;
+package net.dreamingworld.core.alloys;
 
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_8_R3.block.CraftHopper;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

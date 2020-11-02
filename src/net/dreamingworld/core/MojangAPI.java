@@ -1,4 +1,4 @@
-package net.dreamingworld;
+package net.dreamingworld.core;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

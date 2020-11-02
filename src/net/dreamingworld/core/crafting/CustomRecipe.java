@@ -1,7 +1,6 @@
-package net.dreamingworld.crafting;
+package net.dreamingworld.core.crafting;
 
 import net.dreamingworld.DreamingWorld;
-import net.dreamingworld.TagWizard;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

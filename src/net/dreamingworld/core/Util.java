@@ -1,4 +1,6 @@
-package net.dreamingworld;
+package net.dreamingworld.core;
+
+import net.dreamingworld.DreamingWorld;
 
 public class Util {
 

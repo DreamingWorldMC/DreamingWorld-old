@@ -1,4 +1,4 @@
-package net.dreamingworld;
+package net.dreamingworld.core;
 
 import org.bukkit.inventory.ItemStack;
 

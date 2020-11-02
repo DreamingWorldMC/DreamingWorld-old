@@ -1,4 +1,4 @@
-package net.dreamingworld;
+package net.dreamingworld.core;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

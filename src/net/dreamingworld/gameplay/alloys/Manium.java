@@ -1,6 +1,7 @@
-package net.dreamingworld.alloys;
+package net.dreamingworld.gameplay.alloys;
 
 import net.dreamingworld.DreamingWorld;
+import net.dreamingworld.core.alloys.OreAlloy;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -11,28 +12,27 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ignium extends OreAlloy {
+public class Manium extends OreAlloy {
 
-    public Ignium() {
-        chance = 100;
-        dropOnBreak = true;
+    public Manium() {
+        chance = 5;
+        dropOnBreak = false;
         dropOnSmelt = true;
 
         item = new ItemStack(Material.INK_SACK);
-        item.setDurability((short) 14);
+        item.setDurability((short) 6);
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(ChatColor.GOLD + "Ignium");
+        meta.setDisplayName(ChatColor.DARK_AQUA + "Manium");
 
         List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.GRAY + "Hot... Very hot...");
-        lore.add(ChatColor.GRAY + "No, it is not an amd gpu");
+        lore.add(ChatColor.GRAY + "A bit crystal like");
         meta.setLore(lore);
 
-        meta.addEnchant(Enchantment.ARROW_DAMAGE, 1, true);
+        meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
         item.setItemMeta(meta);
-        DreamingWorld.getInstance().getItemManager().registerItem("ignium", item);
+        DreamingWorld.getInstance().getItemManager().registerItem("manium", item);
     }
 }
