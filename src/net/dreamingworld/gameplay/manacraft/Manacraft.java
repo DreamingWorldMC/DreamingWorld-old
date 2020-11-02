@@ -2,24 +2,28 @@ package net.dreamingworld.gameplay.manacraft;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.gameplay.manacraft.blocks.BasicManaGenerator;
-import net.dreamingworld.gameplay.manacraft.items.HotPeddle;
-import net.dreamingworld.gameplay.manacraft.items.HotStaff;
-import net.dreamingworld.gameplay.manacraft.items.HotSword;
-import net.dreamingworld.gameplay.manacraft.items.ManaCore;
+import net.dreamingworld.gameplay.manacraft.blocks.IronTreeSapling;
+import net.dreamingworld.gameplay.manacraft.items.*;
 import org.bukkit.Bukkit;
 
 public class Manacraft {
 
     public static void initialize() {
         // Blocks
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new BasicManaGenerator());
+        IronTreeSapling ironTreeSapling = new IronTreeSapling();
+
+        //DreamingWorld.getInstance().getBlockManager().registerBlock(new BasicManaGenerator());
+        DreamingWorld.getInstance().getBlockManager().registerBlock(ironTreeSapling);
 
         // Items
         new HotPeddle();
         new HotSword();
         new ManaCore();
+        new HardCoal();
+        new AdvancedStick();
 
         //register events
         Bukkit.getPluginManager().registerEvents(new HotStaff(), DreamingWorld.getInstance());
+        Bukkit.getPluginManager().registerEvents(ironTreeSapling, DreamingWorld.getInstance());
     }
 }
