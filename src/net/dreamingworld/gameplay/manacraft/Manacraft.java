@@ -3,6 +3,7 @@ package net.dreamingworld.gameplay.manacraft;
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.gameplay.manacraft.blocks.BasicManaGenerator;
 import net.dreamingworld.gameplay.manacraft.items.HotPeddle;
+import net.dreamingworld.gameplay.manacraft.items.HotSword;
 
 public class Manacraft {
 
@@ -12,5 +13,6 @@ public class Manacraft {
 
         // Items
         new HotPeddle();
+        new HotSword();
     }
 }
