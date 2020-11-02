@@ -1,4 +1,4 @@
-package net.dreamingworld.alloys;
+package net.dreamingworld.core.alloys;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

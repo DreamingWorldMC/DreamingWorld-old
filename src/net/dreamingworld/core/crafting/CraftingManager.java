@@ -1,4 +1,4 @@
-package net.dreamingworld.crafting;
+package net.dreamingworld.core.crafting;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;

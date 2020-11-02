@@ -1,8 +1,8 @@
-package net.dreamingworld.commands;
+package net.dreamingworld.core.commands;
 
 import net.dreamingworld.DreamingWorld;
-import net.dreamingworld.MojangAPI;
-import net.dreamingworld.Util;
+import net.dreamingworld.core.MojangAPI;
+import net.dreamingworld.core.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

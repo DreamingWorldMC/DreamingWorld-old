@@ -1,6 +1,7 @@
-package net.dreamingworld.alloys;
+package net.dreamingworld.gameplay.alloys;
 
 import net.dreamingworld.DreamingWorld;
+import net.dreamingworld.core.alloys.OreAlloy;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -11,27 +12,26 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Energium extends OreAlloy {
+public class Uranium extends OreAlloy {
 
-    public Energium() {
-        chance = 10;
-        dropOnBreak = true;
+    public Uranium() {
+        chance = 1;
+        dropOnBreak = false;
         dropOnSmelt = true;
 
-        item = new ItemStack(Material.FLINT);
+        item = new ItemStack(Material.EMERALD);
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(ChatColor.AQUA + "Energium");
+        meta.setDisplayName(ChatColor.DARK_GREEN + "Uranium");
 
         List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.GRAY + "This stone is ignium but in flint");
-        lore.add(ChatColor.GRAY + "100% eco friendly");
+        lore.add(ChatColor.GRAY + "A bit radioactive.");
         meta.setLore(lore);
 
-        meta.addEnchant(Enchantment.ARROW_DAMAGE, 1, true);
+        meta.addEnchant(Enchantment.DAMAGE_ALL, 2, true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
         item.setItemMeta(meta);
-        DreamingWorld.getInstance().getItemManager().registerItem("energium", item);
+        DreamingWorld.getInstance().getItemManager().registerItem("uranium", item);
     }
 }
