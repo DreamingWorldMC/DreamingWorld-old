@@ -12,7 +12,7 @@ public class Manacraft {
         // Blocks
         IronTreeSapling ironTreeSapling = new IronTreeSapling();
 
-        //DreamingWorld.getInstance().getBlockManager().registerBlock(new BasicManaGenerator());
+        DreamingWorld.getInstance().getBlockManager().registerBlock(new BasicManaGenerator());
         DreamingWorld.getInstance().getBlockManager().registerBlock(ironTreeSapling);
 
         // Items

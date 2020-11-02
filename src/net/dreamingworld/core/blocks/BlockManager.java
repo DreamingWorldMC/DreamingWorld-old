@@ -1,10 +1,7 @@
 package net.dreamingworld.core.blocks;
 
 import net.dreamingworld.DreamingWorld;
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,6 +9,7 @@ import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class BlockManager implements Listener {
@@ -42,6 +40,33 @@ public class BlockManager implements Listener {
 
         YamlConfiguration data = YamlConfiguration.loadConfiguration(chunkFile);
         return data.getString("blocks." + location.getBlockX() + "_" + location.getBlockY() + "_" + location.getBlockZ());
+    }
+
+
+    public void placeBlock(Location location, String id) throws IOException {
+        File chunkFile = new File(DreamingWorld.dataDirectory + "blocks/" + location.getWorld().getName() + "/", location.getChunk().getX() + "_" + location.getChunk().getZ());
+        YamlConfiguration data = YamlConfiguration.loadConfiguration(chunkFile);
+
+        String s = location.getBlockX() + "_" + location.getBlockY() + "_" + location.getBlockZ();
+        data.set("blocks." + s + ".id", id);
+        data.save(chunkFile);
+    }
+
+    public boolean removeBlock(Location location, String id) throws IOException {
+        File chunkFile = new File(DreamingWorld.dataDirectory + "blocks/" + location.getWorld().getName() + "/", location.getChunk().getX() + "_" + location.getChunk().getZ());
+        YamlConfiguration data = YamlConfiguration.loadConfiguration(chunkFile);
+
+        String s = location.getBlockX() + "_" + location.getBlockY() + "_" + location.getBlockZ();
+        if (data.getConfigurationSection("blocks") != null && data.getConfigurationSection("blocks").getKeys(false).contains(s) && data.getConfigurationSection("blocks").getConfigurationSection(s).getString("id").equals(id)) {
+            data.getConfigurationSection("blocks").set(s, null);
+            location.getBlock().setType(Material.AIR);
+
+            data.save(chunkFile);
+
+            return true;
+        }
+
+        return false;
     }
 
 

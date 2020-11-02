@@ -42,30 +42,16 @@ public abstract class CustomBlock implements Runnable, Listener {
             return;
 
         Location loc = e.getBlock().getLocation();
-        File chunkFile = new File(DreamingWorld.dataDirectory + "blocks/" + loc.getWorld().getName() + "/", loc.getChunk().getX() + "_" + loc.getChunk().getZ());
-        YamlConfiguration data = YamlConfiguration.loadConfiguration(chunkFile);
-
-        String s = loc.getBlockX() + "_" + loc.getBlockY() + "_" + loc.getBlockZ();
-        data.set("blocks." + s + ".id", id);
-        data.save(chunkFile);
+        DreamingWorld.getInstance().getBlockManager().placeBlock(loc, id);
     }
 
     @EventHandler
     public void onBreak(BlockBreakEvent e) throws IOException {
         Location loc = e.getBlock().getLocation();
-        File chunkFile = new File(DreamingWorld.dataDirectory + "blocks/" + loc.getWorld().getName() + "/", loc.getChunk().getX() + "_" + loc.getChunk().getZ());
-        YamlConfiguration data = YamlConfiguration.loadConfiguration(chunkFile);
 
-        String s = loc.getBlockX() + "_" + loc.getBlockY() + "_" + loc.getBlockZ();
-        if (data.getConfigurationSection("blocks") != null && data.getConfigurationSection("blocks").getKeys(false).contains(s)) {
+        if (DreamingWorld.getInstance().getBlockManager().removeBlock(loc, id)) {
             e.setCancelled(true);
-
-            data.getConfigurationSection("blocks").set(s, null);
-            e.getBlock().setType(Material.AIR);
-
-            e.getBlock().getLocation().getWorld().dropItem(e.getBlock().getLocation(), item);
-
-            data.save(chunkFile);
+            loc.getBlock().getLocation().getWorld().dropItem(loc.getBlock().getLocation(), item);
         }
     }
 
@@ -80,8 +66,10 @@ public abstract class CustomBlock implements Runnable, Listener {
             Set<String> blocks = data.getConfigurationSection("blocks").getKeys(false);
 
             for (String block : blocks) {
-                String[] coords = block.split("_");
-                tick(new Location(chunk.getWorld(), Integer.parseInt(coords[0]), Integer.parseInt(coords[1]), Integer.parseInt(coords[2])));
+                if (data.getConfigurationSection("blocks").getConfigurationSection(block).getString("id").equals(id)) {
+                    String[] coords = block.split("_");
+                    tick(new Location(chunk.getWorld(), Integer.parseInt(coords[0]), Integer.parseInt(coords[1]), Integer.parseInt(coords[2])));
+                }
             }
         }
     }
