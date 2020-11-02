@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.blocks;
+package net.dreamingworld.gameplay.manacraft.blocks;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.Util;
@@ -42,6 +42,6 @@ public class BasicManaGenerator extends CustomBlock {
 
     @Override
     public void tick(Location location) {
-        location.getWorld().playEffect(location, Effect.MOBSPAWNER_FLAMES, 100);
+        location.getWorld().playEffect(location, Effect.MOBSPAWNER_FLAMES, 10);
     }
 }

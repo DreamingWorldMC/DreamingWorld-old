@@ -25,6 +25,6 @@ public class MysticPeddle extends OreAlloy {
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
         item.setItemMeta(meta);
-        DreamingWorld.getInstance().getItemManager().registerItem("mysticPeddle", item);
+        DreamingWorld.getInstance().getItemManager().registerItem("mystic_peddle", item);
     }
 }
