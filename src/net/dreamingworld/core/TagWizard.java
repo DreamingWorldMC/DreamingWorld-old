@@ -51,7 +51,7 @@ public class TagWizard {
         ItemMeta meta = item.getItemMeta();
 
         List<String> lore;
-        if (meta.hasLore())
+        if (meta != null && meta.hasLore())
             lore = meta.getLore();
         else
             return null;
