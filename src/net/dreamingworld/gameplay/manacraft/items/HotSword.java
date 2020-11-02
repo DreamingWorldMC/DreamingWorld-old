@@ -18,9 +18,9 @@ public class HotSword {
 
         meta.setDisplayName(ChatColor.GOLD + "Hot sword");
 
-        meta.addEnchant(Enchantment.DAMAGE_ALL, 8, true);
+        meta.addEnchant(Enchantment.DAMAGE_ALL, 6, true);
         meta.addEnchant(Enchantment.FIRE_ASPECT, 2, true);
-        meta.addEnchant(Enchantment.DURABILITY, 8, true);
+        meta.addEnchant(Enchantment.DURABILITY, 3, true);
 
         item.setItemMeta(meta);
         DreamingWorld.getInstance().getItemManager().registerItem("hot_sword", item);
