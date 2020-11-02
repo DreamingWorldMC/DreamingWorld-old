@@ -45,7 +45,7 @@ public class AlloyManager implements Listener {
             }
         }
 
-        if (drop.getType() != Material.AIR && !e.getPlayer().getItemInHand().getEnchantments().containsKey(Enchantment.SILK_TOUCH))
+        if (drop.getType() != Material.AIR && !e.getPlayer().getItemInHand().getEnchantments().containsKey(Enchantment.SILK_TOUCH) && e.getPlayer().getItemInHand().getType() != Material.SHEARS)
             e.getBlock().getLocation().getWorld().dropItem(e.getBlock().getLocation(), drop);
     }
 
