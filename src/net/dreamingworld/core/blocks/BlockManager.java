@@ -33,13 +33,18 @@ public class BlockManager implements Listener {
     }
 
     public String getCustomBlockAt(Location location) {
-        Chunk chunk = location.getChunk();
-        File chunkFile = new File(DreamingWorld.dataDirectory + "blocks/" + chunk.getWorld().getName() + "/", chunk.getX() + "_" + chunk.getZ());
+        File chunkFile = new File(DreamingWorld.dataDirectory + "blocks/" + location.getWorld().getName() + "/", location.getChunk().getX() + "_" + location.getChunk().getZ());
         if (!chunkFile.exists())
             return null;
 
         YamlConfiguration data = YamlConfiguration.loadConfiguration(chunkFile);
-        return data.getString("blocks." + location.getBlockX() + "_" + location.getBlockY() + "_" + location.getBlockZ());
+
+        String s = location.getBlockX() + "_" + location.getBlockY() + "_" + location.getBlockZ();
+
+        if (data.getConfigurationSection("blocks") != null && data.getConfigurationSection("blocks").getKeys(false).contains(s))
+            return data.getConfigurationSection("blocks").getConfigurationSection(s).getString("id");
+
+        return null;
     }
 
 

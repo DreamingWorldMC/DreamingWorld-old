@@ -17,7 +17,7 @@ public class ChestUI implements Listener {
     private final Map<Integer, SlotInteractType> slots;
 
     public ChestUI(String title, int rowCount) {
-        inventory = Bukkit.createInventory(null, rowCount * 9);
+        inventory = Bukkit.createInventory(null, rowCount * 9, title);
         slots = new HashMap<>();
 
         for (int i = 0; i < inventory.getSize(); i++)

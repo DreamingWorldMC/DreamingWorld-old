@@ -5,15 +5,21 @@ import net.dreamingworld.core.PacketWizard;
 import net.dreamingworld.core.Util;
 import net.dreamingworld.core.blocks.CustomBlock;
 import net.dreamingworld.core.crafting.CustomRecipe;
+import net.dreamingworld.core.ui.ChestUI;
 import net.minecraft.server.v1_8_R3.EnumParticle;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BasicManaGenerator extends CustomBlock {
 
@@ -40,6 +46,18 @@ public class BasicManaGenerator extends CustomBlock {
         recipe.setCustomIngredient('N', "ignium");
 
         DreamingWorld.getInstance().getCraftingManager().registerCraft(recipe);
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent e) {
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        if (id.equals(DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()))) {
+            e.setCancelled(true);
+            ChestUI ui = new ChestUI("Basic Mana Generator", 3);
+            ui.show(e.getPlayer());
+        }
     }
 
     @Override
