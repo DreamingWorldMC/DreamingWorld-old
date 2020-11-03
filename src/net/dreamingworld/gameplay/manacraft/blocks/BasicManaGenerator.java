@@ -3,9 +3,11 @@ package net.dreamingworld.gameplay.manacraft.blocks;
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
 import net.dreamingworld.core.Util;
+import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.blocks.CustomBlock;
 import net.dreamingworld.core.crafting.CustomRecipe;
 import net.dreamingworld.core.ui.ChestUI;
+import net.dreamingworld.core.ui.SlotInteractType;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -55,7 +57,26 @@ public class BasicManaGenerator extends CustomBlock {
 
         if (id.equals(DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()))) {
             e.setCancelled(true);
+
             ChestUI ui = new ChestUI("Basic Mana Generator", 3);
+            ui.fill(UtilItems.nothing());
+
+            ui.putItem(6, 0, new ItemStack(Material.AIR));
+            ui.putItem(6, 2, new ItemStack(Material.AIR));
+            ui.setSlotInteractType(6, 0, SlotInteractType.TAKE_ONLY);
+            ui.setSlotInteractType(6, 2, SlotInteractType.TAKE_ONLY);
+
+            ui.putItem(2, 1, new ItemStack(Material.AIR));
+            ui.setSlotInteractType(2, 1, SlotInteractType.PUT_AND_TAKE);
+
+            ItemStack manameter = new ItemStack(Material.STAINED_GLASS_PANE);
+            manameter.setDurability((short) 3);
+            ItemMeta meta = manameter.getItemMeta();
+            meta.setDisplayName("some/1000 lmml");
+            manameter.setItemMeta(meta);
+
+            ui.putItem(4, 1, manameter);
+
             ui.show(e.getPlayer());
         }
     }

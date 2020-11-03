@@ -1,5 +1,6 @@
 package net.dreamingworld;
 
+import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.blocks.BlockManager;
 import net.dreamingworld.gameplay.alloys.*;
 import net.dreamingworld.core.ItemManager;
@@ -53,6 +54,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         alloyManager.registerAlloy(Material.IRON_ORE, new Manium());
         alloyManager.registerAlloy(Material.LONG_GRASS, new MysticPeddle());
 
+        UtilItems.initialize();
         Manacraft.initialize();
 
         getLogger().info("k-pop is shit");

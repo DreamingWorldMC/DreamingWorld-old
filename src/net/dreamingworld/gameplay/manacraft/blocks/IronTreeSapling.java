@@ -2,13 +2,11 @@ package net.dreamingworld.gameplay.manacraft.blocks;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
-import net.dreamingworld.core.Util;
 import net.dreamingworld.core.blocks.CustomBlock;
 import net.dreamingworld.core.crafting.CustomRecipe;
-import net.dreamingworld.core.stractures.EasyBuilder;
+import net.dreamingworld.core.structures.EasyBuilder;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.ChatColor;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -19,10 +17,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.bukkit.Bukkit.getLogger;
 
 public class IronTreeSapling extends CustomBlock {
 

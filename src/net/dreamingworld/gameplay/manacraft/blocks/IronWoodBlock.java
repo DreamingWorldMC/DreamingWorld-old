@@ -3,18 +3,13 @@ package net.dreamingworld.gameplay.manacraft.blocks;
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
 import net.dreamingworld.core.blocks.CustomBlock;
-import net.dreamingworld.core.stractures.EasyBuilder;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.io.IOException;
 
 public class IronWoodBlock extends CustomBlock {
 
@@ -30,7 +25,6 @@ public class IronWoodBlock extends CustomBlock {
 
         item.setItemMeta(meta);
 
-
         DreamingWorld.getInstance().getItemManager().registerItem(id, item);
     }
 
@@ -38,5 +32,4 @@ public class IronWoodBlock extends CustomBlock {
     public void tick(Location location) {
         PacketWizard.sendParticle(EnumParticle.VILLAGER_HAPPY, location.add(0.5, 0.5, 0.5), 2);
     }
-
 }
