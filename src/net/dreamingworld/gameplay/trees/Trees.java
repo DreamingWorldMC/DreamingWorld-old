@@ -10,10 +10,11 @@ public class Trees {
     public static void growIronTree(Location location) {
         EasyBuilder builder = new EasyBuilder(location);
 
-        int height = ThreadLocalRandom.current().nextInt(4, 8 + 1);
-        int radius = height > 5 ? 4 : 3;
+        int height = ThreadLocalRandom.current().nextInt(2, 4 + 1);
+        int radiusModifier = height == 4 ? 1 : 0;
 
-        builder.buildSphere(0, height, 0, radius, false, "iron_leaf");
+        builder.buildCircle(0, height, 0, 2 + radiusModifier, "iron_leaf");
+        builder.buildCircle(0, height + 1, 0, 1 + radiusModifier, "iron_leaf");
 
         for (int i = 0; i <= height; i++)
             builder.buildCustomBlock(0, i,0,"iron_wood");

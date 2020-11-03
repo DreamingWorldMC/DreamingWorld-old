@@ -23,14 +23,12 @@ public class EasyBuilder {
         startLocation.subtract(x, y, z);
     }
 
-    public void buildSphere(int x, int y, int z, int radius, boolean hollow, String customBlock) {
-        for (int xx = x - radius; xx <= x + radius; xx++) {
-            for (int yy = y - radius; yy <= y + radius; yy++) {
-                for (int zz = z - radius; zz <= z + radius; zz++) {
-                    double distance = Math.pow(x - xx, 2) + Math.pow(z - zz, 2) + Math.pow(y - yy, 2);
-
-                    if (distance < Math.pow(radius, 2) && !(hollow && distance < Math.pow(radius - 1, 2)))
-                        buildCustomBlock(xx, yy, zz, customBlock);
+    public void buildCircle(int cx, int cy, int cz, int radius, String material) {
+        int r2 = radius * radius;
+        for (int x = cx - radius; x <= cx + radius; x++) {
+            for (int z = cz - radius; z <= cz + radius; z++) {
+                if (Math.pow((cx - x), 2) + Math.pow((cz - z), 2) <= r2) {
+                    buildCustomBlock(x, cy, z, material);
                 }
             }
         }
