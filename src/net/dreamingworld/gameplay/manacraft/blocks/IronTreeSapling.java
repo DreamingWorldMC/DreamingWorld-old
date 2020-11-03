@@ -5,7 +5,9 @@ import net.dreamingworld.core.PacketWizard;
 import net.dreamingworld.core.blocks.CustomBlock;
 import net.dreamingworld.core.crafting.CustomRecipe;
 import net.dreamingworld.core.structures.EasyBuilder;
+import net.dreamingworld.gameplay.trees.Trees;
 import net.minecraft.server.v1_8_R3.EnumParticle;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,8 +17,6 @@ import org.bukkit.event.world.StructureGrowEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.io.IOException;
 
 public class IronTreeSapling extends CustomBlock {
 
@@ -32,13 +32,12 @@ public class IronTreeSapling extends CustomBlock {
 
         item.setItemMeta(meta);
 
-
         DreamingWorld.getInstance().getItemManager().registerItem(id, item);
 
         CustomRecipe recipe = new CustomRecipe(item);
         recipe.shape(new String[] { "III", "AUA", " U " });
         recipe.setVanillaIngredient('I', Material.IRON_BLOCK);
-        recipe.setCustomIngredient('A', "advanced_stick");
+        recipe.setCustomIngredient('A', "advanced_rod");
         recipe.setCustomIngredient('U', "uranium");
 
         DreamingWorld.getInstance().getCraftingManager().registerCraft(recipe);
@@ -50,29 +49,10 @@ public class IronTreeSapling extends CustomBlock {
     }
 
     @EventHandler
-    public void onGrow(StructureGrowEvent e) throws IOException {
-
+    public void onGrow(StructureGrowEvent e) {
         if (id.equals(DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getLocation()))) {
             e.setCancelled(true);
-
-
-            EasyBuilder builder = new EasyBuilder(e.getLocation());
-
-            builder.buildCustomBlock(0, 0,0,"iron_wood", Material.BIRCH_FENCE);
-            builder.buildCustomBlock(0, 1,0,"iron_wood", Material.BIRCH_FENCE);
-            builder.buildCustomBlock(0, 2,0,"iron_wood", Material.BIRCH_FENCE);
-
-            builder.buildCustomBlock(0, 3,0,"iron_wood", Material.LOG);
-
-            builder.buildCustomBlock(1, 3,0,"iron_leaf", Material.LEAVES);
-            builder.buildCustomBlock(-1, 3,0,"iron_leaf", Material.LEAVES);
-            builder.buildCustomBlock(0, 3,1,"iron_leaf", Material.LEAVES);
-            builder.buildCustomBlock(0, 3,-1,"iron_leaf", Material.LEAVES);
-
-            builder.buildCustomBlock(0, 4,0,"iron_leaf", Material.LEAVES);
+            Trees.growIronTree(e.getLocation());
         }
-
-
     }
-
 }

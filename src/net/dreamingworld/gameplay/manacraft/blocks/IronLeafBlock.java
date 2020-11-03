@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.IOException;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class IronLeafBlock extends CustomBlock {
 
@@ -29,13 +30,12 @@ public class IronLeafBlock extends CustomBlock {
 
         item.setItemMeta(meta);
 
-
         DreamingWorld.getInstance().getItemManager().registerItem(id, item);
     }
 
     @Override
     public void tick(Location location) {
-        PacketWizard.sendParticle(EnumParticle.VILLAGER_HAPPY, location.add(0.5, 0.5, 0.5), 5);
+        PacketWizard.sendParticle(EnumParticle.VILLAGER_HAPPY, location.add(0.5, 0.5, 0.5), 1);
     }
 
     @EventHandler
@@ -43,7 +43,10 @@ public class IronLeafBlock extends CustomBlock {
         if (id.equals(DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getBlock().getLocation()))) {
             DreamingWorld.getInstance().getBlockManager().removeBlock(e.getBlock().getLocation(), "iron_leaf");
 
+            int random = ThreadLocalRandom.current().nextInt(0, 1001);
+
+            if (random <= 2) // 0.2% chance
+                e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), DreamingWorld.getInstance().getItemManager().get("iron_tree_sapling"));
         }
     }
-
 }

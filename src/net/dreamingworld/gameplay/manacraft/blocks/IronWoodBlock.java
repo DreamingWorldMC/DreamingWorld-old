@@ -15,7 +15,7 @@ public class IronWoodBlock extends CustomBlock {
 
     public IronWoodBlock()  {
         id = "iron_wood";
-        item = new ItemStack(Material.BIRCH_FENCE);
+        item = new ItemStack(Material.LOG_2);
         ItemMeta meta = item.getItemMeta();
 
         meta.setDisplayName("Iron wood");

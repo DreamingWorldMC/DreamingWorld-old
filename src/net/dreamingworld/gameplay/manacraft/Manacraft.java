@@ -11,6 +11,13 @@ import org.bukkit.Bukkit;
 public class Manacraft {
 
     public static void initialize() {
+        // Items
+        new AdvancedStick();
+        new HotPeddle();
+        new HotSword();
+        new ManaCore();
+        new HardCoal();
+
         // Blocks
         IronTreeSapling ironTreeSapling = new IronTreeSapling();
         IronLeafBlock ironLeafBlock = new IronLeafBlock();
@@ -20,14 +27,7 @@ public class Manacraft {
         DreamingWorld.getInstance().getBlockManager().registerBlock(ironLeafBlock);
         DreamingWorld.getInstance().getBlockManager().registerBlock(new IronWoodBlock());
 
-        // Items
-        new HotPeddle();
-        new HotSword();
-        new ManaCore();
-        new HardCoal();
-        new AdvancedStick();
-
-        //register events
+        // Events
         Bukkit.getPluginManager().registerEvents(new HotStaff(), DreamingWorld.getInstance());
         Bukkit.getPluginManager().registerEvents(ironTreeSapling, DreamingWorld.getInstance());
         Bukkit.getPluginManager().registerEvents(ironLeafBlock, DreamingWorld.getInstance());
