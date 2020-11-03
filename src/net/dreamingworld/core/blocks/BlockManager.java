@@ -55,8 +55,6 @@ public class BlockManager implements Listener {
         String s = location.getBlockX() + "_" + location.getBlockY() + "_" + location.getBlockZ();
         data.set("blocks." + s + ".id", id);
         data.save(chunkFile);
-
-        location.getBlock().setType(blocks.get(id).getItem().getType());
     }
 
     public boolean removeBlock(Location location, String id) throws IOException {

@@ -20,6 +20,7 @@ public class EasyBuilder {
             e.printStackTrace();
         }
 
+        startLocation.getBlock().setType(DreamingWorld.getInstance().getItemManager().get(customBlock).getType());
         startLocation.subtract(x, y, z);
     }
 
