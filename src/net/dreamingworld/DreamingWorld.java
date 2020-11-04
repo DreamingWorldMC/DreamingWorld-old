@@ -2,6 +2,8 @@ package net.dreamingworld;
 
 import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.blocks.BlockManager;
+import net.dreamingworld.core.customdamage.CustomArmor;
+import net.dreamingworld.core.customdamage.CustomDamage;
 import net.dreamingworld.core.fishing.FishManager;
 import net.dreamingworld.gameplay.alloys.*;
 import net.dreamingworld.core.ItemManager;
@@ -36,6 +38,8 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     private AlloyManager alloyManager;
     private BlockManager blockManager;
     private CraftingManager craftingManager;
+    private CustomArmor customArmor;
+    private CustomDamage customDamage;
 
     public void onEnable() {
         inst = this;
@@ -45,11 +49,16 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         alloyManager = new AlloyManager();
         blockManager = new BlockManager();
         craftingManager = new CraftingManager();
+        customArmor = new CustomArmor();
+        customDamage = new CustomDamage();
+
+
 
         Bukkit.getPluginManager().registerEvents(fishManager, this);
         Bukkit.getPluginManager().registerEvents(alloyManager, this);
         Bukkit.getPluginManager().registerEvents(blockManager, this);
         Bukkit.getPluginManager().registerEvents(craftingManager, this);
+        Bukkit.getPluginManager().registerEvents(customDamage, this);
 
         new CommandDwgive();
 
@@ -85,5 +94,9 @@ public class DreamingWorld extends JavaPlugin implements Listener {
 
     public BlockManager getBlockManager() {
         return blockManager;
+    }
+
+    public CustomArmor getCustomArmor() {
+        return customArmor;
     }
 }
