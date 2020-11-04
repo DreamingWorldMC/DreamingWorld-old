@@ -3,8 +3,6 @@ package net.dreamingworld.core.structures;
 import net.dreamingworld.DreamingWorld;
 import org.bukkit.Location;
 
-import java.io.IOException;
-
 public class EasyBuilder {
 
     public Location startLocation;
@@ -14,11 +12,7 @@ public class EasyBuilder {
     }
 
     public void buildCustomBlock(int x, int y, int z, String customBlock) {
-        try {
-            DreamingWorld.getInstance().getBlockManager().placeBlock(startLocation.add(x, y, z), customBlock);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        DreamingWorld.getInstance().getBlockManager().placeBlock(startLocation.add(x, y, z), customBlock);
 
         startLocation.getBlock().setType(DreamingWorld.getInstance().getItemManager().get(customBlock).getType());
         startLocation.subtract(x, y, z);
