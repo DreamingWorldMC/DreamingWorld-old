@@ -1,6 +1,7 @@
 package net.dreamingworld.gameplay.manacraft.items;
 
 import net.dreamingworld.DreamingWorld;
+import net.dreamingworld.core.crafting.CustomRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -12,8 +13,20 @@ public class GreenIron {
 
     public GreenIron() {
 
-        ItemStack item = new ItemStack(Material.IRON_INGOT);
+        ItemStack item = new ItemStack(Material.QUARTZ);
         ItemMeta meta = item.getItemMeta();
+
+        meta.setDisplayName(ChatColor.GREEN + "Green iron nugget");
+
+        meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
+        item.setItemMeta(meta);
+        DreamingWorld.getInstance().getItemManager().registerItem("green_iron_nugget", item);
+
+
+        item = new ItemStack(Material.IRON_INGOT);
+        meta = item.getItemMeta();
 
         meta.setDisplayName(ChatColor.GREEN + "Green iron ingot");
 
@@ -24,16 +37,11 @@ public class GreenIron {
         DreamingWorld.getInstance().getItemManager().registerItem("green_iron_ingot", item);
 
 
-        item = new ItemStack(Material.QUARTZ);
-        meta = item.getItemMeta();
 
-        meta.setDisplayName(ChatColor.GREEN + "Green iron nugget");
+        CustomRecipe recipe = new CustomRecipe(item);
+        recipe.shape(new String[] { "III", "III", "III" });
+        recipe.setCustomIngredient('I', "green_iron_nugget");
 
-        meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-
-        item.setItemMeta(meta);
-        DreamingWorld.getInstance().getItemManager().registerItem("green_iron_nugget", item);
 
     }
 }
