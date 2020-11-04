@@ -10,24 +10,19 @@ import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AlloyManager implements Listener {
 
-    private Map<Material, List<OreAlloy>> alloys;
+    private Map<Material, Set<OreAlloy>> alloys;
 
     public AlloyManager() {
         alloys = new HashMap<>();
     }
 
     public void registerAlloy(Material base, OreAlloy alloy) {
-        alloys.putIfAbsent(base, new ArrayList<>()); // Initializing list if it was not initialized
-
-        if (!alloys.get(base).contains(alloy))
-            alloys.get(base).add(alloy);
+        alloys.putIfAbsent(base, new HashSet<>()); // Initializing set if it was not initialized
+        alloys.get(base).add(alloy);
     }
 
     @EventHandler
