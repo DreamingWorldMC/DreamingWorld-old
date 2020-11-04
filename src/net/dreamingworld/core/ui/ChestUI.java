@@ -65,16 +65,18 @@ public class ChestUI implements Listener {
         if (!e.getInventory().getName().equals(title))
             return;
 
-        if (e.getRawSlot() >= e.getInventory().getSize())
-            return;
+        if (e.getRawSlot() < e.getInventory().getSize()) {
+            SlotInteractType t = slots.get(e.getSlot());
 
-        SlotInteractType t = slots.get(e.getSlot());
-
-        if (e.getAction() == InventoryAction.PLACE_ALL || e.getAction() == InventoryAction.PLACE_ONE || e.getAction() == InventoryAction.PLACE_SOME) {
-            if (t == SlotInteractType.HANDS_OFF || t == SlotInteractType.TAKE_ONLY)
-                e.setCancelled(true);
-        } else if ((e.getAction() == InventoryAction.PICKUP_ALL || e.getAction() == InventoryAction.PICKUP_ONE || e.getAction() == InventoryAction.PICKUP_SOME || e.getAction() == InventoryAction.PICKUP_HALF) || (e.getAction() == InventoryAction.DROP_ALL_SLOT || e.getAction() == InventoryAction.DROP_ONE_SLOT)) {
-            if (t == SlotInteractType.HANDS_OFF || t == SlotInteractType.PUT_ONLY)
+            if (e.getAction() == InventoryAction.PLACE_ALL || e.getAction() == InventoryAction.PLACE_ONE || e.getAction() == InventoryAction.PLACE_SOME) {
+                if (t == SlotInteractType.HANDS_OFF || t == SlotInteractType.TAKE_ONLY)
+                    e.setCancelled(true);
+            } else if ((e.getAction() == InventoryAction.PICKUP_ALL || e.getAction() == InventoryAction.PICKUP_ONE || e.getAction() == InventoryAction.PICKUP_SOME || e.getAction() == InventoryAction.PICKUP_HALF) || (e.getAction() == InventoryAction.DROP_ALL_SLOT || e.getAction() == InventoryAction.DROP_ONE_SLOT) || e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY) {
+                if (t == SlotInteractType.HANDS_OFF || t == SlotInteractType.PUT_ONLY)
+                    e.setCancelled(true);
+            }
+        } else {
+            if (e.getAction() == InventoryAction.COLLECT_TO_CURSOR)
                 e.setCancelled(true);
         }
     }
