@@ -12,7 +12,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class GreenIron {
 
     public GreenIron() {
-
         ItemStack item = new ItemStack(Material.QUARTZ);
         ItemMeta meta = item.getItemMeta();
 
@@ -36,12 +35,10 @@ public class GreenIron {
         item.setItemMeta(meta);
         DreamingWorld.getInstance().getItemManager().registerItem("green_iron_ingot", item);
 
-
-
         CustomRecipe recipe = new CustomRecipe(item);
         recipe.shape(new String[] { "III", "III", "III" });
         recipe.setCustomIngredient('I', "green_iron_nugget");
 
-
+        DreamingWorld.getInstance().getCraftingManager().registerCraft(recipe);
     }
 }

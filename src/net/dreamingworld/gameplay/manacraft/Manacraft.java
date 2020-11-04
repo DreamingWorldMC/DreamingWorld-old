@@ -33,6 +33,6 @@ public class Manacraft {
         Bukkit.getPluginManager().registerEvents(ironLeafBlock, DreamingWorld.getInstance());
         Bukkit.getPluginManager().registerEvents(greenIronMaker, DreamingWorld.getInstance());
 
-        Bukkit.getLogger().info("Manacraft loaded");
+        DreamingWorld.getInstance().getLogger().info("Manacraft initialized");
     }
 }

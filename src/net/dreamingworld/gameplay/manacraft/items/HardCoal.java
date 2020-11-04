@@ -12,7 +12,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class HardCoal {
 
     public HardCoal() {
-
         ItemStack item = new ItemStack(Material.COAL);
         ItemMeta meta = item.getItemMeta();
 

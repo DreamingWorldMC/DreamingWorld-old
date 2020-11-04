@@ -7,15 +7,15 @@ import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CraftingManager implements Listener {
 
-    private List<CustomRecipe> recipes;
+    private Set<CustomRecipe> recipes;
 
     public CraftingManager() {
-        recipes = new ArrayList<>();
+        recipes = new HashSet<>();
     }
 
     public void registerCraft(CustomRecipe recipe) {

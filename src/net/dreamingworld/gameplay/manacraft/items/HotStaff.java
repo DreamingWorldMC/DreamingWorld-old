@@ -21,7 +21,6 @@ import java.util.List;
 public class HotStaff implements Listener {
 
     public HotStaff() {
-
         ItemStack item = new ItemStack(Material.GOLD_SPADE);
         ItemMeta meta = item.getItemMeta();
 
@@ -49,9 +48,8 @@ public class HotStaff implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         if (DreamingWorld.getInstance().getItemManager().checkItemAuthenticity(e.getPlayer().getItemInHand(), "hot_staff")) {
-            if (e.getPlayer().getItemInHand().getDurability() > 31) {
+            if (e.getPlayer().getItemInHand().getDurability() > 31)
                 return;
-            }
 
             Location eyeLoc = e.getPlayer().getEyeLocation();
             Vector vec = eyeLoc.getDirection().normalize();

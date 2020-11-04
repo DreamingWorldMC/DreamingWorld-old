@@ -12,7 +12,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class HotSword {
 
     public HotSword() {
-
         ItemStack item = new ItemStack(Material.GOLD_SWORD);
         ItemMeta meta = item.getItemMeta();
 

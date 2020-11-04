@@ -29,7 +29,6 @@ import java.util.function.Supplier;
 
 public class GreenIronMaker extends CustomBlock {
 
-
     public GreenIronMaker() {
         id = "green_iron_maker";
         item = new ItemStack(Material.IRON_PLATE);
@@ -52,11 +51,7 @@ public class GreenIronMaker extends CustomBlock {
         recipe.setCustomIngredient('N', "ignium");
 
         DreamingWorld.getInstance().getCraftingManager().registerCraft(recipe);
-
-
-
     }
-
 
 
     @Override

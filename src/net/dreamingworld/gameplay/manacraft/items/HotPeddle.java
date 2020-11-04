@@ -13,7 +13,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class HotPeddle {
 
     public HotPeddle() {
-
         ItemStack item = new ItemStack(Material.FLINT);
         ItemMeta meta = item.getItemMeta();
 

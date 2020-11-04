@@ -12,7 +12,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class AdvancedStick {
 
     public AdvancedStick() {
-
         ItemStack item = new ItemStack(Material.BLAZE_ROD);
         ItemMeta meta = item.getItemMeta();
 

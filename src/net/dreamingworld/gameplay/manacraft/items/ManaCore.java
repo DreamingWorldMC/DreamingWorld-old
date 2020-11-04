@@ -12,7 +12,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class ManaCore {
 
     public ManaCore() {
-
         ItemStack item = new ItemStack(Material.NETHER_BRICK_ITEM);
         ItemMeta meta = item.getItemMeta();
 

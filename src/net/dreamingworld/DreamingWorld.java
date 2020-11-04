@@ -2,11 +2,13 @@ package net.dreamingworld;
 
 import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.blocks.BlockManager;
+import net.dreamingworld.core.fishing.FishManager;
 import net.dreamingworld.gameplay.alloys.*;
 import net.dreamingworld.core.ItemManager;
 import net.dreamingworld.core.alloys.AlloyManager;
 import net.dreamingworld.core.commands.CommandDwgive;
 import net.dreamingworld.core.crafting.CraftingManager;
+import net.dreamingworld.gameplay.fishing.Fishing;
 import net.dreamingworld.gameplay.manacraft.Manacraft;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -29,6 +31,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
 
     public static final String dataDirectory = "DreamingWorld/data/";
 
+    private FishManager fishManager;
     private ItemManager itemManager;
     private AlloyManager alloyManager;
     private BlockManager blockManager;
@@ -37,11 +40,13 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     public void onEnable() {
         inst = this;
 
+        fishManager = new FishManager();
         itemManager = new ItemManager();
         alloyManager = new AlloyManager();
         blockManager = new BlockManager();
         craftingManager = new CraftingManager();
 
+        Bukkit.getPluginManager().registerEvents(fishManager, this);
         Bukkit.getPluginManager().registerEvents(alloyManager, this);
         Bukkit.getPluginManager().registerEvents(blockManager, this);
         Bukkit.getPluginManager().registerEvents(craftingManager, this);
@@ -56,6 +61,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
 
         UtilItems.initialize();
         Manacraft.initialize();
+        Fishing.initialize();
 
         getLogger().info("k-pop is shit");
     }
@@ -64,6 +70,10 @@ public class DreamingWorld extends JavaPlugin implements Listener {
 
     }
 
+
+    public FishManager getFishManager() {
+        return fishManager;
+    }
 
     public ItemManager getItemManager() {
         return itemManager;
