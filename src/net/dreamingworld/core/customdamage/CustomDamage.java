@@ -110,7 +110,9 @@ public class CustomDamage implements Listener {
                 removeDMG += startDamage * MathHelper.clamp(armorPoints, 20, 75) * 0.5 / 100;
             }
 
-            e.setDamage(MathHelper.clamp((int)startDamage - (int)removeDMG, 0, 10000));
+
+            e.setDamage(0);
+            ((Player) e.getEntity()).setHealth(((Player)e.getEntity()).getHealth() - MathHelper.clamp((int)startDamage - (int)removeDMG, 0, 10000));
             ((Player)e.getEntity()).sendMessage(String.valueOf(MathHelper.clamp((int)startDamage - (int)removeDMG, 0, 10000)));
         }
     }
