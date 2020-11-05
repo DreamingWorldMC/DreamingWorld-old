@@ -3,12 +3,14 @@ package net.dreamingworld.gameplay.manacraft;
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.gameplay.manacraft.blocks.*;
 import net.dreamingworld.gameplay.manacraft.items.*;
-import org.bukkit.Bukkit;
 
 public class Manacraft {
 
     public static void initialize() {
+        long begin = System.currentTimeMillis();
+
         // Items
+        new ManaFlowBinder();
         new AdvancedStick();
         new HotPeddle();
         new HotSword();
@@ -17,22 +19,15 @@ public class Manacraft {
         new GreenIron();
 
         // Blocks
-        IronTreeSapling ironTreeSapling = new IronTreeSapling();
-        IronLeafBlock ironLeafBlock = new IronLeafBlock();
-        GreenIronMaker greenIronMaker = new GreenIronMaker();
-
         DreamingWorld.getInstance().getBlockManager().registerBlock(new BasicManaGenerator());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(ironTreeSapling);
-        DreamingWorld.getInstance().getBlockManager().registerBlock(ironLeafBlock);
-        DreamingWorld.getInstance().getBlockManager().registerBlock(greenIronMaker);
+        DreamingWorld.getInstance().getBlockManager().registerBlock(new IronTreeSapling());
+        DreamingWorld.getInstance().getBlockManager().registerBlock(new IronLeafBlock());
+        DreamingWorld.getInstance().getBlockManager().registerBlock(new GreenIronMaker());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new IronWoodBlock());
+        DreamingWorld.getInstance().getBlockManager().registerBlock(new ManaCapacitor());
 
-        // Events
-        Bukkit.getPluginManager().registerEvents(new HotStaff(), DreamingWorld.getInstance());
-        Bukkit.getPluginManager().registerEvents(ironTreeSapling, DreamingWorld.getInstance());
-        Bukkit.getPluginManager().registerEvents(ironLeafBlock, DreamingWorld.getInstance());
-        Bukkit.getPluginManager().registerEvents(greenIronMaker, DreamingWorld.getInstance());
+        long time = System.currentTimeMillis() - begin;
 
-        DreamingWorld.getInstance().getLogger().info("Manacraft initialized");
+        DreamingWorld.getInstance().getLogger().info("Manacraft initialized [" + time + " ms]");
     }
 }

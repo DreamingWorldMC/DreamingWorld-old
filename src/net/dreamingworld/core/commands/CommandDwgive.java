@@ -57,9 +57,9 @@ public class CommandDwgive implements CommandExecutor, TabCompleter {
             for (Player player : Bukkit.getOnlinePlayers())
                 names.add(player.getName());
 
-            return names;
+            return Util.smartAutocomplete(names, args);
         } else if (args.length == 2)
-            return DreamingWorld.getInstance().getItemManager().getIds();
+            return Util.smartAutocomplete(DreamingWorld.getInstance().getItemManager().getIds(), args);
 
         return null;
     }

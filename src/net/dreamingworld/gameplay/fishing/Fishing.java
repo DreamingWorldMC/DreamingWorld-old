@@ -6,7 +6,5 @@ public class Fishing {
 
     public static void initialize() {
         DreamingWorld.getInstance().getFishManager().registerLoot(new EntityCatchTest());
-
-        DreamingWorld.getInstance().getLogger().info("Fishing initialized");
     }
 }

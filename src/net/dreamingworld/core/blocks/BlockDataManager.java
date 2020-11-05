@@ -3,6 +3,7 @@ package net.dreamingworld.core.blocks;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.dreamingworld.DreamingWorld;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -32,6 +33,9 @@ public class BlockDataManager {
     public String getBlockTag(Location location, String name) {
         Map<String, String> data = getBlockData(location);
 
+        if (data == null)
+            return null;
+
         if (data.containsKey(name))
             return data.get(name);
 
@@ -60,8 +64,10 @@ public class BlockDataManager {
 
         String s = location.getBlockX() + "_" + location.getBlockY() + "_" + location.getBlockZ();
 
-        if (data.getConfigurationSection("blocks") != null)
-            data.getConfigurationSection("blocks").set(s + "." + id, value);
+        if (data.getConfigurationSection("blocks") == null)
+            data.createSection("blocks");
+
+        data.getConfigurationSection("blocks").set(s + "." + id, value);
 
         try {
             data.save(chunkFile);

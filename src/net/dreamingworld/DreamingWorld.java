@@ -44,6 +44,8 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     public void onEnable() {
         inst = this;
 
+        long begin = System.currentTimeMillis();
+
         fishManager = new FishManager();
         itemManager = new ItemManager();
         alloyManager = new AlloyManager();
@@ -51,7 +53,6 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         craftingManager = new CraftingManager();
         customArmor = new CustomArmor();
         customDamage = new CustomDamage();
-
 
 
         Bukkit.getPluginManager().registerEvents(fishManager, this);
@@ -72,7 +73,9 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         Manacraft.initialize();
         Fishing.initialize();
 
-        getLogger().info("k-pop is shit");
+        long time = System.currentTimeMillis() - begin;
+
+        getLogger().info("k-pop is shit [" + time + " ms]");
     }
 
     public void onDisable() {

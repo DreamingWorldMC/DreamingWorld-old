@@ -22,5 +22,4 @@ public class CustomArmor {
 
         return armor.get(name);
     }
-
 }

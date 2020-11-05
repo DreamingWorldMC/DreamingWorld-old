@@ -29,11 +29,9 @@ public class CustomDamage implements Listener {
                 if (armorItem == null)
                     continue;
 
-                if (DreamingWorld.getInstance()
-                        .getCustomArmor()
-                        .getPiece(TagWizard.getItemTag(armorItem, "id")) != -1 ) {
+                if (DreamingWorld.getInstance().getCustomArmor().getPiece(TagWizard.getItemTag(armorItem, "id")) != -1 )
                     armorPoints += DreamingWorld.getInstance().getCustomArmor().getPiece(TagWizard.getItemTag(armorItem, "id"));
-                }
+
                 else {
                     switch (armorItem.getType()) {
                         case DIAMOND_BOOTS: // diamond
@@ -88,9 +86,7 @@ public class CustomDamage implements Listener {
                             armorPoints += 2;
                             break;
                     }
-
                 }
-
 
                 if (armorItem.hasItemMeta()) {
                     if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_ENVIRONMENTAL))
@@ -103,17 +99,17 @@ public class CustomDamage implements Listener {
                 }
             }
 
-
             removeDMG += startDamage * MathHelper.clamp(armorPoints, 0, 20) * 3 / 100;
 
-            if (armorPoints > 20) {
+            if (armorPoints > 20)
                 removeDMG += startDamage * MathHelper.clamp(armorPoints, 20, 75) * 0.5 / 100;
-            }
-
 
             e.setDamage(0);
-            ((Player) e.getEntity()).setHealth(((Player)e.getEntity()).getHealth() - MathHelper.clamp((int)startDamage - (int)removeDMG, 0, 10000));
-            ((Player)e.getEntity()).sendMessage(String.valueOf(MathHelper.clamp((int)startDamage - (int)removeDMG, 0, 10000)));
+
+            int resDamage = MathHelper.clamp((int) startDamage - (int) removeDMG, 0, 10000);
+
+            ((Player) e.getEntity()).setHealth(((Player) e.getEntity()).getHealth() - resDamage);
+            e.getEntity().sendMessage(String.valueOf(resDamage));
         }
     }
 }

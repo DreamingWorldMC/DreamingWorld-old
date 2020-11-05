@@ -1,50 +1,90 @@
 package net.dreamingworld.core.mana;
 
 import net.dreamingworld.DreamingWorld;
+import net.dreamingworld.core.Util;
+import net.dreamingworld.core.blocks.CustomBlock;
+import net.minecraft.server.v1_8_R3.MathHelper;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.util.Set;
 
-public class ManaContainer {
-
-    protected int capacity;
-    protected int storedMana;
-
-    private Set<Location> inputs;
+public abstract class ManaContainer extends CustomBlock {
 
     public ManaContainer() {
-        capacity = 100;
-        storedMana = 0;
+
     }
 
 
-    public void addInput(Location location) {
-        inputs.add(location);
+    public void setMana(Location location, int mana) {
+        DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(location, "storedMana", String.valueOf(mana));
     }
 
-    public void removeInput(Location location) {
-        inputs.remove(location);
+    protected void setMaxMana(Location location, int maxMana) {
+        DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(location, "capacity", String.valueOf(maxMana));
     }
 
 
-    public void manaTick() {
-        for (Location input : inputs) {
+    public int getMaxMana(Location location) {
+        String s = DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "capacity");
+
+        if (s == null)
+            return -1;
+
+        return Integer.parseInt(s);
+    }
+
+    public int getMana(Location location) {
+        String s = DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "storedMana");
+
+        if (s == null)
+            return -1;
+
+        return Integer.parseInt(s);
+    }
+
+
+    public void manaTick(Location location) {
+        int sm = getMana(location);
+        int cp = getMaxMana(location);
+
+        int storedMana = Math.max(sm, 0);
+        int capacity = cp >= 0 ? cp : storedMana;
+
+        String inpSet = DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "inputs");
+
+        if (inpSet == null)
+            return;
+
+        Set<String> inputs = Util.setFromJson(inpSet);
+
+        for (String inp : inputs) {
+            String[] inpCoords = inp.split("_");
+            Location input = new Location(location.getWorld(), Integer.parseInt(inpCoords[0]), Integer.parseInt(inpCoords[1]), Integer.parseInt(inpCoords[2]));
+
             if (storedMana < capacity) {
-                String inpMana = DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(input, "mana");
+                if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(input) == null)
+                    return;
 
-                if (inpMana == null)
+                int inputMana = getMana(input);
+                if (inputMana < 0)
                     continue;
 
-                int inputMana = Integer.parseInt(inpMana);
+                int needed = capacity - storedMana;
+                if (needed <= 0)
+                    break;
 
-                if (inputMana <= 0)
-                    continue;
+                String s = DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(input, "maxOutput");
+                int canGetNow = MathHelper.clamp(needed, 0, s == null ? inputMana : Integer.parseInt(s));
 
-                storedMana++;
-                inputMana--;
+                storedMana += canGetNow;
+                inputMana -= canGetNow;
 
-                DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(input, "mana", String.valueOf(inputMana));
+                setMana(input, inputMana);
             }
         }
+
+        setMana(location, storedMana);
+        setMaxMana(location, capacity);
     }
 }

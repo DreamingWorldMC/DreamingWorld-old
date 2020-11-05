@@ -2,17 +2,15 @@ package net.dreamingworld.gameplay.manacraft.blocks;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
-import net.dreamingworld.core.Util;
 import net.dreamingworld.core.UtilItems;
-import net.dreamingworld.core.blocks.CustomBlock;
 import net.dreamingworld.core.crafting.CustomRecipe;
+import net.dreamingworld.core.mana.ManaContainer;
 import net.dreamingworld.core.ui.ChestUI;
-import net.dreamingworld.core.ui.SlotInteractType;
 import net.minecraft.server.v1_8_R3.EnumParticle;
-import org.bukkit.Bukkit;
-import org.bukkit.Effect;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -21,19 +19,18 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class BasicManaGenerator extends CustomBlock {
+public class ManaCapacitor extends ManaContainer {
 
-    public BasicManaGenerator() {
-        id = "basic_mana_generator";
-        item = new ItemStack(Material.FURNACE);
+    public ManaCapacitor() {
+        id = "mana_capacitor";
+        item = new ItemStack(Material.DISPENSER);
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName("Basic Mana Generator");
+        meta.setDisplayName("Mana Capacitor");
 
         List<String> lore = new ArrayList<>();
-        lore.add(Util.formatString("&7Outputs &420 lmml&r/&7tick"));
+        lore.add(ChatColor.GRAY + "Stores mana");
 
         meta.setLore(lore);
         item.setItemMeta(meta);
@@ -41,14 +38,16 @@ public class BasicManaGenerator extends CustomBlock {
         DreamingWorld.getInstance().getItemManager().registerItem(id, item);
 
         CustomRecipe recipe = new CustomRecipe(item);
-        recipe.shape(new String[] { "IGI", "NBN", "IGI" });
+        recipe.shape(new String[] { "IGI", "ICI", "BGB" });
         recipe.setVanillaIngredient('I', Material.IRON_INGOT);
+        recipe.setVanillaIngredient('G', Material.GLASS);
+        recipe.setCustomIngredient('C', "mana_core");
+        recipe.setVanillaIngredient('B', Material.BRICK);
         recipe.setVanillaIngredient('G', Material.GOLD_INGOT);
-        recipe.setVanillaIngredient('B', Material.IRON_BLOCK);
-        recipe.setCustomIngredient('N', "ignium");
 
         DreamingWorld.getInstance().getCraftingManager().registerCraft(recipe);
     }
+
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
@@ -61,31 +60,33 @@ public class BasicManaGenerator extends CustomBlock {
         if (id.equals(DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()))) {
             e.setCancelled(true);
 
-            ChestUI ui = new ChestUI("Basic Mana Generator", 3);
+            ChestUI ui = new ChestUI("Mana Capacitor", 1);
             ui.fill(UtilItems.nothing());
-
-            ui.putItem(6, 0, new ItemStack(Material.AIR));
-            ui.putItem(6, 2, new ItemStack(Material.AIR));
-            ui.setSlotInteractType(6, 0, SlotInteractType.TAKE_ONLY);
-            ui.setSlotInteractType(6, 2, SlotInteractType.TAKE_ONLY);
-
-            ui.putItem(2, 1, new ItemStack(Material.AIR));
-            ui.setSlotInteractType(2, 1, SlotInteractType.PUT_AND_TAKE);
 
             ItemStack manameter = new ItemStack(Material.STAINED_GLASS_PANE);
             manameter.setDurability((short) 3);
             ItemMeta meta = manameter.getItemMeta();
-            meta.setDisplayName("some/1000 lmml");
+            meta.setDisplayName(getMana(e.getClickedBlock().getLocation()) + "/" + getMaxMana(e.getClickedBlock().getLocation()) + " lmml");
             manameter.setItemMeta(meta);
 
-            ui.putItem(4, 1, manameter);
+            ui.putItem(4, 0, manameter);
 
             ui.show(e.getPlayer());
         }
     }
 
+
+    @Override
+    public void place(Block block) {
+        setMaxMana(block.getLocation(), 10000);
+        setMana(block.getLocation(), 0);
+
+        // TODO: Change block facing
+    }
+
     @Override
     public void tick(Location location) {
-        PacketWizard.sendParticle(EnumParticle.ENCHANTMENT_TABLE, location.add(0.5, 0.5, 0.5), 100);
+        manaTick(location);
+        PacketWizard.sendParticle(EnumParticle.TOWN_AURA, location.add(0.5, 0.5, 0.5), 100);
     }
 }

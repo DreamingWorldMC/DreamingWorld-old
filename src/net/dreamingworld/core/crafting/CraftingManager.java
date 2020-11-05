@@ -37,7 +37,6 @@ public class CraftingManager implements Listener {
             }
         }
 
-
         for (ItemStack item : inventory.getMatrix())
             if (item != null && item.hasItemMeta() && item.getItemMeta().hasLore())
                 inventory.setResult(new ItemStack(Material.AIR));
