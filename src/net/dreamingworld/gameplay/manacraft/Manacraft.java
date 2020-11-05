@@ -1,6 +1,7 @@
 package net.dreamingworld.gameplay.manacraft;
 
 import net.dreamingworld.DreamingWorld;
+import net.dreamingworld.gameplay.manacraft.Armor.GreenIronArmor;
 import net.dreamingworld.gameplay.manacraft.blocks.*;
 import net.dreamingworld.gameplay.manacraft.items.*;
 
@@ -17,6 +18,9 @@ public class Manacraft {
         new ManaCore();
         new HardCoal();
         new GreenIron();
+
+        // armor
+        new GreenIronArmor();
 
         // Blocks
         DreamingWorld.getInstance().getBlockManager().registerBlock(new BasicManaGenerator());
