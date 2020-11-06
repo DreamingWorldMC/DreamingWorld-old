@@ -79,7 +79,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     }
 
     public void onDisable() {
-
+        Bukkit.getScheduler().cancelAllTasks();
     }
 
 

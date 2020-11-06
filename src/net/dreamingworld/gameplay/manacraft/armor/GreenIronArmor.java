@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.Armor;
+package net.dreamingworld.gameplay.manacraft.armor;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.crafting.CustomRecipe;
@@ -11,6 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 public class GreenIronArmor {
+
     public GreenIronArmor() {
         ItemStack item = new ItemStack(Material.SKULL_ITEM);
         ItemMeta meta = item.getItemMeta();
@@ -86,8 +87,4 @@ public class GreenIronArmor {
 
         DreamingWorld.getInstance().getCraftingManager().registerCraft(recipe);
     }
-
-
-
-
 }

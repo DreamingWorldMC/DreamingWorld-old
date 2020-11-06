@@ -1,11 +1,9 @@
 package net.dreamingworld.core.blocks;
 
 import net.dreamingworld.DreamingWorld;
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
@@ -78,7 +76,7 @@ public abstract class CustomBlock implements Runnable, Listener {
             Set<String> blocks = blocksSection.getKeys(false);
 
             for (String block : blocks) {
-                if (data.getConfigurationSection("blocks").getConfigurationSection(block).getString("id").equals(id)) {
+                if (id.equals(data.getConfigurationSection("blocks").getConfigurationSection(block).getString("id"))) {
                     String[] coords = block.split("_");
                     tick(new Location(chunk.getWorld(), Integer.parseInt(coords[0]), Integer.parseInt(coords[1]), Integer.parseInt(coords[2])));
                 }

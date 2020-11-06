@@ -4,7 +4,6 @@ import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.Util;
 import net.dreamingworld.core.blocks.CustomBlock;
 import net.minecraft.server.v1_8_R3.MathHelper;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.util.Set;
@@ -64,10 +63,10 @@ public abstract class ManaContainer extends CustomBlock {
 
             if (storedMana < capacity) {
                 if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(input) == null)
-                    return;
+                    continue;
 
                 int inputMana = getMana(input);
-                if (inputMana < 0)
+                if (inputMana <= 0)
                     continue;
 
                 int needed = capacity - storedMana;
