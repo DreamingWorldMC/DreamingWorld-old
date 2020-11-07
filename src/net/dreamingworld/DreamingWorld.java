@@ -2,6 +2,8 @@ package net.dreamingworld;
 
 import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.blocks.BlockManager;
+import net.dreamingworld.core.commands.CommandDwsummon;
+import net.dreamingworld.core.customEntities.EntityManager;
 import net.dreamingworld.core.customdamage.CustomArmor;
 import net.dreamingworld.core.customdamage.CustomDamage;
 import net.dreamingworld.core.fishing.FishManager;
@@ -11,6 +13,7 @@ import net.dreamingworld.core.alloys.AlloyManager;
 import net.dreamingworld.core.commands.CommandDwgive;
 import net.dreamingworld.core.crafting.CraftingManager;
 import net.dreamingworld.gameplay.fishing.Fishing;
+import net.dreamingworld.gameplay.foodcraft.Foodcraft;
 import net.dreamingworld.gameplay.manacraft.Manacraft;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -40,6 +43,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     private CraftingManager craftingManager;
     private CustomArmor customArmor;
     private CustomDamage customDamage;
+    private EntityManager entityManager;
 
     public void onEnable() {
         inst = this;
@@ -53,6 +57,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         craftingManager = new CraftingManager();
         customArmor = new CustomArmor();
         customDamage = new CustomDamage();
+        entityManager = new EntityManager();
 
 
         Bukkit.getPluginManager().registerEvents(fishManager, this);
@@ -60,8 +65,10 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(blockManager, this);
         Bukkit.getPluginManager().registerEvents(craftingManager, this);
         Bukkit.getPluginManager().registerEvents(customDamage, this);
+        Bukkit.getPluginManager().registerEvents(entityManager, this);
 
         new CommandDwgive();
+        new CommandDwsummon();
 
         alloyManager.registerAlloy(Material.COAL_ORE, new Ignium());
         alloyManager.registerAlloy(Material.COAL_ORE, new Energium());
@@ -72,6 +79,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         UtilItems.initialize();
         Manacraft.initialize();
         Fishing.initialize();
+        Foodcraft.initialize();
 
         long time = System.currentTimeMillis() - begin;
 
@@ -102,4 +110,6 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     public CustomArmor getCustomArmor() {
         return customArmor;
     }
+
+    public EntityManager getEntityManager() { return entityManager; }
 }
