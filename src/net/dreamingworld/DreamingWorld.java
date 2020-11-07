@@ -7,7 +7,7 @@ import net.dreamingworld.core.customentities.EntityManager;
 import net.dreamingworld.core.customdamage.CustomArmor;
 import net.dreamingworld.core.customdamage.CustomDamage;
 import net.dreamingworld.core.fishing.FishManager;
-import net.dreamingworld.customfood.FoodManager;
+import net.dreamingworld.core.customfood.FoodManager;
 import net.dreamingworld.gameplay.alloys.*;
 import net.dreamingworld.core.ItemManager;
 import net.dreamingworld.core.alloys.AlloyManager;
@@ -69,6 +69,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(craftingManager, this);
         Bukkit.getPluginManager().registerEvents(customDamage, this);
         Bukkit.getPluginManager().registerEvents(entityManager, this);
+        Bukkit.getPluginManager().registerEvents(foodManager, this);
 
         new CommandDwgive();
         new CommandDwsummon();

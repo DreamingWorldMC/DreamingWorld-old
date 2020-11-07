@@ -1,7 +1,7 @@
 package net.dreamingworld.gameplay.foodcraft.food;
 
 import net.dreamingworld.DreamingWorld;
-import net.dreamingworld.customfood.FoodItem;
+import net.dreamingworld.core.customfood.FoodItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

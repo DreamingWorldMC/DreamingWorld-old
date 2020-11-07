@@ -1,4 +1,4 @@
-package net.dreamingworld.customfood;
+package net.dreamingworld.core.customfood;
 
 import org.bukkit.potion.PotionEffect;
 

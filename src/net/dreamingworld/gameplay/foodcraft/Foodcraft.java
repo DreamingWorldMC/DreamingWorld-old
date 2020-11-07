@@ -2,6 +2,7 @@ package net.dreamingworld.gameplay.foodcraft;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.gameplay.foodcraft.entities.*;
+import net.dreamingworld.gameplay.foodcraft.food.IgniumHotSauce;
 import net.dreamingworld.gameplay.foodcraft.food.RawDuck;
 
 public class Foodcraft {
@@ -11,6 +12,7 @@ public class Foodcraft {
 
         // Food
         DreamingWorld.getInstance().getFoodManager().addFoodItem(new RawDuck());
+        DreamingWorld.getInstance().getFoodManager().addFoodItem(new IgniumHotSauce());
 
         // Entities
         DreamingWorld.getInstance().getEntityManager().addEntity("duck", new Duck());

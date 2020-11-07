@@ -1,7 +1,7 @@
-package net.dreamingworld.customfood;
+package net.dreamingworld.core.customfood;
 
-import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.TagWizard;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
@@ -27,9 +27,6 @@ public class FoodManager implements Listener {
             if (food.get(TagWizard.getItemTag(e.getItem(), "id")).effects != null) {
                 e.getPlayer().addPotionEffects(food.get(TagWizard.getItemTag(e.getItem(), "id")).effects);
             }
-
-
         }
     }
-
 }
