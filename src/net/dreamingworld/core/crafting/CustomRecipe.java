@@ -1,6 +1,7 @@
 package net.dreamingworld.core.crafting;
 
 import net.dreamingworld.DreamingWorld;
+import net.dreamingworld.core.TagWizard;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -49,20 +50,26 @@ public class CustomRecipe {
     }
 
     protected boolean isValid(ItemStack[] matrix) {
-        for (Map.Entry<Character, String> e : customItems.entrySet()) {
-            int c = 0;
-            for (String row : shape) {
-                int c2 = 0;
-                for (char ch : row.toCharArray()) {
-                    if (ch == e.getKey())
-                        if (!DreamingWorld.getInstance().getItemManager().checkItemAuthenticity(matrix[c + c2], e.getValue())) // Double if because I want
-                            return false;
-
-                    c2++;
+        int c = 0;
+        for (String row : shape) {
+            int c1 = 0;
+            for (char ch : row.toCharArray()) {
+                if (customItems.containsKey(ch)) {
+                    if (!DreamingWorld.getInstance().getItemManager().checkItemAuthenticity(matrix[c + c1], customItems.get(ch))) {
+                        return false;
+                    }
                 }
 
-                c += 3;
+                else {
+                    if (TagWizard.hasData(matrix[c + c1])) {
+                        return false;
+                    }
+                }
+
+                c1++;
             }
+
+            c += 3;
         }
 
         return true;

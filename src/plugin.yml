@@ -11,7 +11,7 @@ commands:
     aliases: [dwg]
     usage: /<command> <player> <item> [amount]
   dwsummon:
-    description: Gives DreamingWorld entity to player's position
+    description: Summons DreamingWorld entity at player's position
     permission: dreamingworld.summon
     aliases: [dws]
     usage: /<command> <player> <mob>
