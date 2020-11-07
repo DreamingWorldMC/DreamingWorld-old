@@ -72,6 +72,10 @@ public class EntityManager implements Listener {
         ent.getEquipment().setHelmetDropChance(0);
         ent.getEquipment().setLeggingsDropChance(0);
 
+        if (entities.get(entity).effects != null) {
+            ent.addPotionEffects(entities.get(entity).effects);
+        }
+
 
         ent.setRemoveWhenFarAway(true);
         return ent;
