@@ -1,4 +1,4 @@
-package net.dreamingworld.core.customEntities;
+package net.dreamingworld.core.customentities;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;

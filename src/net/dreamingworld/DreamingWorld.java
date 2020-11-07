@@ -3,10 +3,11 @@ package net.dreamingworld;
 import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.blocks.BlockManager;
 import net.dreamingworld.core.commands.CommandDwsummon;
-import net.dreamingworld.core.customEntities.EntityManager;
+import net.dreamingworld.core.customentities.EntityManager;
 import net.dreamingworld.core.customdamage.CustomArmor;
 import net.dreamingworld.core.customdamage.CustomDamage;
 import net.dreamingworld.core.fishing.FishManager;
+import net.dreamingworld.customfood.FoodManager;
 import net.dreamingworld.gameplay.alloys.*;
 import net.dreamingworld.core.ItemManager;
 import net.dreamingworld.core.alloys.AlloyManager;
@@ -44,6 +45,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     private CustomArmor customArmor;
     private CustomDamage customDamage;
     private EntityManager entityManager;
+    private FoodManager foodManager;
 
     public void onEnable() {
         inst = this;
@@ -58,6 +60,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         customArmor = new CustomArmor();
         customDamage = new CustomDamage();
         entityManager = new EntityManager();
+        foodManager = new FoodManager();
 
 
         Bukkit.getPluginManager().registerEvents(fishManager, this);
@@ -112,4 +115,6 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     }
 
     public EntityManager getEntityManager() { return entityManager; }
+
+    public FoodManager getFoodManager() { return foodManager; }
 }

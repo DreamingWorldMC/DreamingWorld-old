@@ -1,31 +1,50 @@
-package net.dreamingworld.core.customEntities;
+package net.dreamingworld.core.customentities;
 
 import net.dreamingworld.DreamingWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Supplier;
 
 public class EntityManager implements Listener {
 
     public Map<String, CustomEntity> entities;
+    public Map<String, String> spawnEntities;
 
     public EntityManager() {
 
         entities = new HashMap<>();
 
+        spawnEntities = new HashMap<>();
+
+        Bukkit.getScheduler().runTaskTimer(DreamingWorld.getInstance(), () -> {
+            for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+                for (Map.Entry<String, String> x : spawnEntities.entrySet()){
+                    Location sloc = EntityGeneration.genEntity(p, x.getValue());
+                    if (sloc != null && p.getWorld().getNearbyEntities(sloc, 50,50,50).size() > 15) {
+                        summonEntity(sloc, x.getKey());
+                    }
+                }
+            }
+
+        }, 0, 80);
+
     }
 
     public void addEntity(String name, CustomEntity ce) {
         entities.put(name, ce);
+        if (ce.spawnType != null) {
+            spawnEntities.put(name, ce.spawnType);
+        }
+
     }
 
     public org.bukkit.entity.Entity summonEntity(Location loc, String entity) {
@@ -73,6 +92,8 @@ public class EntityManager implements Listener {
         }
 
     }
+
+
 
 
 
