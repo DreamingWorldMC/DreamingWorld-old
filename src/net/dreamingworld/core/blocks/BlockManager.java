@@ -44,14 +44,13 @@ public class BlockManager implements Listener {
     }
 
     public boolean removeBlock(Location location, String id) {
-        if (id.equals(bdm.getBlockInfo(location, "id"))) {
-            bdm.removeBlockInfoSection(location);
-            location.getBlock().setType(Material.AIR);
+        if (!id.equals(bdm.getBlockInfo(location, "id")))
+            return false;
 
-            return true;
-        }
+        bdm.removeBlockInfoSection(location);
+        location.getBlock().setType(Material.AIR);
 
-        return false;
+        return location.getBlock().getType() == DreamingWorld.getInstance().getItemManager().get(id).getType();
     }
 
 
