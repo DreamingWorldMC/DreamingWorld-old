@@ -20,18 +20,18 @@ public class IgniumHotSauce extends FoodItem {
     public IgniumHotSauce() {
         name = "ignium_hot_sauce";
 
-        foodPoints = 1; // FOOD
+        foodPoints = 2; // FOOD
         effects = new ArrayList<>();
         effects.add(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 10, 1));
 
-        Potion itemPot = new Potion(PotionType.INSTANT_DAMAGE, 0);
+        Potion itemPot = new Potion(PotionType.INSTANT_DAMAGE, 1);
 
         ItemStack item = itemPot.toItemStack(1); // ITEM
         PotionMeta meta = (PotionMeta)item.getItemMeta();
 
-        meta.addCustomEffect(new PotionEffect(PotionEffectType.CONFUSION, 0, 0), true);
+        meta.addCustomEffect(new PotionEffect(PotionEffectType.CONFUSION, 1, 1), true);
         meta.setMainEffect(PotionEffectType.CONFUSION);
-        meta.clearCustomEffects();
+        meta.removeCustomEffect(PotionEffectType.HARM);
         meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
         meta.setDisplayName(ChatColor.YELLOW + "Ignium hot sauce");
 
