@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityTameEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -91,6 +92,14 @@ public class EntityManager implements Listener {
                 e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), x.getKey());
         }
 
+    }
+
+    @EventHandler
+    public void onTame(EntityTameEvent e) {
+        if (!e.getEntity().hasMetadata("id") || !entities.containsKey(e.getEntity().getMetadata("id").get(0).asString()))
+            return;
+
+        e.getEntity().setRemoveWhenFarAway(false);
     }
 
 

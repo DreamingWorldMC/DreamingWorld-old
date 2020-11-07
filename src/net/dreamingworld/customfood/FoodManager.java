@@ -24,7 +24,9 @@ public class FoodManager implements Listener {
     public void onConsume(PlayerItemConsumeEvent e) {
         if (food.containsKey(TagWizard.getItemTag(e.getItem(), "id"))) {
             e.getPlayer().setFoodLevel(e.getPlayer().getFoodLevel() + food.get(TagWizard.getItemTag(e.getItem(), "id")).foodPoints);
-            e.getPlayer().addPotionEffects(food.get(TagWizard.getItemTag(e.getItem(), "id")).effects);
+            if (food.get(TagWizard.getItemTag(e.getItem(), "id")).effects != null) {
+                e.getPlayer().addPotionEffects(food.get(TagWizard.getItemTag(e.getItem(), "id")).effects);
+            }
 
 
         }

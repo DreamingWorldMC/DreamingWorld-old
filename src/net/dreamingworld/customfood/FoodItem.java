@@ -6,8 +6,8 @@ import java.util.List;
 
 public class FoodItem {
 
-    public static String name;
-    public static Integer foodPoints;
-    public static List<PotionEffect> effects;
+    protected String name;
+    protected Integer foodPoints;
+    protected List<PotionEffect> effects;
 
 }

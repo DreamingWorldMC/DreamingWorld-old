@@ -2,7 +2,9 @@ package net.dreamingworld.core.customentities;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 
+import java.util.List;
 import java.util.Map;
 
 public class CustomEntity {
@@ -23,6 +25,8 @@ public class CustomEntity {
     protected String spawnType;
 
     protected boolean hasArmor;
+
+    protected List<PotionEffect> effects;
 
 
 }
