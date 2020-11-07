@@ -26,15 +26,21 @@ public class ItemManager {
         }
     }
 
+
     public boolean checkItemAuthenticity(ItemStack item, String id) {
         String a = TagWizard.getItemTag(item, "id");
         return a != null && a.equals(id);
     }
+
 
     public ItemStack get(String id) {
         if (!items.containsKey(id))
             return null;
 
         return new ItemStack(items.get(id));
+    }
+
+    public Map<String, ItemStack> getItems() {
+        return items;
     }
 }

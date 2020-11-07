@@ -46,7 +46,7 @@ public class IgniumHotSauce extends FoodItem {
         recipe.setVanillaIngredient('B', Material.GLASS_BOTTLE);
         recipe.setCustomIngredient('I', "ignium");
 
-        DreamingWorld.getInstance().getCraftingManager().registerCraft(recipe);
+        DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
 
     }

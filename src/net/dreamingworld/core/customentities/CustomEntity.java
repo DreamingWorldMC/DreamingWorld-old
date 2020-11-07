@@ -10,7 +10,7 @@ import java.util.Map;
 public class CustomEntity {
 
     protected String name;
-    protected int Health;
+    protected int health;
     protected EntityType entityType;
 
     protected int expDrop;
@@ -19,7 +19,7 @@ public class CustomEntity {
     protected ItemStack itemInHand;
     protected ItemStack itemOnHead;
     protected ItemStack itemOnChest;
-    protected ItemStack itemOnlegs;
+    protected ItemStack itemOnLegs;
     protected ItemStack itemOnBoots;
 
     protected String spawnType;
@@ -27,6 +27,4 @@ public class CustomEntity {
     protected boolean hasArmor;
 
     protected List<PotionEffect> effects;
-
-
 }

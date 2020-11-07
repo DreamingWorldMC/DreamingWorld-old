@@ -29,6 +29,6 @@ public class ManaCore {
         recipe.setCustomIngredient('B', "manium");
         recipe.setCustomIngredient('I', "ignium");
 
-        DreamingWorld.getInstance().getCraftingManager().registerCraft(recipe);
+        DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }
 }

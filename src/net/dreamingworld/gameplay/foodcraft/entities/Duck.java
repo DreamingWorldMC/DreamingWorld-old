@@ -17,7 +17,7 @@ public class Duck extends CustomEntity {
     public Duck() {
 
         name = "Duck";
-        Health = 10;
+        health = 10;
         entityType = EntityType.CHICKEN;
 
         spawnType = "WATER_TOP";

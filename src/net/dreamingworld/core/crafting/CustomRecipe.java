@@ -76,6 +76,22 @@ public class CustomRecipe {
     }
 
 
+    protected String[] getShape() {
+        return shape;
+    }
+
+    protected Map<Character, ItemStack> getIngredients() {
+        Map<Character, ItemStack> ingredients = new HashMap<>();
+
+        for (Map.Entry<Character, ItemStack> e : recipe.getIngredientMap().entrySet()) {
+            ItemStack ingr = customItems.containsKey(e.getKey()) ? DreamingWorld.getInstance().getItemManager().get(customItems.get(e.getKey())) : e.getValue();
+            ingredients.put(e.getKey(), ingr);
+        }
+
+        return ingredients;
+    }
+
+
     protected void register() {
         Bukkit.addRecipe(recipe);
     }

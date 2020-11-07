@@ -45,7 +45,7 @@ public class ManaCapacitor extends ManaContainer {
         recipe.setVanillaIngredient('B', Material.BRICK);
         recipe.setVanillaIngredient('G', Material.GOLD_INGOT);
 
-        DreamingWorld.getInstance().getCraftingManager().registerCraft(recipe);
+        DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }
 
 

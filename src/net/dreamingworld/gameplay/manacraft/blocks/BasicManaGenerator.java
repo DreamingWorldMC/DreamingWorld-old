@@ -84,7 +84,7 @@ public class BasicManaGenerator extends ManaContainer {
         recipe.setVanillaIngredient('B', Material.IRON_BLOCK);
         recipe.setCustomIngredient('N', "ignium");
 
-        DreamingWorld.getInstance().getCraftingManager().registerCraft(recipe);
+        DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
         viewers = new HashMap<>();
     }

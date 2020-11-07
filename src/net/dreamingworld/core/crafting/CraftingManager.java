@@ -18,9 +18,14 @@ public class CraftingManager implements Listener {
         recipes = new HashSet<>();
     }
 
-    public void registerCraft(CustomRecipe recipe) {
+
+    public void registerRecipe(CustomRecipe recipe) {
         recipe.register();
         recipes.add(recipe);
+    }
+
+    public Set<CustomRecipe> getRecipes() {
+        return recipes;
     }
 
     @EventHandler

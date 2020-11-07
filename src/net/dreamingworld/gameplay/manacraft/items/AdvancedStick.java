@@ -29,6 +29,6 @@ public class AdvancedStick {
         recipe.setVanillaIngredient('S', Material.STICK);
         recipe.setCustomIngredient('I', "ignium");
 
-        DreamingWorld.getInstance().getCraftingManager().registerCraft(recipe);
+        DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }
 }

@@ -17,13 +17,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class EntityManager implements Listener {
 
-    public Map<String, CustomEntity> entities;
-    public Map<String, String> spawnEntities;
+    private Map<String, CustomEntity> entities;
+    private Map<String, String> spawnEntities;
 
     public EntityManager() {
-
         entities = new HashMap<>();
-
         spawnEntities = new HashMap<>();
 
         Bukkit.getScheduler().runTaskTimer(DreamingWorld.getInstance(), () -> {
@@ -37,33 +35,37 @@ public class EntityManager implements Listener {
             }
 
         }, 0, 80);
-
     }
+
 
     public void addEntity(String name, CustomEntity ce) {
         entities.put(name, ce);
         if (ce.spawnType != null) {
             spawnEntities.put(name, ce.spawnType);
         }
-
     }
 
-    public org.bukkit.entity.Entity summonEntity(Location loc, String entity) {
+    public List<String> getIds() {
+        return new ArrayList<>(entities.keySet());
+    }
 
-        if (!entities.containsKey(entity)) return null;
+
+    public org.bukkit.entity.Entity summonEntity(Location loc, String entity) {
+        if (!entities.containsKey(entity)) {
+            return null;
+        }
 
         LivingEntity ent = (LivingEntity) loc.getWorld().spawnEntity(loc, entities.get(entity).entityType);
         ent.setCustomName(entities.get(entity).name);
-        ent.setMaxHealth(entities.get(entity).Health);
-        ent.setHealth(entities.get(entity).Health);
+        ent.setMaxHealth(entities.get(entity).health);
+        ent.setHealth(entities.get(entity).health);
         ent.setMetadata("id", new FixedMetadataValue(DreamingWorld.getInstance(), entity));
-
 
         if (entities.get(entity).hasArmor) {
             ent.getEquipment().setBoots(entities.get(entity).itemOnBoots);
             ent.getEquipment().setChestplate(entities.get(entity).itemOnChest);
             ent.getEquipment().setHelmet(entities.get(entity).itemOnHead);
-            ent.getEquipment().setLeggings(entities.get(entity).itemOnlegs);
+            ent.getEquipment().setLeggings(entities.get(entity).itemOnLegs);
             ent.getEquipment().setItemInHand(entities.get(entity).itemInHand);
         }
 
@@ -75,7 +77,6 @@ public class EntityManager implements Listener {
         if (entities.get(entity).effects != null) {
             ent.addPotionEffects(entities.get(entity).effects);
         }
-
 
         ent.setRemoveWhenFarAway(true);
         return ent;
@@ -105,9 +106,4 @@ public class EntityManager implements Listener {
 
         e.getEntity().setRemoveWhenFarAway(false);
     }
-
-
-
-
-
 }

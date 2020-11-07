@@ -43,7 +43,7 @@ public class HotStaff implements Listener {
         recipe.setCustomIngredient('I', "hot_sword");
         recipe.setCustomIngredient('B', "uranium");
 
-        DreamingWorld.getInstance().getCraftingManager().registerCraft(recipe);
+        DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
         Bukkit.getPluginManager().registerEvents(this, DreamingWorld.getInstance());
     }

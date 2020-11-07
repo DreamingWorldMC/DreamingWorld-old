@@ -47,7 +47,7 @@ public class ManaFlowBinder implements Listener {
         recipe.setVanillaIngredient('S', Material.STICK);
         recipe.setCustomIngredient('M', "manium");
 
-        DreamingWorld.getInstance().getCraftingManager().registerCraft(recipe);
+        DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
         Bukkit.getPluginManager().registerEvents(this, DreamingWorld.getInstance());
     }

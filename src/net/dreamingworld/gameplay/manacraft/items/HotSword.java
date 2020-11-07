@@ -29,6 +29,6 @@ public class HotSword {
         recipe.setCustomIngredient('I', "hot_peddle");
         recipe.setVanillaIngredient('B', Material.STICK);
 
-        DreamingWorld.getInstance().getCraftingManager().registerCraft(recipe);
+        DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }
 }

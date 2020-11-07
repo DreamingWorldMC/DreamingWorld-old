@@ -3,7 +3,6 @@ package net.dreamingworld.core.blocks;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.dreamingworld.DreamingWorld;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -17,7 +16,6 @@ public class BlockDataManager {
     public BlockDataManager() {
 
     }
-
 
     public void setBlockTag(Location location, String name, String value) {
         Map<String, String> data = getBlockData(location);

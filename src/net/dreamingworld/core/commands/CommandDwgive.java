@@ -23,8 +23,9 @@ public class CommandDwgive implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String cmdLine, String[] args) {
-        if (args.length > 3 || args.length < 2)
+        if (args.length > 3 || args.length < 2) {
             return false;
+        }
 
         String nick = args[0];
         String id = args[1];
@@ -58,8 +59,9 @@ public class CommandDwgive implements CommandExecutor, TabCompleter {
                 names.add(player.getName());
 
             return Util.smartAutocomplete(names, args);
-        } else if (args.length == 2)
+        } else if (args.length == 2) {
             return Util.smartAutocomplete(DreamingWorld.getInstance().getItemManager().getIds(), args);
+        }
 
         return null;
     }

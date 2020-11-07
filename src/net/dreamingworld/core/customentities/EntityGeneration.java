@@ -15,8 +15,10 @@ public class EntityGeneration {
 
         if (ThreadLocalRandom.current().nextBoolean())
             x = -x;
+
         if (ThreadLocalRandom.current().nextBoolean())
             z = -z;
+
         x += p.getLocation().getX();
         z += p.getLocation().getZ();
 
@@ -28,7 +30,6 @@ public class EntityGeneration {
                     return p.getWorld().getHighestBlockAt(x, z).getLocation();
                 break;
         }
-
 
         return null;
     }

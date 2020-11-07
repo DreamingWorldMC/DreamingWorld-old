@@ -3,6 +3,8 @@ package net.dreamingworld;
 import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.blocks.BlockManager;
 import net.dreamingworld.core.commands.CommandDwsummon;
+import net.dreamingworld.core.commands.CommandRecipes;
+import net.dreamingworld.core.crafting.RecipeBook;
 import net.dreamingworld.core.customentities.EntityManager;
 import net.dreamingworld.core.customdamage.CustomArmor;
 import net.dreamingworld.core.customdamage.CustomDamage;
@@ -46,6 +48,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     private CustomDamage customDamage;
     private EntityManager entityManager;
     private FoodManager foodManager;
+    private RecipeBook recipeBook;
 
     public void onEnable() {
         inst = this;
@@ -62,7 +65,6 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         entityManager = new EntityManager();
         foodManager = new FoodManager();
 
-
         Bukkit.getPluginManager().registerEvents(fishManager, this);
         Bukkit.getPluginManager().registerEvents(alloyManager, this);
         Bukkit.getPluginManager().registerEvents(blockManager, this);
@@ -73,6 +75,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
 
         new CommandDwgive();
         new CommandDwsummon();
+        new CommandRecipes();
 
         alloyManager.registerAlloy(Material.COAL_ORE, new Ignium());
         alloyManager.registerAlloy(Material.COAL_ORE, new Energium());
@@ -84,6 +87,8 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         Manacraft.initialize();
         Fishing.initialize();
         Foodcraft.initialize();
+
+        recipeBook = new RecipeBook();
 
         long time = System.currentTimeMillis() - begin;
 
@@ -118,4 +123,8 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     public EntityManager getEntityManager() { return entityManager; }
 
     public FoodManager getFoodManager() { return foodManager; }
+
+    public RecipeBook getRecipeBook() {
+        return recipeBook;
+    }
 }
