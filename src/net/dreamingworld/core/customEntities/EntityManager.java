@@ -60,7 +60,7 @@ public class EntityManager implements Listener {
 
     @EventHandler
     public void onKill(EntityDeathEvent e) {
-        if (e.getEntity().hasMetadata("id") || !entities.containsKey(e.getEntity().getMetadata("id").get(0).asString()))
+        if (!e.getEntity().hasMetadata("id") || !entities.containsKey(e.getEntity().getMetadata("id").get(0).asString()))
             return;
 
         e.setDroppedExp(entities.get(e.getEntity().getMetadata("id").get(0).asString()).expDrop);
