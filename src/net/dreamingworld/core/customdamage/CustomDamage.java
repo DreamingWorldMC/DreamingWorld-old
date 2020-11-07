@@ -93,6 +93,16 @@ public class CustomDamage implements Listener {
                 if (armorItem.hasItemMeta()) {
                     if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_ENVIRONMENTAL))
                         armorPoints += armorItem.getEnchantments().get(Enchantment.PROTECTION_ENVIRONMENTAL);
+                    if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_FIRE)) {
+                        if (e.getCause().equals(EntityDamageEvent.DamageCause.FIRE) || e.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK) || e.getCause().equals(EntityDamageEvent.DamageCause.LAVA)) {
+                            armorPoints += armorItem.getEnchantments().get(Enchantment.PROTECTION_FIRE) * 3;
+                        }
+                    }
+                    if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_EXPLOSIONS)) {
+                        if (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) || e.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION)) {
+                            armorPoints += armorItem.getEnchantments().get(Enchantment.PROTECTION_EXPLOSIONS) * 3;
+                        }
+                    }
                     if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_FALL) && e.getCause() == EntityDamageEvent.DamageCause.FALL)
                         removeDMG += armorItem.getEnchantments().get(Enchantment.PROTECTION_FALL) * 5;
                     if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_PROJECTILE) && e.getCause() == EntityDamageEvent.DamageCause.PROJECTILE)
