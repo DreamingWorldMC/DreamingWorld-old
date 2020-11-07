@@ -3,13 +3,15 @@ package net.dreamingworld.core.customdamage;
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.TagWizard;
 import net.minecraft.server.v1_8_R3.MathHelper;
+import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class CustomDamage implements Listener {
 
@@ -108,7 +110,18 @@ public class CustomDamage implements Listener {
 
             int resDamage = MathHelper.clamp((int) startDamage - (int) removeDMG, 0, 10000);
 
-            ((Player) e.getEntity()).setHealth(((Player) e.getEntity()).getHealth() - resDamage);
+
+            if (!((Player) e.getEntity()).hasPotionEffect(PotionEffectType.ABSORPTION)) {
+                ((Player) e.getEntity()).setHealth(((Player) e.getEntity()).getHealth() - resDamage);
+            }
+            else {
+                for (PotionEffect x : ((Player) e.getEntity()).getActivePotionEffects()) {
+                    if (x.getType().equals(PotionEffectType.ABSORPTION) && e.getDamage() > 0) {
+                        ((Player) e.getEntity()).removePotionEffect(PotionEffectType.ABSORPTION);
+                        ((Player) e.getEntity()).addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, x.getDuration(), x.getAmplifier() - 1));
+                    }
+                }
+            }
         }
     }
 }
