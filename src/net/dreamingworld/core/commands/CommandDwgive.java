@@ -31,7 +31,7 @@ public class CommandDwgive implements CommandExecutor, TabCompleter {
         String id = args[1];
         int amount = args.length == 2 ? 1 : Integer.parseInt(args[2]);
 
-        Player player = Bukkit.getPlayer(MojangAPI.getPlayerUUID(nick));
+        Player player = Bukkit.getPlayer(nick);
         if (player == null || !player.isOnline()) {
             sender.sendMessage(Util.formatString("$(PC)Sorry, but $(SC)" + nick + " $(PC)not found or not online"));
             return true;
