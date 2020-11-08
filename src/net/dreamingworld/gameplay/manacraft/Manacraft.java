@@ -14,12 +14,14 @@ public class Manacraft {
 
         // Items
         new ManaFlowBinder();
-        new AdvancedStick();
         new HotPeddle();
         new HotSword();
         new ManaCore();
+        new AdvancedStick();
+        new HotStaff();
         new HardCoal();
         new GreenIron();
+        new ManaGlass();
 
         // Armor
         new GreenIronArmor();
@@ -31,6 +33,7 @@ public class Manacraft {
         DreamingWorld.getInstance().getBlockManager().registerBlock(new GreenIronMaker());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new IronWoodBlock());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new ManaCapacitor());
+        DreamingWorld.getInstance().getBlockManager().registerBlock(new ManaInfuser());
 
         // Fusion
         BasicManaGenerator.addResult(DreamingWorld.getInstance().getItemManager().get("ignium"), new BasicManaGenerator.FusionResult(100, 100, 1, new ItemStack(Material.COAL), 1, DreamingWorld.getInstance().getItemManager().get("hard_coal")));

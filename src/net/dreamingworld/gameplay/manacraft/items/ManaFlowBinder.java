@@ -54,17 +54,30 @@ public class ManaFlowBinder implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
-        if (e.getItem() == null || e.getClickedBlock() == null || !DreamingWorld.getInstance().getItemManager().checkItemAuthenticity(e.getItem(), "mana_flow_binder"))
+        if (e.getItem() == null || !DreamingWorld.getInstance().getItemManager().checkItemAuthenticity(e.getItem(), "mana_flow_binder"))
+            return;
+
+        if (e.getAction() == Action.RIGHT_CLICK_AIR && e.getPlayer().isSneaking()) {
+            e.getPlayer().sendMessage(ChatColor.DARK_RED + "Binder has been reset");
+        }
+
+        if (e.getClickedBlock() == null)
             return;
 
         String loc = e.getClickedBlock().getWorld().getName() + "_" + e.getClickedBlock().getX() + "_" + e.getClickedBlock().getY() + "_" + e.getClickedBlock().getZ();
 
-        if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+        if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getPlayer().isSneaking()) {
+            DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(e.getClickedBlock().getLocation(), "inputs", null);
+            e.getPlayer().sendMessage(ChatColor.DARK_RED + "Block's parent has been reset");
+        }
+        else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             e.setCancelled(true);
             TagWizard.addItemTag(e.getItem(), "input", loc);
+            e.getPlayer().sendMessage(ChatColor.GREEN + "Input chosen successfully");
         } else if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
             e.setCancelled(true);
             TagWizard.addItemTag(e.getItem(), "parent", loc);
+            e.getPlayer().sendMessage(ChatColor.GREEN + "Parent chosen successfully");
         } else {
             return;
         }
@@ -88,6 +101,11 @@ public class ManaFlowBinder implements Listener {
 
         if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(parentLocation) == null || DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(inputLocation) == null)
             return;
+
+        if  (parentLocation.equals(inputLocation)) {
+            Bukkit.getLogger().info(ChatColor.DARK_RED + "Can't bind block to itself");
+            return;
+        }
 
         String inputs = DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(parentLocation, "inputs");
         String newInputs = Util.addToJsonSet(inputs, inputCoords[1] + "_" + inputCoords[2] + "_" + inputCoords[3]);
