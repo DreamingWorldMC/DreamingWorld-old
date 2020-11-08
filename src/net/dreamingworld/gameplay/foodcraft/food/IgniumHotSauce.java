@@ -42,12 +42,10 @@ public class IgniumHotSauce extends FoodItem {
         CustomRecipe recipe = new CustomRecipe(item);
         recipe.shape(new String[] { "PIC", " B ", "   " });
         recipe.setVanillaIngredient('P', Material.POTATO_ITEM);
-        recipe.setVanillaIngredient('C', Material.CARROT);
+        recipe.setVanillaIngredient('C', Material.CARROT_ITEM);
         recipe.setVanillaIngredient('B', Material.GLASS_BOTTLE);
         recipe.setCustomIngredient('I', "ignium");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
-
-
     }
 }

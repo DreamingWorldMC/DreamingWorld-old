@@ -1,7 +1,6 @@
 package net.dreamingworld.core.crafting;
 
 import net.dreamingworld.DreamingWorld;
-import net.dreamingworld.core.TagWizard;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -13,23 +12,32 @@ import java.util.Map;
 public class CustomRecipe {
 
     private String[] shape;
-    private ShapedRecipe recipe;
+    private ItemStack result;
+
+    private ShapedRecipe shapedRecipe;
+
+    private Map<Character, Material> vanillaItems;
     private Map<Character, String> customItems;
 
     public CustomRecipe(ItemStack item) {
-        recipe = new ShapedRecipe(item);
+        vanillaItems = new HashMap<>();
         customItems = new HashMap<>();
+
+        shapedRecipe = new ShapedRecipe(item);
+
+        result = item;
     }
 
 
     public void shape(String[] shape) {
-        recipe.shape(shape);
+        shapedRecipe.shape(shape);
         this.shape = shape;
     }
 
 
     public void setVanillaIngredient(char symbol, Material ingredient) {
-        recipe.setIngredient(symbol, ingredient);
+        vanillaItems.put(symbol, ingredient);
+        shapedRecipe.setIngredient(symbol, ingredient);
     }
 
     public void setCustomIngredient(char symbol, String id) {
@@ -40,30 +48,26 @@ public class CustomRecipe {
             return;
         }
 
-        recipe.setIngredient(symbol, item.getData());
+        shapedRecipe.setIngredient(symbol, item.getData());
         customItems.put(symbol, id);
     }
 
 
     public ItemStack getResult() {
-        return recipe.getResult();
+        return result;
     }
 
     protected boolean isValid(ItemStack[] matrix) {
         int c = 0;
         for (String row : shape) {
             int c1 = 0;
-            for (char ch : row.toCharArray()) {
-                if (customItems.containsKey(ch)) {
-                    if (!DreamingWorld.getInstance().getItemManager().checkItemAuthenticity(matrix[c + c1], customItems.get(ch))) {
-                        return false;
-                    }
-                }
+            for (char symbol : row.toCharArray()) {
+                ItemStack item = customItems.containsKey(symbol) ? DreamingWorld.getInstance().getItemManager().get(customItems.get(symbol)) : vanillaItems.containsKey(symbol) ? new ItemStack(vanillaItems.get(symbol)) : new ItemStack(Material.AIR, 0);
+                ItemStack item2 = matrix[c + c1];
+                //item2 = item2 == null ? new ItemStack(Material.AIR) : item2;
 
-                else {
-                    if (TagWizard.hasData(matrix[c + c1])) {
-                        return false;
-                    }
+                if (!item.isSimilar(item2) && !(item.getType() == Material.AIR && item2.getType() == Material.AIR)) {
+                    return false;
                 }
 
                 c1++;
@@ -83,8 +87,8 @@ public class CustomRecipe {
     protected Map<Character, ItemStack> getIngredients() {
         Map<Character, ItemStack> ingredients = new HashMap<>();
 
-        for (Map.Entry<Character, ItemStack> e : recipe.getIngredientMap().entrySet()) {
-            ItemStack ingr = customItems.containsKey(e.getKey()) ? DreamingWorld.getInstance().getItemManager().get(customItems.get(e.getKey())) : e.getValue();
+        for (Map.Entry<Character, Material> e : vanillaItems.entrySet()) {
+            ItemStack ingr = customItems.containsKey(e.getKey()) ? DreamingWorld.getInstance().getItemManager().get(customItems.get(e.getKey())) : new ItemStack(e.getValue());
             ingredients.put(e.getKey(), ingr);
         }
 
@@ -93,6 +97,6 @@ public class CustomRecipe {
 
 
     protected void register() {
-        Bukkit.addRecipe(recipe);
+        Bukkit.addRecipe(shapedRecipe);
     }
 }
