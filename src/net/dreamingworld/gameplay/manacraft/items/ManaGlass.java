@@ -69,7 +69,7 @@ public class ManaGlass implements Listener {
                 e.getPlayer().sendMessage(Util.formatString("&bCan contain: &7" + maxmana + " §9lmml"));
             }
             if (inputs != null) {
-                e.getPlayer().sendMessage(Util.formatString("&bParent/s: &7" + inputs));
+                e.getPlayer().sendMessage(Util.formatString("&bCapacitors it takes mana from: &7" + inputs));
             }
 
         }

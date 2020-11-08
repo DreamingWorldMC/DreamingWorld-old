@@ -22,6 +22,7 @@ public class Manacraft {
         new HardCoal();
         new GreenIron();
         new ManaGlass();
+        new ManaIngot();
 
         // Armor
         new GreenIronArmor();

@@ -10,6 +10,7 @@ import net.dreamingworld.core.customdamage.CustomArmor;
 import net.dreamingworld.core.customdamage.CustomDamage;
 import net.dreamingworld.core.fishing.FishManager;
 import net.dreamingworld.core.customfood.FoodManager;
+import net.dreamingworld.core.manainfusion.ManaInfusionManager;
 import net.dreamingworld.gameplay.alloys.*;
 import net.dreamingworld.core.ItemManager;
 import net.dreamingworld.core.alloys.AlloyManager;
@@ -49,6 +50,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     private EntityManager entityManager;
     private FoodManager foodManager;
     private RecipeBook recipeBook;
+    private ManaInfusionManager manaInfusionManager;
 
     public void onEnable() {
         inst = this;
@@ -64,6 +66,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         customDamage = new CustomDamage();
         entityManager = new EntityManager();
         foodManager = new FoodManager();
+        manaInfusionManager = new ManaInfusionManager();
 
         Bukkit.getPluginManager().registerEvents(fishManager, this);
         Bukkit.getPluginManager().registerEvents(alloyManager, this);
@@ -127,4 +130,6 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     public RecipeBook getRecipeBook() {
         return recipeBook;
     }
+
+    public ManaInfusionManager getManaInfusionManager() { return manaInfusionManager; }
 }

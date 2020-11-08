@@ -11,13 +11,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import sun.java2d.cmm.lcms.LcmsServiceProvider;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ManaInfuser extends ManaContainer {
@@ -49,11 +53,6 @@ public class ManaInfuser extends ManaContainer {
     }
 
 
-    @EventHandler
-    public void onInteract(PlayerInteractEvent e) {
-
-    }
-
 
     @Override
     public void place(Block block) {
@@ -66,5 +65,26 @@ public class ManaInfuser extends ManaContainer {
     public void tick(Location location) {
         manaTick(location);
         PacketWizard.sendParticle(EnumParticle.VILLAGER_HAPPY, location.add(0.5, -0.2, 0.5), 10);
+
+        if (location.getWorld().getBlockAt(location).isBlockIndirectlyPowered()) {
+            Collection<Entity> entities = location.getWorld().getNearbyEntities(location.add(0, 1,0), 1, 1, 1);
+            for (Entity entity : entities) {
+                if (entity instanceof Item) {
+                    ItemStack item = ((Item) entity).getItemStack();
+
+                    if (DreamingWorld.getInstance().getManaInfusionManager().getTo(item) != null) {
+                        for (int i = 0 ; i < item.getAmount() ; i++) {
+                            if (Integer.parseInt(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "storedMana")) >= DreamingWorld.getInstance().getManaInfusionManager().getTo(item).manaTakes) {
+                               DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(location, "storedMana", String.valueOf(Integer.parseInt(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "storedMana")) - DreamingWorld.getInstance().getManaInfusionManager().getTo(item).manaTakes));
+                               location.getWorld().dropItem(location, DreamingWorld.getInstance().getManaInfusionManager().getTo(item).result);
+                               item.setAmount(item.getAmount() - 1);
+                            }
+                            PacketWizard.sendParticle(DreamingWorld.getInstance().getManaInfusionManager().getTo(item).particle, location, DreamingWorld.getInstance().getManaInfusionManager().getTo(item).particleAmount);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
+
