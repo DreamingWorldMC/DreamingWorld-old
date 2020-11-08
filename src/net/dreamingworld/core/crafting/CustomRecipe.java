@@ -50,6 +50,7 @@ public class CustomRecipe {
 
         shapedRecipe.setIngredient(symbol, item.getData());
         customItems.put(symbol, id);
+        vanillaItems.put(symbol, item.getType());
     }
 
 
@@ -64,7 +65,6 @@ public class CustomRecipe {
             for (char symbol : row.toCharArray()) {
                 ItemStack item = customItems.containsKey(symbol) ? DreamingWorld.getInstance().getItemManager().get(customItems.get(symbol)) : vanillaItems.containsKey(symbol) ? new ItemStack(vanillaItems.get(symbol)) : new ItemStack(Material.AIR, 0);
                 ItemStack item2 = matrix[c + c1];
-                //item2 = item2 == null ? new ItemStack(Material.AIR) : item2;
 
                 if (!item.isSimilar(item2) && !(item.getType() == Material.AIR && item2.getType() == Material.AIR)) {
                     return false;
@@ -88,8 +88,8 @@ public class CustomRecipe {
         Map<Character, ItemStack> ingredients = new HashMap<>();
 
         for (Map.Entry<Character, Material> e : vanillaItems.entrySet()) {
-            ItemStack ingr = customItems.containsKey(e.getKey()) ? DreamingWorld.getInstance().getItemManager().get(customItems.get(e.getKey())) : new ItemStack(e.getValue());
-            ingredients.put(e.getKey(), ingr);
+            ItemStack ingredient = customItems.containsKey(e.getKey()) ? DreamingWorld.getInstance().getItemManager().get(customItems.get(e.getKey())) : new ItemStack(e.getValue());
+            ingredients.put(e.getKey(), ingredient);
         }
 
         return ingredients;

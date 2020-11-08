@@ -4,8 +4,11 @@ import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.Util;
 import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.ui.ChestUI;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -23,6 +26,8 @@ public class RecipeBook implements Listener {
 
         handlePages();
         generateChests();
+
+        Bukkit.getPluginManager().registerEvents(this, DreamingWorld.getInstance());
     }
 
 
@@ -31,10 +36,48 @@ public class RecipeBook implements Listener {
     }
 
 
+    @EventHandler
+    public void onClick(InventoryClickEvent e) {
+        if (!e.getInventory().getName().startsWith("DreamingWorld Recipe Book")) {
+            return;
+        }
+
+        int page = Integer.parseInt(e.getInventory().getName().replace("DreamingWorld Recipe Book | Page ", "")) - 1;
+        int slot = e.getSlot();
+
+        if (slot < 0 || slot >= e.getInventory().getSize()) {
+            return;
+        }
+
+        if (slot == 0 && e.getInventory().getItem(slot).isSimilar(UtilItems.arrowBack())) {
+            showToPlayer((Player) e.getWhoClicked(), page - 1);
+        } else if (slot == 8 && e.getInventory().getItem(slot).isSimilar(UtilItems.arrowForward())) {
+            showToPlayer((Player) e.getWhoClicked(), page + 1);
+        } else if (!e.getInventory().getItem(slot).isSimilar(UtilItems.nothing())) {
+            ItemStack item = e.getInventory().getItem(slot);
+            ItemStack[] items = pages.get(page).get(item);
+
+            ChestUI ui = new ChestUI("Recipe View", 5);
+
+            ui.fill(UtilItems.nothing());
+
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    ui.putItem(j + 1, i + 1, items[i * 3 + j]);
+                }
+            }
+
+            ui.putItem(6, 2, item);
+
+            ui.show((Player) e.getWhoClicked());
+        }
+    }
+
+
     private void generateChests() {
         int pg = 0;
         for (Map<ItemStack, ItemStack[]> page : pages) {
-            ChestUI ui = new ChestUI("DreamingWorld Recipe Book", 1);
+            ChestUI ui = new ChestUI("DreamingWorld Recipe Book | Page " + (pg + 1), 1);
 
             int i = 1;
             for (ItemStack preview : page.keySet()) {
