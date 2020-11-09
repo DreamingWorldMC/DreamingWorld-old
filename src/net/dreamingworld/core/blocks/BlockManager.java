@@ -1,5 +1,6 @@
 package net.dreamingworld.core.blocks;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import net.dreamingworld.DreamingWorld;
 import org.bukkit.*;
 import org.bukkit.event.EventHandler;
@@ -7,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
+import javax.swing.text.StyledEditorKit;
 import java.util.*;
 
 public class BlockManager implements Listener {
@@ -48,9 +50,14 @@ public class BlockManager implements Listener {
             return false;
 
         bdm.removeBlockInfoSection(location);
+
+        Boolean dropItem = location.getBlock().getType() == DreamingWorld.getInstance().getItemManager().get(id).getType();
+
         location.getBlock().setType(Material.AIR);
 
-        return location.getBlock().getType() == DreamingWorld.getInstance().getItemManager().get(id).getType();
+
+
+        return dropItem;
     }
 
 
