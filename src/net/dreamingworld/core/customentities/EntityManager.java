@@ -82,6 +82,37 @@ public class EntityManager implements Listener {
         return ent;
     }
 
+    public org.bukkit.entity.Entity replaceEntity(LivingEntity ent, String entity) {
+        if (!entities.containsKey(entity)) {
+            return null;
+        }
+
+        ent.setCustomName(entities.get(entity).name);
+        ent.setMaxHealth(entities.get(entity).health);
+        ent.setHealth(entities.get(entity).health);
+        ent.setMetadata("id", new FixedMetadataValue(DreamingWorld.getInstance(), entity));
+
+        if (entities.get(entity).hasArmor) {
+            ent.getEquipment().setBoots(entities.get(entity).itemOnBoots);
+            ent.getEquipment().setChestplate(entities.get(entity).itemOnChest);
+            ent.getEquipment().setHelmet(entities.get(entity).itemOnHead);
+            ent.getEquipment().setLeggings(entities.get(entity).itemOnLegs);
+            ent.getEquipment().setItemInHand(entities.get(entity).itemInHand);
+        }
+
+        ent.getEquipment().setChestplateDropChance(0);
+        ent.getEquipment().setBootsDropChance(0);
+        ent.getEquipment().setHelmetDropChance(0);
+        ent.getEquipment().setLeggingsDropChance(0);
+
+        if (entities.get(entity).effects != null) {
+            ent.addPotionEffects(entities.get(entity).effects);
+        }
+
+        ent.setRemoveWhenFarAway(true);
+        return ent;
+    }
+
 
     @EventHandler
     public void onKill(EntityDeathEvent e) {

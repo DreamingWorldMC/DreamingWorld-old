@@ -30,9 +30,10 @@ public class WitherMinion extends CustomEntity {
         drops = new HashMap<>();
         effects = new ArrayList<>();
 
-        drops.put(new ItemStack(Material.SKULL), 10);
         drops.put(new ItemStack(Material.DIAMOND), 50);
+        drops.put(new ItemStack(Material.SKULL_ITEM, 1, (byte) 1), 10);
         drops.put(DreamingWorld.getInstance().getItemManager().get("ignium"), 25);
+        drops.put(DreamingWorld.getInstance().getItemManager().get("wither_heart"), 25);
 
         effects.add(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 3));
         effects.add(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 1));
