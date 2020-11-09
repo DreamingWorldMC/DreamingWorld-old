@@ -72,6 +72,9 @@ public class ChestUI implements Listener {
         if (!e.getInventory().getName().equals(title))
             return;
 
+        if (e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY)
+            e.setCancelled(true);
+
         if (e.getRawSlot() < e.getInventory().getSize()) {
             SlotInteractType t = slots.get(e.getSlot());
 
@@ -84,8 +87,6 @@ public class ChestUI implements Listener {
             }
         } else {
             if (e.getAction() == InventoryAction.COLLECT_TO_CURSOR)
-                e.setCancelled(true);
-            else if (e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY)
                 e.setCancelled(true);
         }
     }

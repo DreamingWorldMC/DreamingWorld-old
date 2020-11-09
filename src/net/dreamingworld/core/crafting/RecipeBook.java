@@ -38,11 +38,11 @@ public class RecipeBook implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent e) {
-        if (!e.getInventory().getName().startsWith("DreamingWorld Recipe Book")) {
+        if (!e.getInventory().getName().startsWith("DreamingWorld Recipes")) {
             return;
         }
 
-        int page = Integer.parseInt(e.getInventory().getName().replace("DreamingWorld Recipe Book | Page ", "")) - 1;
+        int page = Integer.parseInt(e.getInventory().getName().replace("DreamingWorld Recipes | Page ", "")) - 1;
         int slot = e.getSlot();
 
         if (slot < 0 || slot >= e.getInventory().getSize()) {
@@ -77,7 +77,7 @@ public class RecipeBook implements Listener {
     private void generateChests() {
         int pg = 0;
         for (Map<ItemStack, ItemStack[]> page : pages) {
-            ChestUI ui = new ChestUI("DreamingWorld Recipe Book | Page " + (pg + 1), 1);
+            ChestUI ui = new ChestUI("DreamingWorld Recipes | Page " + (pg + 1), 1);
 
             int i = 1;
             for (ItemStack preview : page.keySet()) {
