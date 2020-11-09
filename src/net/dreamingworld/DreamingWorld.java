@@ -16,6 +16,7 @@ import net.dreamingworld.core.ItemManager;
 import net.dreamingworld.core.alloys.AlloyManager;
 import net.dreamingworld.core.commands.CommandDwgive;
 import net.dreamingworld.core.crafting.CraftingManager;
+import net.dreamingworld.gameplay.bossskills.Bossskills;
 import net.dreamingworld.gameplay.fishing.Fishing;
 import net.dreamingworld.gameplay.foodcraft.Foodcraft;
 import net.dreamingworld.gameplay.manacraft.Manacraft;
@@ -90,6 +91,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         Manacraft.initialize();
         Fishing.initialize();
         Foodcraft.initialize();
+        Bossskills.initialize();
 
         recipeBook = new RecipeBook();
 
@@ -132,4 +134,6 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     }
 
     public ManaInfusionManager getManaInfusionManager() { return manaInfusionManager; }
+
+    public CustomDamage getCustomDamage() { return customDamage; }
 }

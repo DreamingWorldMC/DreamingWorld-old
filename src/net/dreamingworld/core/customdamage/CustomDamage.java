@@ -1,7 +1,10 @@
 package net.dreamingworld.core.customdamage;
 
+
+
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.TagWizard;
+import net.dreamingworld.core.Util;
 import net.minecraft.server.v1_8_R3.MathHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
@@ -12,11 +15,15 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CustomDamage implements Listener {
 
-    public CustomDamage() {
+    private Map<EntityDamageEvent.DamageCause, String> deathMsg;
 
+    public CustomDamage() {
+        deathMsg = new HashMap<>();
     }
 
     @EventHandler
@@ -122,7 +129,23 @@ public class CustomDamage implements Listener {
 
 
             if (!((Player) e.getEntity()).hasPotionEffect(PotionEffectType.ABSORPTION)) {
-                ((Player) e.getEntity()).setHealth(((Player) e.getEntity()).getHealth() - resDamage);
+                if (((Player) e.getEntity()).getHealth() - resDamage > 0) {
+                    ((Player) e.getEntity()).setHealth(((Player) e.getEntity()).getHealth() - resDamage);
+                }
+                else {
+                    ((Player) e.getEntity()).setHealth(0);
+
+                    String deathMessage;
+
+                    if (deathMsg.containsKey(e.getCause())) {
+                        deathMessage = deathMsg.get(e.getCause());
+                    }
+                    else {
+                        deathMessage = "&7 died from &7&kIDKDONTADDEDYET";
+                    }
+
+                    Bukkit.broadcastMessage(Util.formatString("&9" + ((Player) e.getEntity()).getDisplayName() + deathMessage));
+                }
             }
             else {
                 for (PotionEffect x : ((Player) e.getEntity()).getActivePotionEffects()) {
@@ -134,4 +157,9 @@ public class CustomDamage implements Listener {
             }
         }
     }
+
+    public void addDeathMessage(EntityDamageEvent.DamageCause d, String s) {
+        deathMsg.put(d, s);
+    }
+
 }
