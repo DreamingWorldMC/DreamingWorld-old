@@ -15,6 +15,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.io.BukkitObjectInputStream;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -119,11 +121,10 @@ public class CustomDamage implements Listener {
             }
 
             removeDMG += startDamage * MathHelper.clamp(armorPoints, 0, 20) * 3 / 100;
+            e.setDamage(0);
 
             if (armorPoints > 20)
                 removeDMG += startDamage * MathHelper.clamp(armorPoints, 20, 75) * 0.5 / 100;
-
-            e.setDamage(0);
 
             int resDamage = MathHelper.clamp((int) startDamage - (int) removeDMG, 0, 10000);
 
@@ -149,9 +150,12 @@ public class CustomDamage implements Listener {
             }
             else {
                 for (PotionEffect x : ((Player) e.getEntity()).getActivePotionEffects()) {
-                    if (x.getType().equals(PotionEffectType.ABSORPTION) && e.getDamage() > 0) {
+                    if (x.getType().equals(PotionEffectType.ABSORPTION) && resDamage > 0) {
                         ((Player) e.getEntity()).removePotionEffect(PotionEffectType.ABSORPTION);
                         ((Player) e.getEntity()).addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, x.getDuration(), x.getAmplifier() - 1));
+                        if (x.getAmplifier() <= 0) {
+                            ((Player) e.getEntity()).removePotionEffect(PotionEffectType.ABSORPTION);
+                        }
                     }
                 }
             }
