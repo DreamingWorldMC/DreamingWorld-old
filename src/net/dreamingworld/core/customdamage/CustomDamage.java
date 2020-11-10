@@ -51,6 +51,16 @@ public class CustomDamage implements Listener {
             }
         }
 
+        if (e.getDamager().getVelocity().getY() < 0) {
+            finalDamage *= 1.5;
+        }
+
+        if (e.getEntity() instanceof Player) {
+            if (((Player) e.getEntity()).isBlocking()) {
+                finalDamage *= 0.5;
+            }
+        }
+
         EntityDamageEvent newEvent = new EntityDamageEvent(e.getEntity(), e.getCause(), e.getDamage());
         e.setDamage(0);
         if (e.getEntity() instanceof Player) {

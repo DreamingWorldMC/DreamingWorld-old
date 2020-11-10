@@ -11,12 +11,19 @@ public class Foodcraft {
 
 
         // Food
-        DreamingWorld.getInstance().getFoodManager().addFoodItem(new RawDuck());
         DreamingWorld.getInstance().getFoodManager().addFoodItem(new IgniumHotSauce());
+
+        DreamingWorld.getInstance().getFoodManager().addFoodItem(new RawDuck()); //duck
         DreamingWorld.getInstance().getFoodManager().addFoodItem(new CookedDuck());
         DreamingWorld.getInstance().getFoodManager().addFoodItem(new DuckWithHotSauce());
-        DreamingWorld.getInstance().getFoodManager().addFoodItem(new RawBoar());
+
+        DreamingWorld.getInstance().getFoodManager().addFoodItem(new RawBoar()); // boar
         DreamingWorld.getInstance().getFoodManager().addFoodItem(new CookedBoar());
+
+        DreamingWorld.getInstance().getFoodManager().addFoodItem(new RawTurkey()); // turkey
+        DreamingWorld.getInstance().getFoodManager().addFoodItem(new CookedTurkey());
+        DreamingWorld.getInstance().getFoodManager().addFoodItem(new TurkeyWithHotSauce());
+
 
         // Entities
         DreamingWorld.getInstance().getEntityManager().addEntity("duck", new Duck());
