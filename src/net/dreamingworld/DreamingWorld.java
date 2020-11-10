@@ -5,6 +5,8 @@ import net.dreamingworld.core.blocks.BlockManager;
 import net.dreamingworld.core.commands.CommandDwsummon;
 import net.dreamingworld.core.commands.CommandRecipes;
 import net.dreamingworld.core.crafting.RecipeBook;
+import net.dreamingworld.core.crafting.SmeltingManager;
+import net.dreamingworld.core.customdamage.CustomWeapon;
 import net.dreamingworld.core.customentities.EntityManager;
 import net.dreamingworld.core.customdamage.CustomArmor;
 import net.dreamingworld.core.customdamage.CustomDamage;
@@ -52,6 +54,8 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     private FoodManager foodManager;
     private RecipeBook recipeBook;
     private ManaInfusionManager manaInfusionManager;
+    private CustomWeapon customWeapon;
+    private SmeltingManager smeltingManager;
 
     public void onEnable() {
         inst = this;
@@ -68,6 +72,8 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         entityManager = new EntityManager();
         foodManager = new FoodManager();
         manaInfusionManager = new ManaInfusionManager();
+        customWeapon = new CustomWeapon();
+        smeltingManager = new SmeltingManager();
 
         Bukkit.getPluginManager().registerEvents(fishManager, this);
         Bukkit.getPluginManager().registerEvents(alloyManager, this);
@@ -76,6 +82,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(customDamage, this);
         Bukkit.getPluginManager().registerEvents(entityManager, this);
         Bukkit.getPluginManager().registerEvents(foodManager, this);
+        Bukkit.getPluginManager().registerEvents(smeltingManager, this);
 
         new CommandDwgive();
         new CommandDwsummon();
@@ -136,4 +143,8 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     public ManaInfusionManager getManaInfusionManager() { return manaInfusionManager; }
 
     public CustomDamage getCustomDamage() { return customDamage; }
+
+    public CustomWeapon getCustomWeapon() { return customWeapon; }
+
+    public SmeltingManager getSmeltingManager() { return smeltingManager; }
 }

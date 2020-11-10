@@ -2,20 +2,12 @@ package net.dreamingworld.gameplay.bossskills.wither;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.customentities.CustomEntity;
-import net.dreamingworld.core.structures.EasyBuilder;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.inventory.ItemStack;
 
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
 
 public class Wither extends CustomEntity implements Listener {
     public Wither() {

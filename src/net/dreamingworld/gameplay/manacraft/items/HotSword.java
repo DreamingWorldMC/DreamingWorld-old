@@ -9,6 +9,9 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HotSword {
 
     public HotSword() {
@@ -17,8 +20,13 @@ public class HotSword {
 
         meta.setDisplayName(ChatColor.GOLD + "Hot sword");
 
-        meta.addEnchant(Enchantment.DAMAGE_ALL, 4, true);
         meta.addEnchant(Enchantment.FIRE_ASPECT, 2, true);
+
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.BLUE + "[Deals 8 damage]");
+        meta.setLore(lore);
 
         item.setItemMeta(meta);
         DreamingWorld.getInstance().getItemManager().registerItem("hot_sword", item);
@@ -29,5 +37,6 @@ public class HotSword {
         recipe.setVanillaIngredient('B', Material.STICK);
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
+        DreamingWorld.getInstance().getCustomWeapon().addWeapon("hot_sword", 8);
     }
 }

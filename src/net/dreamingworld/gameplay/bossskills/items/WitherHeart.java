@@ -20,13 +20,13 @@ public class WitherHeart {
         meta.setDisplayName(ChatColor.DARK_GRAY + "Wither heart");
 
         List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.GRAY + "You slayed him...");
+        lore.add(ChatColor.GRAY + "You slayed it...");
         meta.setLore(lore);
 
         meta.addEnchant(Enchantment.ARROW_DAMAGE, 1, true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
         item.setItemMeta(meta);
-        DreamingWorld.getInstance().getItemManager().registerItem("ignium", item);
+        DreamingWorld.getInstance().getItemManager().registerItem("wither_heart", item);
     }
 }

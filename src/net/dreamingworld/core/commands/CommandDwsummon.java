@@ -31,7 +31,7 @@ public class CommandDwsummon implements CommandExecutor, TabCompleter {
         String nick = args[0];
         String id = args[1];
 
-        Player player = Bukkit.getPlayer(MojangAPI.getPlayerUUID(nick));
+        Player player = Bukkit.getPlayer(nick);
         if (player == null || !player.isOnline()) {
             sender.sendMessage(Util.formatString("$(PC)Sorry, but $(SC)" + nick + " $(PC)not found or not online"));
             return true;

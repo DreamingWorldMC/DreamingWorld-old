@@ -8,14 +8,16 @@ import net.dreamingworld.core.Util;
 import net.minecraft.server.v1_8_R3.MathHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.io.BukkitObjectInputStream;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +31,47 @@ public class CustomDamage implements Listener {
     }
 
     @EventHandler
+    public void onEntityDamagedByEntity(EntityDamageByEntityEvent e) {
+        Double finalDamage = DreamingWorld.getInstance().getCustomWeapon().getWeapon(TagWizard.getItemTag(((LivingEntity) e.getDamager()).getEquipment().getItemInHand(), "id"));
+        if (finalDamage == -1) {
+            finalDamage = e.getDamage();
+        }
+
+        if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_ALL)) {
+            finalDamage+= ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ALL);
+        }
+        else if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_UNDEAD)) {
+            if (e.getEntityType().equals(EntityType.SKELETON) || e.getEntityType().equals(EntityType.ZOMBIE) || e.getEntityType().equals(EntityType.PIG_ZOMBIE)) {
+                finalDamage+=3*((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_UNDEAD);
+            }
+        }
+        else if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_ARTHROPODS)) {
+            if (e.getEntityType().equals(EntityType.SPIDER) || e.getEntityType().equals(EntityType.CAVE_SPIDER)) {
+                finalDamage+=3*((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS);;
+            }
+        }
+
+        EntityDamageEvent newEvent = new EntityDamageEvent(e.getEntity(), e.getCause(), e.getDamage());
+        e.setDamage(0);
+        if (e.getEntity() instanceof Player) {
+            onPlayerDamage(newEvent);
+        }
+        else {
+            if (((LivingEntity)e.getEntity()).getHealth() - finalDamage > 0) {
+            ((LivingEntity)e.getEntity()).setHealth(((LivingEntity)e.getEntity()).getHealth() - finalDamage);
+            }
+            else {
+                ((LivingEntity)e.getEntity()).setHealth(0);
+            }
+        }
+
+    }
+
+    @EventHandler
     public void onPlayerDamage(EntityDamageEvent e) {
+        if (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) {
+            return;
+        }
         if (e.getEntity() instanceof Player) {
             double startDamage = e.getDamage();
             int armorPoints = 0;
