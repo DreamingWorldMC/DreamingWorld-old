@@ -18,7 +18,7 @@ public class RawBoar extends FoodItem {
 
         foodPoints = 0; // FOOD
         effects = new ArrayList<>();
-        effects.add(new PotionEffect(PotionEffectType.HUNGER, 2, 1));
+        effects.add(new PotionEffect(PotionEffectType.HUNGER, 20, 1));
 
         ItemStack item = new ItemStack(Material.RAW_BEEF); // Item
         ItemMeta meta = item.getItemMeta();

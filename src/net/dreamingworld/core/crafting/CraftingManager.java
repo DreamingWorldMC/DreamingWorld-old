@@ -39,7 +39,9 @@ public class CraftingManager implements Listener {
                 if (!recipe.isValid(inventory.getMatrix())) {
                     inventory.setResult(new ItemStack(Material.AIR));
                 }
-
+                else {
+                    inventory.setResult(recipe.getResult());
+                }
                 return;
             }
         }

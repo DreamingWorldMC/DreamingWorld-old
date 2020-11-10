@@ -14,7 +14,7 @@ public class CookedBoar extends FoodItem {
 
         foodPoints = 2; // FOOD
 
-        ItemStack item = new ItemStack(Material.COOKED_CHICKEN); // Item
+        ItemStack item = new ItemStack(Material.COOKED_BEEF); // Item
         ItemMeta meta = item.getItemMeta();
 
         meta.setDisplayName(ChatColor.WHITE + "Cooked Boar");

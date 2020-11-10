@@ -19,7 +19,7 @@ public class DuckWithHotSauce extends FoodItem {
 
         foodPoints = 3; // FOOD
         effects = new ArrayList<>();
-        effects.add(new PotionEffect(PotionEffectType.SPEED, 10, 1));
+        effects.add(new PotionEffect(PotionEffectType.SPEED, 100, 1));
 
 
         ItemStack item = new ItemStack(Material.COOKED_CHICKEN); // ITEM
