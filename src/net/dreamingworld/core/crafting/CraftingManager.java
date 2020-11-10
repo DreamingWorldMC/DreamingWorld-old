@@ -36,15 +36,12 @@ public class CraftingManager implements Listener {
     public void onCraftPrepare(PrepareItemCraftEvent e) {
         CraftingInventory inventory = e.getInventory();
         for (CustomRecipe recipe : recipes) {
-            if (e.getRecipe().getResult().isSimilar(recipe.getResult())) {
-                if (!recipe.isValid(inventory.getMatrix())) {
-                    inventory.setResult(new ItemStack(Material.AIR));
-                    break;
-                }
-                else {
-                    inventory.setResult(recipe.getResult());
-                    return;
-                }
+            if (!recipe.isValid(inventory.getMatrix())) {
+                inventory.setResult(new ItemStack(Material.AIR));
+            }
+            else {
+                inventory.setResult(recipe.getResult());
+                return;
             }
         }
 

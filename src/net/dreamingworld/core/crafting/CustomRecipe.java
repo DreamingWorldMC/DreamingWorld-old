@@ -67,26 +67,27 @@ public class CustomRecipe {
         for (String i1 : shape) {
             for (char i2 : i1.toCharArray()) {
                 item = customItems.containsKey(i2) ? DreamingWorld.getInstance().getItemManager().get(customItems.get(i2)) : vanillaItems.containsKey(i2) ? new ItemStack(vanillaItems.get(i2)) : new ItemStack(Material.AIR, 0);
-                if (TagWizard.getItemTag(item, "id") != null ) {
+                if (TagWizard.getItemTag(item, "id") != null) {
                     items.add(TagWizard.getItemTag(item, "id"));
-                }
-                else {
+                } else {
                     items.add(item.getType().toString());
                 }
             }
         }
 
         for (ItemStack i : matrix) {
-            if (i == null) break;
-            if (TagWizard.getItemTag(i, "id") != null ) {
-                items2.add(TagWizard.getItemTag(i, "id"));
+            if (i == null) {
+                break;
             }
-            else {
+
+            if (TagWizard.getItemTag(i, "id") != null) {
+                items2.add(TagWizard.getItemTag(i, "id"));
+            } else {
                 items2.add(i.getType().toString());
             }
         }
 
-        for (int i = 0 ; i < items.size(); i++) {
+        for (int i = 0; i < items.size(); i++) {
             if (!items.get(i).equals(items2.get(i))) {
                 return false;
             }

@@ -27,8 +27,9 @@ public class EntityGeneration {
 
         switch (type) {
             case ("WATER_TOP"):
-                if (p.getWorld().getBlockAt(p.getWorld().getHighestBlockAt(x, z).getLocation().add(0, -1, 0)).getType() == Material.STATIONARY_WATER)
+                if (p.getWorld().getBlockAt(p.getWorld().getHighestBlockAt(x, z).getLocation().add(0, -1, 0)).getType() == Material.STATIONARY_WATER) {
                     return p.getWorld().getHighestBlockAt(x, z).getLocation();
+                }
                 break;
             case ("FOREST_TOP"):
                 if (p.getWorld().getBiome(x, z) == Biome.FOREST || p.getWorld().getBiome(x, z) == Biome.FOREST_HILLS || p.getWorld().getBiome(x, z) == Biome.MESA_PLATEAU_FOREST || p.getWorld().getBiome(x, z) == Biome.ROOFED_FOREST || p.getWorld().getBiome(x, z) == Biome.ROOFED_FOREST_MOUNTAINS || p.getWorld().getBiome(x, z) == Biome.COLD_TAIGA || p.getWorld().getBiome(x, z) == Biome.COLD_TAIGA_HILLS || p.getWorld().getBiome(x, z) == Biome.COLD_TAIGA_MOUNTAINS) {
@@ -40,8 +41,7 @@ public class EntityGeneration {
                                 return startPos;
                             }
                         }
-                    }
-                    else if (p.getWorld().getBlockAt(p.getWorld().getHighestBlockAt(x, z).getLocation().add(0, -1, 0)).getType() == Material.WATER) {
+                    } else if (p.getWorld().getBlockAt(p.getWorld().getHighestBlockAt(x, z).getLocation().add(0, -1, 0)).getType() == Material.WATER) {
                         return p.getWorld().getHighestBlockAt(x, z).getLocation().add(0, -1, 0);
                     }
                 }
