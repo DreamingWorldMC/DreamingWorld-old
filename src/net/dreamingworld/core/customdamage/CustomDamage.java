@@ -51,7 +51,7 @@ public class CustomDamage implements Listener {
             }
         }
 
-        if (e.getDamager().getVelocity().getY() < -0.5) {
+        if (e.getDamager().getVelocity().getY() < -0.15) {
             finalDamage *= 1.5;
         }
 
