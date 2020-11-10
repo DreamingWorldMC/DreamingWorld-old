@@ -1,6 +1,6 @@
 name: DreamingWorld
 main: net.dreamingworld.DreamingWorld
-version: 0.1 pre-alpha
+version: 0.1
 authors: [Konstantin Tolstoy, Stepan Gaidukevich]
 website: dreamingworld.net
 
@@ -10,3 +10,22 @@ commands:
     permission: dreamingworld.give
     aliases: [dwg]
     usage: /<command> <player> <item> [amount]
+
+  dwsummon:
+    description: Summons DreamingWorld entity at player's position
+    permission: dreamingworld.summon
+    aliases: [dws]
+    usage: /<command> <player> <mob>
+
+  dwstructure:
+    description: Generates structure at player's postion
+    permission: dreamingworld.structure
+    aliases: [dwstruct, dwstr]
+    usage: /<command> <structure>
+
+
+  recipes:
+    description: Shows recipe book
+    permission: dreamingworld.recipes
+    aliases: [recipebook, rb, crafts]
+    usage: /<command>

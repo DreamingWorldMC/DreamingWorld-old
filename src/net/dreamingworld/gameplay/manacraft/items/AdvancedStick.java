@@ -25,10 +25,10 @@ public class AdvancedStick {
 
         CustomRecipe recipe = new CustomRecipe(item);
         recipe.shape(new String[] { "ISI", "SMS", "ISI" });
-        recipe.setCustomIngredient('M', "mana_reactor");
+        recipe.setCustomIngredient('M', "mana_core");
         recipe.setVanillaIngredient('S', Material.STICK);
         recipe.setCustomIngredient('I', "ignium");
 
-        DreamingWorld.getInstance().getCraftingManager().registerCraft(recipe);
+        DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }
 }

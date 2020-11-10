@@ -1,34 +1,44 @@
 package net.dreamingworld.core.crafting;
 
 import net.dreamingworld.DreamingWorld;
+import net.dreamingworld.core.TagWizard;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CustomRecipe {
 
     private String[] shape;
-    private ShapedRecipe recipe;
+    private ItemStack result;
+
+    private ShapedRecipe shapedRecipe;
+
+    private Map<Character, Material> vanillaItems;
     private Map<Character, String> customItems;
 
     public CustomRecipe(ItemStack item) {
-        recipe = new ShapedRecipe(item);
+        vanillaItems = new HashMap<>();
         customItems = new HashMap<>();
+
+        shapedRecipe = new ShapedRecipe(item);
+
+        result = item;
     }
 
 
     public void shape(String[] shape) {
-        recipe.shape(shape);
+        shapedRecipe.shape(shape);
         this.shape = shape;
     }
 
 
     public void setVanillaIngredient(char symbol, Material ingredient) {
-        recipe.setIngredient(symbol, ingredient);
+        vanillaItems.put(symbol, ingredient);
+        shapedRecipe.setIngredient(symbol, ingredient);
     }
 
     public void setCustomIngredient(char symbol, String id) {
@@ -39,29 +49,47 @@ public class CustomRecipe {
             return;
         }
 
-        recipe.setIngredient(symbol, item.getData());
+        shapedRecipe.setIngredient(symbol, item.getData());
         customItems.put(symbol, id);
+        vanillaItems.put(symbol, item.getType());
     }
 
 
     public ItemStack getResult() {
-        return recipe.getResult();
+        return result;
     }
 
+
     protected boolean isValid(ItemStack[] matrix) {
-        for (Map.Entry<Character, String> e : customItems.entrySet()) {
-            int c = 0;
-            for (String row : shape) {
-                int c2 = 0;
-                for (char ch : row.toCharArray()) {
-                    if (ch == e.getKey())
-                        if (!DreamingWorld.getInstance().getItemManager().checkItemAuthenticity(matrix[c + c2], e.getValue())) // Double if because I want
-                            return false;
-
-                    c2++;
+        List<String> items = new ArrayList<>();
+        List<String> items2 = new ArrayList<>();
+        ItemStack item;
+        for (String i1 : shape) {
+            for (char i2 : i1.toCharArray()) {
+                item = customItems.containsKey(i2) ? DreamingWorld.getInstance().getItemManager().get(customItems.get(i2)) : vanillaItems.containsKey(i2) ? new ItemStack(vanillaItems.get(i2)) : new ItemStack(Material.AIR, 0);
+                if (TagWizard.getItemTag(item, "id") != null) {
+                    items.add(TagWizard.getItemTag(item, "id"));
+                } else {
+                    items.add(item.getType().toString());
                 }
+            }
+        }
 
-                c += 3;
+        for (ItemStack i : matrix) {
+            if (i == null) {
+                break;
+            }
+
+            if (TagWizard.getItemTag(i, "id") != null) {
+                items2.add(TagWizard.getItemTag(i, "id"));
+            } else {
+                items2.add(i.getType().toString());
+            }
+        }
+
+        for (int i = 0; i < items.size(); i++) {
+            if (!items.get(i).equals(items2.get(i))) {
+                return false;
             }
         }
 
@@ -69,7 +97,23 @@ public class CustomRecipe {
     }
 
 
+    protected String[] getShape() {
+        return shape;
+    }
+
+    protected Map<Character, ItemStack> getIngredients() {
+        Map<Character, ItemStack> ingredients = new HashMap<>();
+
+        for (Map.Entry<Character, Material> e : vanillaItems.entrySet()) {
+            ItemStack ingredient = customItems.containsKey(e.getKey()) ? DreamingWorld.getInstance().getItemManager().get(customItems.get(e.getKey())) : new ItemStack(e.getValue());
+            ingredients.put(e.getKey(), ingredient);
+        }
+
+        return ingredients;
+    }
+
+
     protected void register() {
-        Bukkit.addRecipe(recipe);
+        Bukkit.addRecipe(shapedRecipe);
     }
 }

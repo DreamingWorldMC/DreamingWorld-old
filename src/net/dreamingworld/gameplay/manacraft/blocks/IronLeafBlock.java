@@ -3,7 +3,9 @@ package net.dreamingworld.gameplay.manacraft.blocks;
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
 import net.dreamingworld.core.blocks.CustomBlock;
+import net.dreamingworld.gameplay.manacraft.items.HotStaff;
 import net.minecraft.server.v1_8_R3.EnumParticle;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -18,7 +20,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class IronLeafBlock extends CustomBlock {
 
-    public IronLeafBlock ()  {
+    public IronLeafBlock()  {
         id = "iron_leaf";
         item = new ItemStack(Material.LEAVES);
         ItemMeta meta = item.getItemMeta();
@@ -31,6 +33,8 @@ public class IronLeafBlock extends CustomBlock {
         item.setItemMeta(meta);
 
         DreamingWorld.getInstance().getItemManager().registerItem(id, item);
+
+        Bukkit.getPluginManager().registerEvents(this, DreamingWorld.getInstance());
     }
 
     @Override

@@ -29,6 +29,6 @@ public class HotPeddle {
         recipe.setCustomIngredient('I', "mystic_peddle");
         recipe.setCustomIngredient('B', "ignium");
 
-        DreamingWorld.getInstance().getCraftingManager().registerCraft(recipe);
+        DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }
 }

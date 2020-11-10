@@ -2,6 +2,7 @@ package net.dreamingworld.gameplay.manacraft.items;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.crafting.CustomRecipe;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -42,7 +43,9 @@ public class HotStaff implements Listener {
         recipe.setCustomIngredient('I', "hot_sword");
         recipe.setCustomIngredient('B', "uranium");
 
-        DreamingWorld.getInstance().getCraftingManager().registerCraft(recipe);
+        DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
+
+        Bukkit.getPluginManager().registerEvents(this, DreamingWorld.getInstance());
     }
 
     @EventHandler

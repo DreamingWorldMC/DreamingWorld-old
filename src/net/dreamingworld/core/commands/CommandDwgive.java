@@ -23,14 +23,15 @@ public class CommandDwgive implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String cmdLine, String[] args) {
-        if (args.length > 3 || args.length < 2)
+        if (args.length > 3 || args.length < 2) {
             return false;
+        }
 
         String nick = args[0];
         String id = args[1];
         int amount = args.length == 2 ? 1 : Integer.parseInt(args[2]);
 
-        Player player = Bukkit.getPlayer(MojangAPI.getPlayerUUID(nick));
+        Player player = Bukkit.getPlayer(nick);
         if (player == null || !player.isOnline()) {
             sender.sendMessage(Util.formatString("$(PC)Sorry, but $(SC)" + nick + " $(PC)not found or not online"));
             return true;
@@ -54,12 +55,14 @@ public class CommandDwgive implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
             List<String> names = new ArrayList<>();
 
-            for (Player player : Bukkit.getOnlinePlayers())
+            for (Player player : Bukkit.getOnlinePlayers()) {
                 names.add(player.getName());
+            }
 
-            return names;
-        } else if (args.length == 2)
-            return DreamingWorld.getInstance().getItemManager().getIds();
+            return Util.smartAutocomplete(names, args);
+        } else if (args.length == 2) {
+            return Util.smartAutocomplete(DreamingWorld.getInstance().getItemManager().getIds(), args);
+        }
 
         return null;
     }

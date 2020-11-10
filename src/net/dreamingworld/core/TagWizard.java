@@ -3,6 +3,8 @@ package net.dreamingworld.core;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -14,13 +16,18 @@ import java.util.Map;
 public class TagWizard {
 
     public static void addItemTag(ItemStack item, String tag, String value) {
+        if (item.getType() == Material.AIR) {
+            return;
+        }
+
         ItemMeta meta = item.getItemMeta();
 
         List<String> lore;
-        if (meta.hasLore())
+        if (meta.hasLore()) {
             lore = meta.getLore();
-        else
+        } else {
             lore = new ArrayList<>();
+        }
 
         Map<String, String> data = null;
         int n = -1;
@@ -33,28 +40,35 @@ public class TagWizard {
             }
         }
 
-        if (data == null)
+        if (data == null) {
             data = new HashMap<>();
+        }
 
         data.put(tag, value);
 
-        if (n == -1)
+        if (n == -1) {
             lore.add(makeInvisible(makeTagData(data)));
-        else
+        } else {
             lore.set(n, makeInvisible(makeTagData(data)));
+        }
 
         meta.setLore(lore);
         item.setItemMeta(meta);
     }
 
     public static String getItemTag(ItemStack item, String tag) {
+        if (!item.hasItemMeta()) {
+            return null;
+        }
+
         ItemMeta meta = item.getItemMeta();
 
         List<String> lore;
-        if (meta != null && meta.hasLore())
+        if (meta != null && meta.hasLore()) {
             lore = meta.getLore();
-        else
+        } else {
             return null;
+        }
 
         Map<String, String> data = null;
         int n = -1;
@@ -67,10 +81,32 @@ public class TagWizard {
             }
         }
 
-        if (data == null)
+        if (data == null) {
             return null;
+        }
 
         return data.get(tag);
+    }
+
+
+    public static boolean hasData(ItemStack item) {
+        if (!item.hasItemMeta()) {
+            return false;
+        }
+
+        ItemMeta m = item.getItemMeta();
+
+        if (!m.hasLore()) {
+            return false;
+        }
+
+        for (String s : m.getLore()) {
+            if (makeVisible(s).startsWith("$DATA")) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
