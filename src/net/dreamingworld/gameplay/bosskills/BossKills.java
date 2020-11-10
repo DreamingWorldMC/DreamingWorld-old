@@ -1,17 +1,17 @@
-package net.dreamingworld.gameplay.bossskills;
+package net.dreamingworld.gameplay.bosskills;
 
 import net.dreamingworld.DreamingWorld;
-import net.dreamingworld.gameplay.bossskills.items.WitherHeart;
-import net.dreamingworld.gameplay.bossskills.wither.Wither;
-import net.dreamingworld.gameplay.bossskills.wither.WitherMinion;
+import net.dreamingworld.gameplay.bosskills.items.WitherHeart;
+import net.dreamingworld.gameplay.bosskills.wither.Wither;
+import net.dreamingworld.gameplay.bosskills.wither.WitherMinion;
 
 
-public class Bossskills {
+public class BossKills {
 
     public static void initialize() {
         long begin = System.currentTimeMillis();
         // mics
-        new deathMessages();
+        new DeathMessages();
 
         // items
         new WitherHeart();

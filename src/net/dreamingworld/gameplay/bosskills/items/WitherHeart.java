@@ -1,6 +1,5 @@
-package net.dreamingworld.gameplay.bossskills.items;
+package net.dreamingworld.gameplay.bosskills.items;
 
-import com.sun.corba.se.spi.ior.IORTemplate;
 import net.dreamingworld.DreamingWorld;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

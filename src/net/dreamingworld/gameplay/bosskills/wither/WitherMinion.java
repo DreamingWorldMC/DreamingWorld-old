@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.bossskills.wither;
+package net.dreamingworld.gameplay.bosskills.wither;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.customentities.CustomEntity;

@@ -1,7 +1,5 @@
 package net.dreamingworld.core.customdamage;
 
-
-
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.Util;
@@ -15,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -32,26 +31,27 @@ public class CustomDamage implements Listener {
 
     @EventHandler
     public void onEntityDamagedByEntity(EntityDamageByEntityEvent e) {
-        Double finalDamage = DreamingWorld.getInstance().getCustomWeapon().getWeapon(TagWizard.getItemTag(((LivingEntity) e.getDamager()).getEquipment().getItemInHand(), "id"));
+        double finalDamage = DreamingWorld.getInstance().getCustomWeaponManager().getWeapon(TagWizard.getItemTag(((LivingEntity) e.getDamager()).getEquipment().getItemInHand(), "id"));
+
         if (finalDamage == -1) {
             finalDamage = e.getDamage();
         }
 
         if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_ALL)) {
-            finalDamage+= ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ALL);
+            finalDamage += ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ALL);
         }
         else if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_UNDEAD)) {
             if (e.getEntityType().equals(EntityType.SKELETON) || e.getEntityType().equals(EntityType.ZOMBIE) || e.getEntityType().equals(EntityType.PIG_ZOMBIE)) {
-                finalDamage+=3*((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_UNDEAD);
+                finalDamage += 3 * ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_UNDEAD);
             }
         }
         else if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_ARTHROPODS)) {
             if (e.getEntityType().equals(EntityType.SPIDER) || e.getEntityType().equals(EntityType.CAVE_SPIDER)) {
-                finalDamage+=3*((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS);;
+                finalDamage += 3 * ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS);;
             }
         }
 
-        if (e.getDamager().getVelocity().getY() < 0) {
+        if (e.getDamager().getVelocity().getY() < -0.5) {
             finalDamage *= 1.5;
         }
 
@@ -65,13 +65,11 @@ public class CustomDamage implements Listener {
         e.setDamage(0);
         if (e.getEntity() instanceof Player) {
             onPlayerDamage(newEvent);
-        }
-        else {
-            if (((LivingEntity)e.getEntity()).getHealth() - finalDamage > 0) {
-            ((LivingEntity)e.getEntity()).setHealth(((LivingEntity)e.getEntity()).getHealth() - finalDamage);
-            }
-            else {
-                ((LivingEntity)e.getEntity()).setHealth(0);
+        } else {
+            if (((LivingEntity) e.getEntity()).getHealth() - finalDamage > 0) {
+                ((LivingEntity) e.getEntity()).setHealth(((LivingEntity)e.getEntity()).getHealth() - finalDamage);
+            } else {
+                ((LivingEntity) e.getEntity()).setHealth(0);
             }
         }
 
@@ -86,14 +84,16 @@ public class CustomDamage implements Listener {
             double startDamage = e.getDamage();
             int armorPoints = 0;
             double removeDMG = 0;
-            ItemStack[] armor = ((Player)e.getEntity()).getInventory().getArmorContents();
+            ItemStack[] armor = ((Player) e.getEntity()).getInventory().getArmorContents();
 
             for (ItemStack armorItem : armor) {
-                if (armorItem == null)
+                if (armorItem == null) {
                     continue;
+                }
 
-                if (DreamingWorld.getInstance().getCustomArmor().getPiece(TagWizard.getItemTag(armorItem, "id")) != -1 )
+                if (DreamingWorld.getInstance().getCustomArmor().getPiece(TagWizard.getItemTag(armorItem, "id")) != -1) {
                     armorPoints += DreamingWorld.getInstance().getCustomArmor().getPiece(TagWizard.getItemTag(armorItem, "id"));
+                }
 
                 else {
                     switch (armorItem.getType()) {
@@ -152,23 +152,29 @@ public class CustomDamage implements Listener {
                 }
 
                 if (armorItem.hasItemMeta()) {
-                    if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_ENVIRONMENTAL))
+                    if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_ENVIRONMENTAL)) {
                         armorPoints += armorItem.getEnchantments().get(Enchantment.PROTECTION_ENVIRONMENTAL);
+                    }
+
                     if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_FIRE)) {
                         if (e.getCause().equals(EntityDamageEvent.DamageCause.FIRE) || e.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK) || e.getCause().equals(EntityDamageEvent.DamageCause.LAVA)) {
                             armorPoints += armorItem.getEnchantments().get(Enchantment.PROTECTION_FIRE) * 3;
                         }
                     }
+
                     if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_EXPLOSIONS)) {
                         if (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) || e.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION)) {
                             armorPoints += armorItem.getEnchantments().get(Enchantment.PROTECTION_EXPLOSIONS) * 3;
                         }
                     }
-                    if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_FALL) && e.getCause() == EntityDamageEvent.DamageCause.FALL)
-                        removeDMG += armorItem.getEnchantments().get(Enchantment.PROTECTION_FALL) * 5;
-                    if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_PROJECTILE) && e.getCause() == EntityDamageEvent.DamageCause.PROJECTILE)
-                        armorPoints += armorItem.getEnchantments().get(Enchantment.PROTECTION_PROJECTILE) * 3;
 
+                    if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_FALL) && e.getCause() == EntityDamageEvent.DamageCause.FALL) {
+                        removeDMG += armorItem.getEnchantments().get(Enchantment.PROTECTION_FALL) * 5;
+                    }
+
+                    if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_PROJECTILE) && e.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
+                        armorPoints += armorItem.getEnchantments().get(Enchantment.PROTECTION_PROJECTILE) * 3;
+                    }
                 }
             }
 
@@ -188,15 +194,7 @@ public class CustomDamage implements Listener {
                 else {
                     ((Player) e.getEntity()).setHealth(0);
 
-                    String deathMessage;
-
-                    if (deathMsg.containsKey(e.getCause())) {
-                        deathMessage = deathMsg.get(e.getCause());
-                    }
-                    else {
-                        deathMessage = "&7 died from &7&kIDKDONTADDEDYET";
-                    }
-
+                    String deathMessage = deathMsg.getOrDefault(e.getCause(), " &7died from &7&kIDKDONTADDEDYET");
                     Bukkit.broadcastMessage(Util.formatString("&9" + ((Player) e.getEntity()).getDisplayName() + deathMessage));
                 }
             }
@@ -214,8 +212,12 @@ public class CustomDamage implements Listener {
         }
     }
 
+    @EventHandler
+    public void onDeath(PlayerDeathEvent e) {
+        e.setDeathMessage(null);
+    }
+
     public void addDeathMessage(EntityDamageEvent.DamageCause d, String s) {
         deathMsg.put(d, s);
     }
-
 }
