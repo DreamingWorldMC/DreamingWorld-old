@@ -2,6 +2,7 @@ package net.dreamingworld;
 
 import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.blocks.BlockManager;
+import net.dreamingworld.core.commands.CommandDwstructure;
 import net.dreamingworld.core.commands.CommandDwsummon;
 import net.dreamingworld.core.commands.CommandRecipes;
 import net.dreamingworld.core.crafting.RecipeBook;
@@ -13,6 +14,7 @@ import net.dreamingworld.core.customdamage.CustomDamage;
 import net.dreamingworld.core.fishing.FishManager;
 import net.dreamingworld.core.customfood.FoodManager;
 import net.dreamingworld.core.manainfusion.ManaInfusionManager;
+import net.dreamingworld.core.structures.StructureManager;
 import net.dreamingworld.gameplay.alloys.*;
 import net.dreamingworld.core.ItemManager;
 import net.dreamingworld.core.alloys.AlloyManager;
@@ -56,6 +58,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     private ManaInfusionManager manaInfusionManager;
     private CustomWeapon customWeapon;
     private SmeltingManager smeltingManager;
+    private StructureManager structureManager;
 
     public void onEnable() {
         inst = this;
@@ -74,6 +77,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         manaInfusionManager = new ManaInfusionManager();
         customWeapon = new CustomWeapon();
         smeltingManager = new SmeltingManager();
+        structureManager = new StructureManager();
 
         Bukkit.getPluginManager().registerEvents(fishManager, this);
         Bukkit.getPluginManager().registerEvents(alloyManager, this);
@@ -87,6 +91,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         new CommandDwgive();
         new CommandDwsummon();
         new CommandRecipes();
+        new CommandDwstructure();
 
         alloyManager.registerAlloy(Material.COAL_ORE, new Ignium());
         alloyManager.registerAlloy(Material.COAL_ORE, new Energium());
@@ -132,19 +137,35 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         return customArmor;
     }
 
-    public EntityManager getEntityManager() { return entityManager; }
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
 
-    public FoodManager getFoodManager() { return foodManager; }
+    public FoodManager getFoodManager() {
+        return foodManager;
+    }
 
     public RecipeBook getRecipeBook() {
         return recipeBook;
     }
 
-    public ManaInfusionManager getManaInfusionManager() { return manaInfusionManager; }
+    public ManaInfusionManager getManaInfusionManager() {
+        return manaInfusionManager;
+    }
 
-    public CustomDamage getCustomDamage() { return customDamage; }
+    public CustomDamage getCustomDamage() {
+        return customDamage;
+    }
 
-    public CustomWeapon getCustomWeapon() { return customWeapon; }
+    public CustomWeapon getCustomWeapon() {
+        return customWeapon;
+    }
 
-    public SmeltingManager getSmeltingManager() { return smeltingManager; }
+    public SmeltingManager getSmeltingManager() {
+        return smeltingManager;
+    }
+
+    public StructureManager getStructureManager() {
+        return structureManager;
+    }
 }

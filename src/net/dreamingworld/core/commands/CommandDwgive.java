@@ -55,8 +55,9 @@ public class CommandDwgive implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
             List<String> names = new ArrayList<>();
 
-            for (Player player : Bukkit.getOnlinePlayers())
+            for (Player player : Bukkit.getOnlinePlayers()) {
                 names.add(player.getName());
+            }
 
             return Util.smartAutocomplete(names, args);
         } else if (args.length == 2) {

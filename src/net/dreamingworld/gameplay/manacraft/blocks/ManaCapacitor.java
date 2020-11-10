@@ -53,11 +53,13 @@ public class ManaCapacitor extends ManaContainer {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
-        if (e.isCancelled())
+        if (e.isCancelled()) {
             return;
+        }
 
-        if (e.getAction() != Action.RIGHT_CLICK_BLOCK)
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
+        }
 
         if (id.equals(DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()))) {
             e.setCancelled(true);
@@ -83,9 +85,7 @@ public class ManaCapacitor extends ManaContainer {
         setMaxMana(block.getLocation(), 10000);
         setMana(block.getLocation(), 0);
 
-
-        block.setData((byte)9);
-
+        block.setData((byte) 9);
     }
 
     @Override
