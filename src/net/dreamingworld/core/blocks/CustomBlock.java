@@ -4,22 +4,19 @@ import net.dreamingworld.DreamingWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockExplodeEvent;
-import org.bukkit.event.block.BlockPistonExtendEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
-import java.sql.BatchUpdateException;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class CustomBlock implements Runnable, Listener {
 
@@ -46,8 +43,9 @@ public abstract class CustomBlock implements Runnable, Listener {
 
     @EventHandler
     public void onPlace(BlockPlaceEvent e) {
-        if (!DreamingWorld.getInstance().getItemManager().checkItemAuthenticity(e.getItemInHand(), id))
+        if (!DreamingWorld.getInstance().getItemManager().checkItemAuthenticity(e.getItemInHand(), id)) {
             return;
+        }
 
         Location loc = e.getBlock().getLocation();
         DreamingWorld.getInstance().getBlockManager().placeBlock(loc, id);
@@ -61,22 +59,49 @@ public abstract class CustomBlock implements Runnable, Listener {
 
         if (DreamingWorld.getInstance().getBlockManager().removeBlock(loc, id)) {
             e.setCancelled(true);
-            loc.getBlock().getLocation().getWorld().dropItem(loc.getBlock().getLocation(), item);
+            loc.getWorld().dropItem(loc, item);
         }
     }
 
-//    @EventHandler
-//    public void onExplode(BlockPistonExtendEvent e) {
-//        List<Block> blocks = e.getBlocks();
-//
-//        for (Block block : blocks) {
-//            if (DreamingWorld.getInstance().getBlockManager().removeBlock(block.getLocation(), id)) {
-//                block.setType(Material.AIR);
-//                block.getLocation().getWorld().dropItem(block.getLocation(), item);
-//            }
-//        }
-//
-//    }
+    @EventHandler
+    public void onExplode(EntityExplodeEvent e) {
+        for (Block explodedBlock : e.blockList()) {
+            Location location = explodedBlock.getLocation();
+
+            if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(location) != null) {
+                if (DreamingWorld.getInstance().getBlockManager().removeBlock(location, id)) {
+                    if (ThreadLocalRandom.current().nextBoolean()) {
+                        location.getWorld().dropItem(location, item);
+                    }
+                }
+            }
+        }
+    }
+
+    private void handlePiston(List<Block> blockList, BlockPistonEvent e) {
+        if (e.getBlock() == null) {
+            return;
+        }
+
+        for (Block block : blockList) {
+            Location location = block.getLocation();
+
+            if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(location) != null) {
+                e.setCancelled(true);
+                return;
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPistonExtend(BlockPistonExtendEvent e) {
+        handlePiston(e.getBlocks(), e);
+    }
+
+    @EventHandler
+    public void onPistonRetract(BlockPistonRetractEvent e) {
+        handlePiston(e.getBlocks(), e);
+    }
 
     @Override
     public void run() {
