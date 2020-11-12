@@ -1,18 +1,24 @@
 package net.dreamingworld.core.blocks;
 
 import net.dreamingworld.DreamingWorld;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
+import java.sql.BatchUpdateException;
+import java.util.List;
 import java.util.Set;
 
 public abstract class CustomBlock implements Runnable, Listener {
@@ -58,6 +64,19 @@ public abstract class CustomBlock implements Runnable, Listener {
             loc.getBlock().getLocation().getWorld().dropItem(loc.getBlock().getLocation(), item);
         }
     }
+
+//    @EventHandler
+//    public void onExplode(BlockPistonExtendEvent e) {
+//        List<Block> blocks = e.getBlocks();
+//
+//        for (Block block : blocks) {
+//            if (DreamingWorld.getInstance().getBlockManager().removeBlock(block.getLocation(), id)) {
+//                block.setType(Material.AIR);
+//                block.getLocation().getWorld().dropItem(block.getLocation(), item);
+//            }
+//        }
+//
+//    }
 
     @Override
     public void run() {
