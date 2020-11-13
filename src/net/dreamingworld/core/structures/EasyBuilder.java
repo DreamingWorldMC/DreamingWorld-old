@@ -15,6 +15,7 @@ public class EasyBuilder {
         DreamingWorld.getInstance().getBlockManager().placeBlock(startLocation.add(x, y, z), customBlock);
 
         startLocation.getBlock().setType(DreamingWorld.getInstance().getItemManager().get(customBlock).getType());
+        startLocation.getBlock().setData((byte) DreamingWorld.getInstance().getItemManager().get(customBlock).getDurability());
         startLocation.subtract(x, y, z);
     }
 

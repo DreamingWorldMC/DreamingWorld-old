@@ -1,6 +1,5 @@
 package net.dreamingworld.core.manainfusion;
 
-import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

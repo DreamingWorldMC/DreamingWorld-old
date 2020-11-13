@@ -5,6 +5,7 @@ import net.dreamingworld.gameplay.manacraft.armor.GreenIronArmor;
 import net.dreamingworld.gameplay.manacraft.blocks.*;
 import net.dreamingworld.gameplay.manacraft.items.*;
 import net.dreamingworld.gameplay.trees.IronTree;
+import net.dreamingworld.gameplay.trees.WhitePyramidTree;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -36,12 +37,15 @@ public class Manacraft {
         DreamingWorld.getInstance().getBlockManager().registerBlock(new IronWoodBlock());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new ManaCapacitor());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new ManaInfuser());
+        DreamingWorld.getInstance().getBlockManager().registerBlock(new HolyLeafBlock());
+        DreamingWorld.getInstance().getBlockManager().registerBlock(new WhiteLogBlock());
 
         // Fusion
         BasicManaGenerator.addResult(DreamingWorld.getInstance().getItemManager().get("ignium"), new BasicManaGenerator.FusionResult(100, 100, 1, new ItemStack(Material.COAL), 1, DreamingWorld.getInstance().getItemManager().get("hard_coal")));
 
         // Structures
         DreamingWorld.getInstance().getStructureManager().registerStructure("iron_tree", new IronTree());
+        DreamingWorld.getInstance().getStructureManager().registerStructure("white_pyramid_tree", new WhitePyramidTree());
 
         long time = System.currentTimeMillis() - begin;
 
