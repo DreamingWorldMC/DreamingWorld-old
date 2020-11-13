@@ -48,7 +48,7 @@ public class CustomArmor implements Listener {
 
     @EventHandler
     public void onClick (PlayerInteractEvent e) {
-        if (canPutOnHead.contains(TagWizard.getItemTag(e.getItem(), "id"))) {
+        if (e.getItem() != null && canPutOnHead.contains(TagWizard.getItemTag(e.getItem(), "id"))) {
             if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
                 e.setCancelled(true);
                 if (e.getPlayer().getEquipment().getHelmet() == null) {

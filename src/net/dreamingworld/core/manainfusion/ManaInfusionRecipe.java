@@ -9,8 +9,6 @@ public class ManaInfusionRecipe {
     public Material vanillaItem;
     public String customItem;
     public Integer manaTakes;
-    public EnumParticle particle = EnumParticle.ENCHANTMENT_TABLE;
-    public int particleAmount = 5;
 
     public ItemStack result;
 }

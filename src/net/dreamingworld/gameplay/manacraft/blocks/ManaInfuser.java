@@ -2,10 +2,8 @@ package net.dreamingworld.gameplay.manacraft.blocks;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
-import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.crafting.CustomRecipe;
 import net.dreamingworld.core.mana.ManaContainer;
-import net.dreamingworld.core.ui.ChestUI;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -13,12 +11,8 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import sun.java2d.cmm.lcms.LcmsServiceProvider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -77,9 +71,14 @@ public class ManaInfuser extends ManaContainer {
                             if (Integer.parseInt(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "storedMana")) >= DreamingWorld.getInstance().getManaInfusionManager().getTo(item).manaTakes) {
                                DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(location, "storedMana", String.valueOf(Integer.parseInt(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "storedMana")) - DreamingWorld.getInstance().getManaInfusionManager().getTo(item).manaTakes));
                                location.getWorld().dropItem(location, DreamingWorld.getInstance().getManaInfusionManager().getTo(item).result);
-                               item.setAmount(item.getAmount() - 1);
+                               if (item.getAmount() > 1) {
+                                   item.setAmount(item.getAmount() - 1);
+                               }
+                               else {
+                                   entity.remove();
+                               }
                             }
-                            PacketWizard.sendParticle(DreamingWorld.getInstance().getManaInfusionManager().getTo(item).particle, location, DreamingWorld.getInstance().getManaInfusionManager().getTo(item).particleAmount);
+                            PacketWizard.sendParticle(EnumParticle.ENCHANTMENT_TABLE, location, DreamingWorld.getInstance().getManaInfusionManager().getTo(item).manaTakes / 10);
                         }
                     }
                 }

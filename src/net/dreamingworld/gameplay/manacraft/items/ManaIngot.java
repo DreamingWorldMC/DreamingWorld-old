@@ -30,8 +30,6 @@ public class ManaIngot {
         recipe.result = item;
         recipe.fromCustomItem = false;
         recipe.vanillaItem = Material.IRON_INGOT;
-        recipe.particle = EnumParticle.ENCHANTMENT_TABLE;
-        recipe.particleAmount = 50;
         recipe.manaTakes = 100;
 
         DreamingWorld.getInstance().getManaInfusionManager().addRecipe(recipe);
