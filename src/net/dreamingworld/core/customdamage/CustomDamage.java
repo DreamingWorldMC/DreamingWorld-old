@@ -47,7 +47,11 @@ public class CustomDamage implements Listener {
             } else if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_ARTHROPODS)) {
                 if (e.getEntityType().equals(EntityType.SPIDER) || e.getEntityType().equals(EntityType.CAVE_SPIDER)) {
                     finalDamage += 3 * ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS);
-                    ;
+                }
+            }
+            for (PotionEffect x : ((LivingEntity) e.getDamager()).getActivePotionEffects()) {
+                if (x.getType().equals(PotionEffectType.INCREASE_DAMAGE)) {
+                    finalDamage *= 1 + (x.getAmplifier()*0.5);
                 }
             }
 
@@ -176,6 +180,12 @@ public class CustomDamage implements Listener {
                     if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_PROJECTILE) && e.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
                         armorPoints += armorItem.getEnchantments().get(Enchantment.PROTECTION_PROJECTILE) * 3;
                     }
+                    for (PotionEffect x : ((Player) e.getEntity()).getActivePotionEffects()) {
+                        if (x.getType().equals(PotionEffectType.ABSORPTION)) {
+                            armorPoints += x.getAmplifier() * 5;
+                        }
+                    }
+
                 }
             }
 
