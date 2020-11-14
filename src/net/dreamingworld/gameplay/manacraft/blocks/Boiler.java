@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -67,18 +68,29 @@ public class Boiler extends CustomBlock implements Listener {
 
     @EventHandler
     public void onClick(PlayerInteractEvent e) {
-        if (e.getItem() == null || e.getClickedBlock() == null)
+        if (e.getItem() == null || e.getClickedBlock() == null || e.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
 
         if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()).equals("boiler") && !e.getPlayer().isSneaking()) {
             e.setCancelled(true);
+            boolean takeItem = false;
             switch (TagWizard.getItemTag(e.getItem(), "id")) {
                 case ("ignium"):
                     DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(e.getClickedBlock().getLocation(), "fuel_left", String.valueOf(Integer.valueOf(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(e.getClickedBlock().getLocation(), "fuel_left")) + 40));
+                    takeItem = true;
                     break;
                 case ("hard_coal"):
                     DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(e.getClickedBlock().getLocation(), "fuel_left", String.valueOf(Integer.valueOf(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(e.getClickedBlock().getLocation(), "fuel_left")) + 200));
+                    takeItem = true;
                     break;
+            }
+            if (takeItem) {
+                if (e.getPlayer().getInventory().getItemInHand().getAmount() > 1) {
+                    e.getPlayer().getInventory().getItemInHand().setAmount(e.getPlayer().getInventory().getItemInHand().getAmount() - 1);
+                }
+                else {
+                    e.getPlayer().setItemInHand(new ItemStack(Material.AIR));
+                }
             }
         }
     }
