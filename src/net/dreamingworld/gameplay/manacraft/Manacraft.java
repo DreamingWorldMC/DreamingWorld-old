@@ -42,6 +42,8 @@ public class Manacraft {
         DreamingWorld.getInstance().getBlockManager().registerBlock(new ManaInfuser());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new HolyLeafBlock());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new WhiteLogBlock());
+        DreamingWorld.getInstance().getBlockManager().registerBlock(new Boiler());
+        DreamingWorld.getInstance().getBlockManager().registerBlock(new SteamTurbine());
 
         // Mobs
         DreamingWorld.getInstance().getEntityManager().addEntity("astral_creature", new AstralCreature());

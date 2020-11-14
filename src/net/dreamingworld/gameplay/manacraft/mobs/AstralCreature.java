@@ -21,7 +21,7 @@ public class AstralCreature extends CustomEntity {
 
         spawnType = "NIGHT_TOP";
 
-        expDrop = 5;
+        expDrop = 65;
 
         hasArmor = true;
         itemInHand = new ItemStack(Material.DIAMOND_SWORD);

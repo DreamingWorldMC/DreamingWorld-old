@@ -35,8 +35,8 @@ public class ManaFlowBinder implements Listener {
         lore.add(ChatColor.GRAY + "This thing makes channels for mana in fourth dimension");
         lore.add(ChatColor.GRAY + "Or in fifth... Anyway it works fine");
         lore.add("");
-        lore.add(Util.formatString("&5LMB &7to select parent"));
-        lore.add(Util.formatString("&5RMB &7to select input"));
+        lore.add(Util.formatString("&5LMB &7to select input"));
+        lore.add(Util.formatString("&5RMB &7to select block to take mana from"));
         meta.setLore(lore);
 
         item.setItemMeta(meta);
@@ -53,7 +53,7 @@ public class ManaFlowBinder implements Listener {
     }
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent e) {
+        public void onInteract(PlayerInteractEvent e) {
         if (e.getItem() == null || !DreamingWorld.getInstance().getItemManager().checkItemAuthenticity(e.getItem(), "mana_flow_binder"))
             return;
 
@@ -104,6 +104,11 @@ public class ManaFlowBinder implements Listener {
 
         if  (parentLocation.equals(inputLocation)) {
             Bukkit.getLogger().info(ChatColor.DARK_RED + "Can't bind block to itself");
+            return;
+        }
+
+        if (parentLocation.distance(inputLocation) > 15) {
+            Bukkit.getLogger().info(ChatColor.DARK_RED + "Can't bind blocks which are far away");
             return;
         }
 

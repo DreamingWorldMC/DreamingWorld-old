@@ -25,6 +25,8 @@ public class CustomDamage implements Listener {
 
     private Map<EntityDamageEvent.DamageCause, String> deathMsg;
 
+    private Boolean now;
+
     public CustomDamage() {
         deathMsg = new HashMap<>();
     }
@@ -74,7 +76,8 @@ public class CustomDamage implements Listener {
         EntityDamageEvent newEvent = new EntityDamageEvent(e.getEntity(), e.getCause(), e.getDamage());
         e.setDamage(0);
         if (e.getEntity() instanceof Player) {
-            onPlayerDamage(newEvent, true);
+            now = true;
+            onPlayerDamage(newEvent);
         } else {
             if (((LivingEntity) e.getEntity()).getHealth() - finalDamage > 0) {
                 ((LivingEntity) e.getEntity()).setHealth(((LivingEntity)e.getEntity()).getHealth() - finalDamage);
@@ -86,10 +89,13 @@ public class CustomDamage implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDamage(EntityDamageEvent e, boolean test) {
-        if (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) && test != true) {
+    public void onPlayerDamage(EntityDamageEvent e) {
+        if (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) && now != true) {
             return;
         }
+
+        now = false;
+
         if (e.getEntity() instanceof Player) {
             double startDamage = e.getDamage();
             int armorPoints = 0;
