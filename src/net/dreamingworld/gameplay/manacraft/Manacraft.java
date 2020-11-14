@@ -28,6 +28,7 @@ public class Manacraft {
         new ManaIngot();
         new AstrumIngot();
         new StarDust();
+        new AstrumSword();
 
         // Armor
         new GreenIronArmor();
