@@ -15,7 +15,7 @@ import java.util.List;
 public class Ignium extends OreAlloy {
 
     public Ignium() {
-        chance = 100;
+        chance = 5;
         dropOnBreak = true;
         dropOnSmelt = true;
 

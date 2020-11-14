@@ -68,7 +68,9 @@ public class SteamTurbine extends ManaContainer {
             }
 
             DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(location, "vapour", String.valueOf(Integer.valueOf(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "vapour"))  - 10));
-            setMana(location, getMana(location) + 20);
+            if (getMana(location) + 20 <= getMaxMana(location)) {
+                setMana(location, getMana(location) + 20);
+            }
         }
     }
 }
