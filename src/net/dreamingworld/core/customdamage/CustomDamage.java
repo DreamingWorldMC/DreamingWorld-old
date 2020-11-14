@@ -33,9 +33,14 @@ public class CustomDamage implements Listener {
     public void onEntityDamagedByEntity(EntityDamageByEntityEvent e) {
         double finalDamage = DreamingWorld.getInstance().getCustomWeaponManager().getWeapon(TagWizard.getItemTag(((LivingEntity) e.getDamager()).getEquipment().getItemInHand(), "id"));
 
-        if (e.getEntity() instanceof LivingEntity) {
+        if (e.getDamager() instanceof LivingEntity) {
+
             if (finalDamage == -1) {
                 finalDamage = e.getDamage();
+            }
+
+            if (DreamingWorld.getInstance().getEntityManager().getDamage((LivingEntity) e.getDamager()) != -1) {
+                finalDamage = DreamingWorld.getInstance().getEntityManager().getDamage((LivingEntity) e.getDamager());
             }
 
             if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_ALL)) {
@@ -69,7 +74,7 @@ public class CustomDamage implements Listener {
         EntityDamageEvent newEvent = new EntityDamageEvent(e.getEntity(), e.getCause(), e.getDamage());
         e.setDamage(0);
         if (e.getEntity() instanceof Player) {
-            onPlayerDamage(newEvent);
+            onPlayerDamage(newEvent, true);
         } else {
             if (((LivingEntity) e.getEntity()).getHealth() - finalDamage > 0) {
                 ((LivingEntity) e.getEntity()).setHealth(((LivingEntity)e.getEntity()).getHealth() - finalDamage);
@@ -81,8 +86,8 @@ public class CustomDamage implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDamage(EntityDamageEvent e) {
-        if (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) {
+    public void onPlayerDamage(EntityDamageEvent e, boolean test) {
+        if (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) && test != true) {
             return;
         }
         if (e.getEntity() instanceof Player) {
@@ -196,7 +201,6 @@ public class CustomDamage implements Listener {
                 removeDMG += startDamage * MathHelper.clamp(armorPoints, 20, 75) * 0.5 / 100;
 
             int resDamage = MathHelper.clamp((int) startDamage - (int) removeDMG, 0, 10000);
-
 
             if (!((Player) e.getEntity()).hasPotionEffect(PotionEffectType.ABSORPTION)) {
                 if (((Player) e.getEntity()).getHealth() - resDamage > 0) {

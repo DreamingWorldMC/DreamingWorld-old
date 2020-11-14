@@ -41,9 +41,14 @@ public class EntityGeneration {
                                 return startPos;
                             }
                         }
-                    } else if (p.getWorld().getBlockAt(p.getWorld().getHighestBlockAt(x, z).getLocation().add(0, -1, 0)).getType() == Material.WATER) {
-                        return p.getWorld().getHighestBlockAt(x, z).getLocation().add(0, -1, 0);
+                    } else if (p.getWorld().getBlockAt(p.getWorld().getHighestBlockAt(x, z).getLocation().add(0, -1, 0)).getType() != Material.WATER) {
+                        return p.getWorld().getHighestBlockAt(x, z).getLocation();
                     }
+                }
+                break;
+            case ("NIGHT_TOP"):
+                if (p.getWorld().getTime() > 12300 && p.getWorld().getHighestBlockAt(x, z).getLightLevel() < 4) {
+                    return p.getWorld().getHighestBlockAt(x, z).getLocation();
                 }
                 break;
         }

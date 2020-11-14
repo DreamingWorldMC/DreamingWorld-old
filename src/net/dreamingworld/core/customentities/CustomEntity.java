@@ -12,6 +12,7 @@ public class CustomEntity {
     protected String name;
     protected int health;
     protected EntityType entityType;
+    protected int damage = 3;
 
     protected int expDrop;
     protected Map<ItemStack, Integer> drops;

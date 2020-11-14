@@ -17,6 +17,7 @@ public class WitherMinion extends CustomEntity {
         name = "Wither Minion";
         health = 25;
         entityType = EntityType.SKELETON;
+        damage = 8;
 
         expDrop = 100;
 
