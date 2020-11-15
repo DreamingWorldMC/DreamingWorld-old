@@ -29,3 +29,10 @@ commands:
     permission: dreamingworld.recipes
     aliases: [recipebook, rb, crafts]
     usage: /<command>
+
+
+  guild:
+    description: Guild management
+    permission: dreamingworld.guilds
+    aliases: [g, guilds]
+    usage: fak
