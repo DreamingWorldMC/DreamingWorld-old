@@ -68,7 +68,7 @@ public class Boiler extends CustomBlock implements Listener {
 
     @EventHandler
     public void onClick(PlayerInteractEvent e) {
-        if (e.getItem() == null || e.getClickedBlock() == null || e.getAction() != Action.RIGHT_CLICK_BLOCK)
+        if (e.getItem() == null || e.getClickedBlock() == null || e.getAction() != Action.RIGHT_CLICK_BLOCK || DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()) == null)
             return;
 
         if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()).equals("boiler") && !e.getPlayer().isSneaking()) {
