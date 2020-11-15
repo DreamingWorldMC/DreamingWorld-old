@@ -1,8 +1,10 @@
 package net.dreamingworld.gameplay.manacraft.items;
 
 import net.dreamingworld.DreamingWorld;
+import net.dreamingworld.core.PacketWizard;
 import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.Util;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -36,6 +38,9 @@ public class StarDust implements Listener {
             if (TagWizard.getItemTag(e.getPlayer().getItemInHand(), "id").equals("star_dust") && e.getClickedBlock().getType() == Material.IRON_BLOCK && DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()) == null) {
                 e.getClickedBlock().setType(Material.AIR);
                 e.getClickedBlock().getWorld().dropItem(e.getClickedBlock().getLocation(), DreamingWorld.getInstance().getItemManager().get("astrum_ingot"));
+                PacketWizard.sendParticle(EnumParticle.ENCHANTMENT_TABLE, e.getClickedBlock().getLocation().add(0.5, 0.5, 0.5), 10);
+                PacketWizard.sendParticle(EnumParticle.CRIT_MAGIC, e.getClickedBlock().getLocation().add(0.5, 0.5, 0.5), 10);
+                PacketWizard.sendParticle(EnumParticle.VILLAGER_HAPPY, e.getClickedBlock().getLocation().add(0.5, 0.5, 0.5), 10);
                 if (e.getItem().getAmount() > 1) {
                     e.getItem().setAmount(e.getItem().getAmount() - 1);
                 }
