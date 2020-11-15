@@ -47,7 +47,7 @@ public class AstrumSword implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
-        if (e.getItem() != null && TagWizard.getItemTag(e.getItem(), "id").equals("astrum_sword")) {
+        if (e.getItem() != null && TagWizard.getItemTag(e.getItem(), "id") != null && TagWizard.getItemTag(e.getItem(), "id").equals("astrum_sword")) {
             e.getItem().setDurability((short) 0);
         }
     }
