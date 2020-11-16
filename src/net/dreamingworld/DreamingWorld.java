@@ -114,7 +114,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         Foodcraft.initialize();
         BossKills.initialize();
 
-        researchManager.IntializeResearchItems(); //please keep this after anything which creates new researches
+        researchManager.initializeResearchItems(); // Please keep this after anything which creates new researches
 
         recipeBook = new RecipeBook();
 

@@ -12,6 +12,7 @@ import org.bukkit.block.Biome;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class WhitePyramidTree extends Structure {
+
     public WhitePyramidTree() {
         chance = 2;
         worlds.add(WorldType.NORMAL);
@@ -34,9 +35,9 @@ public class WhitePyramidTree extends Structure {
                 builder.buildCustomBlock(0, i - 2, 0, "white_log");
                 builder.buildCustomBlock(0, i - 3, 0, "white_log");
                 builder.buildCustomBlock(0, i - 4, 0, "white_log");
-                for (int i2 = 1; i2 < height - (i/4); i2++) {
 
-                    int i2_ = MathHelper.clamp(i2, 0, (int) (height/1.5));
+                for (int i2 = 1; i2 < height - (i / 4); i2++) {
+                    int i2_ = MathHelper.clamp(i2, 0, (int) (height / 1.5));
 
                     builder.buildCustomBlock(i2_, i2_ + (height / 4) + i, 0, "white_log");
                     builder.buildCustomBlock(i2_, i2_ + 1 + (height / 4) + i, 0, "holy_leaf");
@@ -50,7 +51,7 @@ public class WhitePyramidTree extends Structure {
                     builder.buildCustomBlock(0, i2_ + (height / 4) + i, -i2_, "white_log");
                     builder.buildCustomBlock(0, i2_ + 1 + (height / 4) + i, -i2_, "holy_leaf");
                 }
-                finalHeight = i-1;
+                finalHeight = i - 1;
             }
             builder.buildCustomBlock(0, finalHeight, 0, "holy_leaf");
     }

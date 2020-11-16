@@ -21,10 +21,7 @@ public class ResearchManager {
     private Map<String, ItemStack> researchFinalBooks;
     private Map<String, ItemStack> researchBooks;
 
-
-    /**
-     * First one is which one and second one is from what
-     */
+    // First one is which one and second one is from what
     private Map<String, String> researchedFrom;
 
     public ResearchManager() {
@@ -32,8 +29,9 @@ public class ResearchManager {
         researches = new HashMap<>();
     }
 
-    public void IntializeResearchItems() {
+    public void initializeResearchItems() {
         DreamingWorld.getInstance().getBlockManager().registerBlock(new ResearchBlock());
+
         for (Map.Entry<String, Research> x : researches.entrySet()) {
             ItemStack item = new ItemStack(Material.WRITTEN_BOOK);
             BookMeta meta = x.getValue().book;
@@ -50,7 +48,6 @@ public class ResearchManager {
             TagWizard.addItemTag(item, "research", x.getKey());
 
             researchFinalBooks.put(x.getKey(), item);
-
         }
 
         for (Map.Entry<String, Research> x : researches.entrySet()) {
@@ -92,7 +89,7 @@ public class ResearchManager {
     }
 
     /**
-       * returns researches which have this research as there parent
+     * @return researches which have this research as there parent
      */
     public List<String> getResearchChildren(String id) {
         List<String> researches = new ArrayList<>();
@@ -107,12 +104,12 @@ public class ResearchManager {
     }
 
     /**
-     * returns if player has specific research item in there inventory
+     * @return true if player has specific research item in there inventory
      */
-    public Boolean PlayerHasResearch(Player p, String research) {
+    public boolean playerHasResearch(Player p, String research) {
         for (ItemStack x : p.getInventory().getContents()) {
             if (x.getType() == Material.WRITTEN_BOOK && TagWizard.getItemTag(x, "final_research") != null) {
-                if (TagWizard.getItemTag(x, "research").equals(research)) {
+                if (research.equals(TagWizard.getItemTag(x, "research"))) {
                     return true;
                 }
             }
