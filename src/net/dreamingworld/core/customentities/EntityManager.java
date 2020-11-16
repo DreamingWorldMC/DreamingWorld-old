@@ -83,6 +83,8 @@ public class EntityManager implements Listener {
                 ent.addPotionEffects(entities.get(entity).effects);
             }
 
+            entities.get(entity).callOnSpawn(ent);
+
             ent.setRemoveWhenFarAway(true);
             return ent;
         }
@@ -113,6 +115,8 @@ public class EntityManager implements Listener {
             if (entities.get(entity).effects != null) {
                 ent.addPotionEffects(entities.get(entity).effects);
             }
+
+            entities.get(entity).callOnSpawn(ent);
 
             ent.setRemoveWhenFarAway(true);
             return ent;

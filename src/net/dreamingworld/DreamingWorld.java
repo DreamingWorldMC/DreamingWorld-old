@@ -16,6 +16,7 @@ import net.dreamingworld.core.customfood.FoodManager;
 import net.dreamingworld.core.guilds.Guilds;
 import net.dreamingworld.core.guilds.commands.CommandGuild;
 import net.dreamingworld.core.manainfusion.ManaInfusionManager;
+import net.dreamingworld.core.research.ResearchManager;
 import net.dreamingworld.core.structures.StructureManager;
 import net.dreamingworld.gameplay.alloys.*;
 import net.dreamingworld.core.ItemManager;
@@ -62,6 +63,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     private SmeltingManager smeltingManager;
     private StructureManager structureManager;
     private Guilds guildManager;
+    private ResearchManager researchManager;
 
     public void onEnable() {
         inst = this;
@@ -82,6 +84,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         smeltingManager = new SmeltingManager();
         structureManager = new StructureManager();
         guildManager = new Guilds();
+        researchManager = new ResearchManager();
 
         Bukkit.getPluginManager().registerEvents(fishManager, this);
         Bukkit.getPluginManager().registerEvents(alloyManager, this);
@@ -110,6 +113,8 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         Fishing.initialize();
         Foodcraft.initialize();
         BossKills.initialize();
+
+        researchManager.IntializeResearchItems(); //please keep this after anything which creates new researches
 
         recipeBook = new RecipeBook();
 
@@ -178,4 +183,6 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     public Guilds getGuildManager() {
         return guildManager;
     }
+
+    public ResearchManager getResearchManager() { return researchManager; }
 }

@@ -22,8 +22,7 @@ public class WhitePyramidTree extends Structure {
 
     @Override
     public void generate(EasyBuilder builder) {
-        Bukkit.getScheduler().runTaskAsynchronously(DreamingWorld.getInstance(), () -> {
-            int height = ThreadLocalRandom.current().nextInt(4, 12 + 1);
+            int height = ThreadLocalRandom.current().nextInt(2, 4 + 1);
             int finalHeight = 0;
 
             for (int i = 0; i <= height / 2 ; i++) {
@@ -37,7 +36,7 @@ public class WhitePyramidTree extends Structure {
                 builder.buildCustomBlock(0, i - 4, 0, "white_log");
                 for (int i2 = 1; i2 < height - (i/4); i2++) {
 
-                    int i2_ = MathHelper.clamp(i2, 0, height/2);
+                    int i2_ = MathHelper.clamp(i2, 0, (int) (height/1.5));
 
                     builder.buildCustomBlock(i2_, i2_ + (height / 4) + i, 0, "white_log");
                     builder.buildCustomBlock(i2_, i2_ + 1 + (height / 4) + i, 0, "holy_leaf");
@@ -54,6 +53,5 @@ public class WhitePyramidTree extends Structure {
                 finalHeight = i-1;
             }
             builder.buildCustomBlock(0, finalHeight, 0, "holy_leaf");
-        });
     }
 }

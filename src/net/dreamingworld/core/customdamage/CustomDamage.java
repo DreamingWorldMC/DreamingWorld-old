@@ -33,10 +33,9 @@ public class CustomDamage implements Listener {
 
     @EventHandler
     public void onEntityDamagedByEntity(EntityDamageByEntityEvent e) {
-        double finalDamage = DreamingWorld.getInstance().getCustomWeaponManager().getWeapon(TagWizard.getItemTag(((LivingEntity) e.getDamager()).getEquipment().getItemInHand(), "id"));
-
+        double finalDamage = e.getDamage();
         if (e.getDamager() instanceof LivingEntity) {
-
+            finalDamage = DreamingWorld.getInstance().getCustomWeaponManager().getWeapon(TagWizard.getItemTag(((LivingEntity) e.getDamager()).getEquipment().getItemInHand(), "id"));
             if (finalDamage == -1) {
                 finalDamage = e.getDamage();
             }
@@ -45,15 +44,17 @@ public class CustomDamage implements Listener {
                 finalDamage = DreamingWorld.getInstance().getEntityManager().getDamage((LivingEntity) e.getDamager());
             }
 
-            if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_ALL)) {
-                finalDamage += ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ALL);
-            } else if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_UNDEAD)) {
-                if (e.getEntityType().equals(EntityType.SKELETON) || e.getEntityType().equals(EntityType.ZOMBIE) || e.getEntityType().equals(EntityType.PIG_ZOMBIE)) {
-                    finalDamage += 3 * ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_UNDEAD);
-                }
-            } else if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_ARTHROPODS)) {
-                if (e.getEntityType().equals(EntityType.SPIDER) || e.getEntityType().equals(EntityType.CAVE_SPIDER)) {
-                    finalDamage += 3 * ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS);
+            if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand() != null && ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().hasItemMeta()) {
+                if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_ALL)) {
+                    finalDamage += ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ALL);
+                } else if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_UNDEAD)) {
+                    if (e.getEntityType().equals(EntityType.SKELETON) || e.getEntityType().equals(EntityType.ZOMBIE) || e.getEntityType().equals(EntityType.PIG_ZOMBIE)) {
+                        finalDamage += 3 * ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_UNDEAD);
+                    }
+                } else if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_ARTHROPODS)) {
+                    if (e.getEntityType().equals(EntityType.SPIDER) || e.getEntityType().equals(EntityType.CAVE_SPIDER)) {
+                        finalDamage += 3 * ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS);
+                    }
                 }
             }
             for (PotionEffect x : ((LivingEntity) e.getDamager()).getActivePotionEffects()) {
