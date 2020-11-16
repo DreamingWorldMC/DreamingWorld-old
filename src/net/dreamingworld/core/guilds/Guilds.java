@@ -1,15 +1,25 @@
 package net.dreamingworld.core.guilds;
 
 import net.dreamingworld.DreamingWorld;
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.util.Vector;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-public class Guilds implements Listener {
+public class Guilds implements Listener, Runnable {
 
     private File file;
     private YamlConfiguration config;
@@ -21,6 +31,8 @@ public class Guilds implements Listener {
         if (config.getConfigurationSection("guilds") == null) {
             config.createSection("guilds");
         }
+
+        Bukkit.getScheduler().runTaskTimerAsynchronously(DreamingWorld.getInstance(), this, 0, 100);
     }
 
 
@@ -40,11 +52,111 @@ public class Guilds implements Listener {
         ConfigurationSection guild = config.getConfigurationSection("guilds").createSection(name);
         guild.set("owner", ownerUuid);
 
-        ConfigurationSection players = guild.createSection("players");
-        players.set(ownerUuid, "owner");
+        guild.createSection("chunks");
+
+        addPlayerToGuild(owner, name, "owner");
 
         return 0;
     }
+
+    public int removeGuild(String name) {
+        ConfigurationSection g = config.getConfigurationSection("guilds");
+        Set<String> guilds = g.getKeys(false);
+
+        if (!guilds.contains(name)) {
+            return -1;
+        }
+
+        g.set(name, null);
+
+        return 0;
+    }
+
+
+    public List<Chunk> getGuildChunkList(String name) {
+        ConfigurationSection guild = config.getConfigurationSection("guilds").getConfigurationSection(name);
+
+        if (guild == null) {
+            Bukkit.broadcastMessage("a");
+            return new ArrayList<>();
+        }
+
+        ConfigurationSection chunks = guild.getConfigurationSection("chunks");
+
+        if (chunks == null) {
+            return new ArrayList<>();
+        }
+
+        Set<String> worlds = chunks.getKeys(false);
+
+        List<Chunk> chnks = new ArrayList<>();
+
+        for (String w : worlds) {
+            List<String> c = chunks.getStringList(w);
+
+            for (String ch : c) {
+                String[] coords = ch.split("_");
+                chnks.add(Bukkit.getWorld(w).getChunkAt(Integer.parseInt(coords[0]), Integer.parseInt(coords[1])));
+            }
+        }
+
+        return chnks;
+    }
+
+
+    public String getChunkOwner(Chunk chunk) {
+        ConfigurationSection chunks = config.getConfigurationSection("chunks");
+
+        if (chunks == null) {
+            return null;
+        }
+
+        return chunks.getString(chunk.getX() + "_" + chunk.getZ());
+    }
+
+    public void setChunkOwner(Chunk chunk, String guild) {
+        ConfigurationSection chunks = config.getConfigurationSection("chunks");
+
+        if (chunks == null) {
+            chunks = config.createSection("chunks");
+        }
+
+        chunks.set(chunk.getX() + "_" + chunk.getZ(), guild);
+    }
+
+    public int giveChunk(Chunk chunk, String guild) {
+        Set<String> guilds = config.getConfigurationSection("guilds").getKeys(false);
+
+        if (!guilds.contains(guild)) {
+            return -1;
+        }
+
+        ConfigurationSection chunks = config.getConfigurationSection("chunks");
+
+        if (chunks == null) {
+            config.createSection("chunks");
+        }
+
+        String o = getChunkOwner(chunk);
+
+        if (o != null) {
+            return guild.equals(o) ? -2 : -3;
+        }
+
+        setChunkOwner(chunk, guild);
+
+        List<String> ch = config.getConfigurationSection("guilds").getConfigurationSection(guild).getConfigurationSection("chunks").getStringList(chunk.getWorld().getName());
+
+        if (ch == null) {
+            ch = new ArrayList<>();
+        }
+
+        ch.add(chunk.getX() + "_" + chunk.getZ());
+        config.getConfigurationSection("guilds").getConfigurationSection(guild).getConfigurationSection("chunks").set(chunk.getWorld().getName(), ch);
+
+        return 0;
+    }
+
 
     public String[] getPlayerGuild(Player player) {
         Set<String> guilds = config.getConfigurationSection("guilds").getKeys(false);
@@ -68,6 +180,22 @@ public class Guilds implements Listener {
     }
 
 
+    public Set<String> getGuildMembers(String guild) {
+        ConfigurationSection g = config.getConfigurationSection("guilds").getConfigurationSection(guild);
+
+        if (g == null) {
+            return null;
+        }
+
+        ConfigurationSection pl = g.getConfigurationSection("players");
+
+        if (pl == null) {
+            return new HashSet<>();
+        }
+
+        return pl.getKeys(false);
+    }
+
     public int addPlayerToGuild(Player player, String guild, String role) {
         ConfigurationSection g = config.getConfigurationSection("guilds").getConfigurationSection(guild);
 
@@ -78,15 +206,25 @@ public class Guilds implements Listener {
         ConfigurationSection pl = g.getConfigurationSection("players");
 
         if (pl == null) {
-            return -1;
+            pl = g.createSection("players");
         }
 
-        
+        pl.set(player.getUniqueId().toString(), role);
 
         return 0;
     }
 
-    public void removePlayerFromGuild() {
+    public int removePlayerFromGuild(Player player, String guild) {
+        return addPlayerToGuild(player, guild, null);
+    }
 
+
+    @Override
+    public void run() {
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
