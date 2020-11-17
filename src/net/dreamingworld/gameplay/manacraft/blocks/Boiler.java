@@ -45,7 +45,6 @@ public class Boiler extends CustomBlock implements Listener {
         recipe.setCustomIngredient('N', "ignium");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
-        Bukkit.getPluginManager().registerEvents(this, DreamingWorld.getInstance());
     }
 
     @Override

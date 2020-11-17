@@ -33,6 +33,11 @@ public class CustomDamage implements Listener {
 
     @EventHandler
     public void onEntityDamagedByEntity(EntityDamageByEntityEvent e) {
+        if (!(e.getEntity() instanceof LivingEntity)) {
+            return;
+        }
+
+
         double finalDamage = e.getDamage();
         if (e.getDamager() instanceof LivingEntity) {
             finalDamage = DreamingWorld.getInstance().getCustomWeaponManager().getWeapon(TagWizard.getItemTag(((LivingEntity) e.getDamager()).getEquipment().getItemInHand(), "id"));

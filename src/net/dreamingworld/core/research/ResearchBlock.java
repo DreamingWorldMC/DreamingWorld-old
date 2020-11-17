@@ -46,7 +46,6 @@ public class ResearchBlock extends CustomBlock implements Listener {
         recipe.setCustomIngredient('N', "white_planks");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
-        Bukkit.getPluginManager().registerEvents(this,DreamingWorld.getInstance());
 }
 
     @Override
@@ -68,8 +67,9 @@ public class ResearchBlock extends CustomBlock implements Listener {
         e.setCancelled(true);
         BlockDataManager bdm = DreamingWorld.getInstance().getBlockManager().getBlockDataManager();
 
+
         if (bdm.getBlockTag(e.getClickedBlock().getLocation(), "current_research").equals("non") && e.getItem() != null) {
-            if (TagWizard.getItemTag(e.getItem(), "id").equals("research")) {
+            if (TagWizard.getItemTag(e.getItem(), "id") != null && TagWizard.getItemTag(e.getItem(), "id").equals("research")) {
                 e.getPlayer().getInventory().setItemInHand(new ItemStack(Material.AIR));
                 bdm.setBlockTag(e.getClickedBlock().getLocation(), "current_research", TagWizard.getItemTag(e.getItem(), "research"));
             }
