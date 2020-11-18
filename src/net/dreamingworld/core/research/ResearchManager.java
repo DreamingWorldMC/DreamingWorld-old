@@ -3,7 +3,7 @@ package net.dreamingworld.core.research;
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.Util;
-import net.dreamingworld.gameplay.manacraft.blocks.SteamTurbine;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -27,10 +27,14 @@ public class ResearchManager {
     public ResearchManager() {
         researchedFrom = new HashMap<>();
         researches = new HashMap<>();
+        researchFinalBooks = new HashMap<>();
+        researchBooks = new HashMap<>();
     }
 
     public void initializeResearchItems() {
         DreamingWorld.getInstance().getBlockManager().registerBlock(new ResearchBlock());
+
+        addResearch(new BasicResearch());
 
         for (Map.Entry<String, Research> x : researches.entrySet()) {
             ItemStack item = new ItemStack(Material.WRITTEN_BOOK);
@@ -57,7 +61,7 @@ public class ResearchManager {
 
             List<String> lore = new ArrayList<>();
 
-            meta.setPage(0, "∷ᒷᓭ∴ᔑ∷ᓵ⍑ \n \n Unfinished Research");
+            meta.addPage("∷ᒷᓭ∴ᔑ∷ᓵ⍑ \n \n Unfinished Research");
 
             lore.add(x.getValue().name);
 
@@ -70,6 +74,7 @@ public class ResearchManager {
             researchBooks.put(x.getKey(), item);
 
         }
+        new ResearchRecipes();
     }
 
     public void addResearch(Research research) {
