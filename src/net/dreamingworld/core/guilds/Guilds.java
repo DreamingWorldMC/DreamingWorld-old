@@ -1,25 +1,29 @@
 package net.dreamingworld.core.guilds;
 
 import net.dreamingworld.DreamingWorld;
+import net.dreamingworld.core.PacketWizard;
+import net.dreamingworld.core.TagWizard;
+import net.dreamingworld.core.Util;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.configuration.Configuration;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.util.Vector;
+import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-public class Guilds implements Listener, Runnable {
+public class Guilds implements Listener {
 
     private File file;
     private YamlConfiguration config;
@@ -32,7 +36,23 @@ public class Guilds implements Listener, Runnable {
             config.createSection("guilds");
         }
 
-        Bukkit.getScheduler().runTaskTimerAsynchronously(DreamingWorld.getInstance(), this, 0, 100);
+
+        Bukkit.getScheduler().runTaskTimerAsynchronously(DreamingWorld.getInstance(), () -> { // Player actionbar update
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                String o = getChunkOwner(player.getLocation().getChunk());
+                String g = o == null ? Util.formatString("&4Wilderness") : DreamingWorld.primaryColor + o;
+
+                PacketWizard.sendActionBar(player, "[" + g + ChatColor.RESET + "]");
+            }
+        }, 0, 20);
+
+        Bukkit.getScheduler().runTaskTimerAsynchronously(DreamingWorld.getInstance(), () -> { // Config save
+            try {
+                config.save(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }, 0, 100);
     }
 
 
@@ -65,6 +85,14 @@ public class Guilds implements Listener, Runnable {
 
         if (!guilds.contains(name)) {
             return -1;
+        }
+
+        ConfigurationSection sect = g.getConfigurationSection(name).getConfigurationSection("chunks");
+
+        for (String world : sect.getKeys(false)) {
+            for (String chunk : sect.getStringList(world)) {
+                config.getConfigurationSection("chunks").set(chunk, null);
+            }
         }
 
         g.set(name, null);
@@ -219,12 +247,69 @@ public class Guilds implements Listener, Runnable {
     }
 
 
-    @Override
-    public void run() {
-        try {
-            config.save(file);
-        } catch (IOException e) {
-            e.printStackTrace();
+    @EventHandler
+    public void onPlace(BlockPlaceEvent e) {
+        cancelPrivatized(e, e.getPlayer(), e.getBlock().getChunk());
+    }
+
+    @EventHandler
+    public void onBreak(BlockBreakEvent e) {
+        cancelPrivatized(e, e.getPlayer(), e.getBlock().getChunk());
+    }
+
+    @EventHandler
+    public void onWaterFlow(BlockFromToEvent e) {
+        String a = getChunkOwner(e.getBlock().getChunk());
+        String b = getChunkOwner(e.getToBlock().getChunk());
+
+        if (!Objects.equals(a, b) && !(a != null && b == null)) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onExplosion(EntityExplodeEvent e) {
+        for (Block block : e.blockList()) {
+            if (getChunkOwner(block.getChunk()) != null) {
+                e.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPistonExtend(BlockPistonExtendEvent e) {
+        handlePiston(e.getBlocks(), e);
+    }
+
+    @EventHandler
+    public void onPistonRetract(BlockPistonRetractEvent e) {
+        handlePiston(e.getBlocks(), e);
+    }
+
+    private void handlePiston(List<Block> blockList, BlockPistonEvent e) {
+        if (e.getBlock() == null) {
+            return;
+        }
+
+        String o = getChunkOwner(e.getBlock().getChunk());
+
+        for (Block block : blockList) {
+            String g = getChunkOwner(block.getChunk());
+
+            if (!Objects.equals(g, o) && !(o != null && g == null)) {
+                e.setCancelled(true);
+                return;
+            }
+        }
+    }
+
+    private void cancelPrivatized(Cancellable e, Player player, Chunk chunk) {
+        String o = getChunkOwner(chunk);
+        String g = getPlayerGuild(player)[0];
+
+        if (o != null && !Objects.equals(o, g)) {
+            player.sendMessage(Util.formatString("$(PC)This chunk belongs to $(SC)" + o + "$(PC). Hands off!"));
+            e.setCancelled(true);
         }
     }
 }

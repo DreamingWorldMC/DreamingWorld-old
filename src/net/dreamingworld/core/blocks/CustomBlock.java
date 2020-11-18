@@ -84,9 +84,7 @@ public abstract class CustomBlock implements Runnable, Listener {
         }
 
         for (Block block : blockList) {
-            Location location = block.getLocation();
-
-            if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(location) != null) {
+            if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(block.getLocation()) != null) {
                 e.setCancelled(true);
                 return;
             }
