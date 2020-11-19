@@ -17,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
@@ -63,7 +64,6 @@ public class ResearchBlock extends CustomBlock implements Listener {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK || e.getClickedBlock() == null || DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()) == null || !"research_block".equals(DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()))) {
             return;
         }
-
         e.setCancelled(true);
         BlockDataManager bdm = DreamingWorld.getInstance().getBlockManager().getBlockDataManager();
         ResearchManager rm = DreamingWorld.getInstance().getResearchManager();
@@ -99,7 +99,11 @@ public class ResearchBlock extends CustomBlock implements Listener {
             }
 
             if (cr.items.size() <= Integer.parseInt(bdm.getBlockTag(e.getClickedBlock().getLocation(), "current_stage"))) {
-                e.getPlayer().getInventory().addItem(rm.getFinalResearchItem(cr.id));
+                ItemStack itemm = rm.getFinalResearchItem(cr.id);
+                BookMeta meta = ((BookMeta)itemm.getItemMeta());
+                meta.setAuthor(e.getPlayer().getDisplayName());
+                itemm.setItemMeta(meta);
+                e.getClickedBlock().getWorld().dropItem(e.getClickedBlock().getLocation().add(0,1,0), itemm);
                 DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(e.getClickedBlock().getLocation(), "current_research", "non");
                 DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(e.getClickedBlock().getLocation(), "current_stage", "0");
                 PacketWizard.sendParticle(EnumParticle.SMOKE_LARGE, e.getClickedBlock().getLocation().add(0.5, 1, 0.5), 10);

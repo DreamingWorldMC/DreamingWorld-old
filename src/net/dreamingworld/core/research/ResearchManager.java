@@ -33,6 +33,7 @@ public class ResearchManager {
 
     public void initializeResearchItems() {
         DreamingWorld.getInstance().getBlockManager().registerBlock(new ResearchBlock());
+        DreamingWorld.getInstance().getBlockManager().registerBlock(new ResearchChildBlock());
 
         addResearch(new BasicResearch());
 
@@ -64,7 +65,7 @@ public class ResearchManager {
             meta.addPage("∷ᒷᓭ∴ᔑ∷ᓵ⍑ \n \n Unfinished Research");
 
             lore.add(x.getValue().name);
-
+            meta.setAuthor("no one");
             meta.setLore(lore);
             item.setItemMeta(meta);
 
