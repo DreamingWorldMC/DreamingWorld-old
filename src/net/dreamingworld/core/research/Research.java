@@ -9,9 +9,7 @@ public class Research {
     protected String name;
     protected String description;
 
-    /**
-     * First string is riddle, second string is item, to put vanilla item you have to type in Material.item.ToString();
-     */
+    // First string is riddle, second string is item, to put vanilla item you have to type in Material.ITEM.toString();
     protected Map<String, String> items;
 
     protected BookMeta book;

@@ -63,6 +63,7 @@ public class ResearchBlock extends CustomBlock implements Listener {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK || e.getClickedBlock() == null || DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()) == null || !"research_block".equals(DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()))) {
             return;
         }
+
         e.setCancelled(true);
         BlockDataManager bdm = DreamingWorld.getInstance().getBlockManager().getBlockDataManager();
         ResearchManager rm = DreamingWorld.getInstance().getResearchManager();
@@ -89,15 +90,15 @@ public class ResearchBlock extends CustomBlock implements Listener {
                 item = e.getItem().getType().toString();
             }
 
-            if (cr.items.values().toArray()[Integer.valueOf(bdm.getBlockTag(e.getClickedBlock().getLocation(), "current_stage"))].equals(item)) {
+            if (cr.items.values().toArray()[Integer.parseInt(bdm.getBlockTag(e.getClickedBlock().getLocation(), "current_stage"))].equals(item)) {
                 PacketWizard.sendParticle(EnumParticle.HEART, e.getClickedBlock().getLocation().add(0.5, 1, 0.5), 10);
-                bdm.setBlockTag(e.getClickedBlock().getLocation(), "current_stage", String.valueOf(Integer.valueOf(bdm.getBlockTag(e.getClickedBlock().getLocation(), "current_stage")) + 1));
+                bdm.setBlockTag(e.getClickedBlock().getLocation(), "current_stage", String.valueOf(Integer.parseInt(bdm.getBlockTag(e.getClickedBlock().getLocation(), "current_stage")) + 1));
             }
             else {
-                e.getPlayer().sendMessage((String) cr.items.keySet().toArray()[Integer.valueOf(bdm.getBlockTag(e.getClickedBlock().getLocation(), "current_stage"))]);
+                e.getPlayer().sendMessage((String) cr.items.keySet().toArray()[Integer.parseInt(bdm.getBlockTag(e.getClickedBlock().getLocation(), "current_stage"))]);
             }
 
-            if (cr.items.size() <= Integer.valueOf(bdm.getBlockTag(e.getClickedBlock().getLocation(), "current_stage"))) {
+            if (cr.items.size() <= Integer.parseInt(bdm.getBlockTag(e.getClickedBlock().getLocation(), "current_stage"))) {
                 e.getPlayer().getInventory().addItem(rm.getFinalResearchItem(cr.id));
                 DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(e.getClickedBlock().getLocation(), "current_research", "non");
                 DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(e.getClickedBlock().getLocation(), "current_stage", "0");

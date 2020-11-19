@@ -6,7 +6,8 @@ import org.bukkit.inventory.meta.BookMeta;
 
 import java.util.HashMap;
 
-public class BasicResearch extends Research{
+public class BasicResearch extends Research {
+
     public BasicResearch() {
         id = "basics";
         name = "Basics";
