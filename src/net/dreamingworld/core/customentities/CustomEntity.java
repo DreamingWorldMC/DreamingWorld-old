@@ -1,6 +1,7 @@
 package net.dreamingworld.core.customentities;
 
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
@@ -12,6 +13,7 @@ public class CustomEntity {
     protected String name;
     protected int health;
     protected EntityType entityType;
+    protected int damage = 3;
 
     protected int expDrop;
     protected Map<ItemStack, Integer> drops;
@@ -25,6 +27,8 @@ public class CustomEntity {
     protected String spawnType;
 
     protected boolean hasArmor;
+
+    protected void callOnSpawn(LivingEntity e) {};
 
     protected List<PotionEffect> effects;
 }

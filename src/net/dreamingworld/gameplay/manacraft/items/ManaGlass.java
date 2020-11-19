@@ -61,6 +61,8 @@ public class ManaGlass implements Listener {
             String maxmana = DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(e.getClickedBlock().getLocation(), "capacity");
             String mana = DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(e.getClickedBlock().getLocation(), "storedMana");
             String inputs = DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(e.getClickedBlock().getLocation(), "inputs");
+            String vapour = DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(e.getClickedBlock().getLocation(), "vapour");
+            String fuel = DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(e.getClickedBlock().getLocation(), "fuel_left");
 
             if (mana != null) {
                 e.getPlayer().sendMessage(Util.formatString("&bContains: &7" + mana + " §9lmml"));
@@ -70,6 +72,12 @@ public class ManaGlass implements Listener {
             }
             if (inputs != null) {
                 e.getPlayer().sendMessage(Util.formatString("&bCapacitors it takes mana from: &7" + inputs));
+            }
+            if (vapour != null) {
+                e.getPlayer().sendMessage(Util.formatString("&bIt has: &7" + vapour + " §9units of vapour left"));
+            }
+            if (fuel != null) {
+                e.getPlayer().sendMessage(Util.formatString("&bIt has: &7" + fuel + " §9units of fuel left"));
             }
 
         }

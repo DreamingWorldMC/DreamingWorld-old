@@ -1,8 +1,6 @@
 package net.dreamingworld.core.manainfusion;
 
-import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.TagWizard;
-import net.dreamingworld.gameplay.manacraft.blocks.ManaInfuser;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;

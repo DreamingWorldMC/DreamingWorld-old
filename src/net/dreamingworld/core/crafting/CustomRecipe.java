@@ -62,11 +62,11 @@ public class CustomRecipe {
 
     protected boolean isValid(ItemStack[] matrix) {
         List<String> items = new ArrayList<>();
-        List<String> items2 = new ArrayList<>();
-        ItemStack item;
+        //List<String> items2 = new ArrayList<>();
+
         for (String i1 : shape) {
             for (char i2 : i1.toCharArray()) {
-                item = customItems.containsKey(i2) ? DreamingWorld.getInstance().getItemManager().get(customItems.get(i2)) : vanillaItems.containsKey(i2) ? new ItemStack(vanillaItems.get(i2)) : new ItemStack(Material.AIR, 0);
+                ItemStack item = customItems.containsKey(i2) ? DreamingWorld.getInstance().getItemManager().get(customItems.get(i2)) : vanillaItems.containsKey(i2) ? new ItemStack(vanillaItems.get(i2)) : new ItemStack(Material.AIR, 0);
                 if (TagWizard.getItemTag(item, "id") != null) {
                     items.add(TagWizard.getItemTag(item, "id"));
                 } else {
@@ -75,22 +75,17 @@ public class CustomRecipe {
             }
         }
 
+        int j = 0;
         for (ItemStack i : matrix) {
             if (i == null) {
                 break;
             }
 
-            if (TagWizard.getItemTag(i, "id") != null) {
-                items2.add(TagWizard.getItemTag(i, "id"));
-            } else {
-                items2.add(i.getType().toString());
-            }
-        }
-
-        for (int i = 0; i < items.size(); i++) {
-            if (!items.get(i).equals(items2.get(i))) {
+            if (!items.get(j).equals(TagWizard.getItemTag(i, "id") != null ? TagWizard.getItemTag(i, "id") : i.getType().toString())) {
                 return false;
             }
+
+            j++;
         }
 
         return true;

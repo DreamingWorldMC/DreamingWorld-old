@@ -14,6 +14,10 @@ public class StructureManager {
     private Map<String, Structure> structures;
 
     public StructureManager() {
+        for (World world : Bukkit.getWorlds()) {
+            world.getPopulators().clear();
+        }
+
         structures = new HashMap<>();
     }
 
@@ -22,8 +26,6 @@ public class StructureManager {
         Bukkit.getPluginManager().registerEvents(structure, DreamingWorld.getInstance());
 
         for (World world : Bukkit.getWorlds()) {
-            world.getPopulators().clear();
-
             if (structure.worlds.contains(world.getWorldType())) {
                 world.getPopulators().add(structure);
             }

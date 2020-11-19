@@ -25,45 +25,64 @@ public class CustomDamage implements Listener {
 
     private Map<EntityDamageEvent.DamageCause, String> deathMsg;
 
+    private Boolean now;
+
     public CustomDamage() {
         deathMsg = new HashMap<>();
     }
 
     @EventHandler
     public void onEntityDamagedByEntity(EntityDamageByEntityEvent e) {
-        double finalDamage = DreamingWorld.getInstance().getCustomWeaponManager().getWeapon(TagWizard.getItemTag(((LivingEntity) e.getDamager()).getEquipment().getItemInHand(), "id"));
-
-        if (finalDamage == -1) {
-            finalDamage = e.getDamage();
+        if (!(e.getEntity() instanceof LivingEntity)) {
+            return;
         }
 
-        if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_ALL)) {
-            finalDamage += ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ALL);
-        }
-        else if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_UNDEAD)) {
-            if (e.getEntityType().equals(EntityType.SKELETON) || e.getEntityType().equals(EntityType.ZOMBIE) || e.getEntityType().equals(EntityType.PIG_ZOMBIE)) {
-                finalDamage += 3 * ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_UNDEAD);
+
+        double finalDamage = e.getDamage();
+        if (e.getDamager() instanceof LivingEntity) {
+            finalDamage = DreamingWorld.getInstance().getCustomWeaponManager().getWeapon(TagWizard.getItemTag(((LivingEntity) e.getDamager()).getEquipment().getItemInHand(), "id"));
+            if (finalDamage == -1) {
+                finalDamage = e.getDamage();
             }
-        }
-        else if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_ARTHROPODS)) {
-            if (e.getEntityType().equals(EntityType.SPIDER) || e.getEntityType().equals(EntityType.CAVE_SPIDER)) {
-                finalDamage += 3 * ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS);;
+
+            if (DreamingWorld.getInstance().getEntityManager().getDamage((LivingEntity) e.getDamager()) != -1) {
+                finalDamage = DreamingWorld.getInstance().getEntityManager().getDamage((LivingEntity) e.getDamager());
             }
-        }
 
-        if (e.getDamager().getVelocity().getY() < -0.5) {
-            finalDamage *= 1.5;
-        }
+            if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand() != null && ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().hasItemMeta()) {
+                if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_ALL)) {
+                    finalDamage += ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ALL);
+                } else if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_UNDEAD)) {
+                    if (e.getEntityType().equals(EntityType.SKELETON) || e.getEntityType().equals(EntityType.ZOMBIE) || e.getEntityType().equals(EntityType.PIG_ZOMBIE)) {
+                        finalDamage += 3 * ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_UNDEAD);
+                    }
+                } else if (((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().hasEnchant(Enchantment.DAMAGE_ARTHROPODS)) {
+                    if (e.getEntityType().equals(EntityType.SPIDER) || e.getEntityType().equals(EntityType.CAVE_SPIDER)) {
+                        finalDamage += 3 * ((LivingEntity) e.getDamager()).getEquipment().getItemInHand().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS);
+                    }
+                }
+            }
+            for (PotionEffect x : ((LivingEntity) e.getDamager()).getActivePotionEffects()) {
+                if (x.getType().equals(PotionEffectType.INCREASE_DAMAGE)) {
+                    finalDamage *= 1 + (x.getAmplifier()*0.5);
+                }
+            }
 
-        if (e.getEntity() instanceof Player) {
-            if (((Player) e.getEntity()).isBlocking()) {
-                finalDamage *= 0.5;
+            if (e.getDamager().getVelocity().getY() < -0.15) {
+                finalDamage *= 1.5;
+            }
+
+            if (e.getEntity() instanceof Player) {
+                if (((Player) e.getEntity()).isBlocking()) {
+                    finalDamage *= 0.5;
+                }
             }
         }
 
         EntityDamageEvent newEvent = new EntityDamageEvent(e.getEntity(), e.getCause(), e.getDamage());
         e.setDamage(0);
         if (e.getEntity() instanceof Player) {
+            now = true;
             onPlayerDamage(newEvent);
         } else {
             if (((LivingEntity) e.getEntity()).getHealth() - finalDamage > 0) {
@@ -77,9 +96,12 @@ public class CustomDamage implements Listener {
 
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent e) {
-        if (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) {
+        if (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) && now != true) {
             return;
         }
+
+        now = false;
+
         if (e.getEntity() instanceof Player) {
             double startDamage = e.getDamage();
             int armorPoints = 0;
@@ -175,6 +197,12 @@ public class CustomDamage implements Listener {
                     if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_PROJECTILE) && e.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
                         armorPoints += armorItem.getEnchantments().get(Enchantment.PROTECTION_PROJECTILE) * 3;
                     }
+                    for (PotionEffect x : ((Player) e.getEntity()).getActivePotionEffects()) {
+                        if (x.getType().equals(PotionEffectType.ABSORPTION)) {
+                            armorPoints += x.getAmplifier() * 5;
+                        }
+                    }
+
                 }
             }
 
@@ -185,7 +213,6 @@ public class CustomDamage implements Listener {
                 removeDMG += startDamage * MathHelper.clamp(armorPoints, 20, 75) * 0.5 / 100;
 
             int resDamage = MathHelper.clamp((int) startDamage - (int) removeDMG, 0, 10000);
-
 
             if (!((Player) e.getEntity()).hasPotionEffect(PotionEffectType.ABSORPTION)) {
                 if (((Player) e.getEntity()).getHealth() - resDamage > 0) {

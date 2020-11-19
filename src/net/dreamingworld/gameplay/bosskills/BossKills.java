@@ -10,7 +10,7 @@ public class BossKills {
 
     public static void initialize() {
         long begin = System.currentTimeMillis();
-        // mics
+        // misc
         new DeathMessages();
 
         // items
@@ -24,6 +24,6 @@ public class BossKills {
 
         long time = System.currentTimeMillis() - begin;
 
-        DreamingWorld.getInstance().getLogger().info("Bossskills initialized [" + time + " ms]");
+        DreamingWorld.getInstance().getLogger().info("Bosskills initialized [" + time + " ms]");
     }
 }

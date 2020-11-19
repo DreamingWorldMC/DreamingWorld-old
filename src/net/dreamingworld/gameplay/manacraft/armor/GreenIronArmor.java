@@ -13,7 +13,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 public class GreenIronArmor {
 
     public GreenIronArmor() {
-        ItemStack item = new ItemStack(Material.SKULL_ITEM);
+        ItemStack item = new ItemStack(Material.LEAVES);
         ItemMeta meta = item.getItemMeta();
 
         meta.setDisplayName(ChatColor.GREEN + "Green iron helmet");
@@ -22,6 +22,7 @@ public class GreenIronArmor {
         item.setItemMeta(meta);
         DreamingWorld.getInstance().getItemManager().registerItem("green_iron_helmet", item);
         DreamingWorld.getInstance().getCustomArmor().addPiece("green_iron_helmet", 5);
+        DreamingWorld.getInstance().getCustomArmor().addHeadPiece("green_iron_helmet");
 
         CustomRecipe recipe = new CustomRecipe(item);
         recipe.shape(new String[] { "MIM", "IMI", "D D" });
