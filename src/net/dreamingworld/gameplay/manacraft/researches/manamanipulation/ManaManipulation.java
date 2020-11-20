@@ -8,8 +8,8 @@ import org.bukkit.inventory.meta.BookMeta;
 
 import java.util.HashMap;
 
-public class manaManipulation extends Research {
-    public manaManipulation() {
+public class ManaManipulation extends Research {
+    public ManaManipulation() {
         id = "mana_manipulation";
         name = "Mana manipulation";
         description = "Manipulating basic mana";

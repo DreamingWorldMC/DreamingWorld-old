@@ -6,8 +6,9 @@ import net.dreamingworld.gameplay.manacraft.armor.GreenIronArmor;
 import net.dreamingworld.gameplay.manacraft.blocks.*;
 import net.dreamingworld.gameplay.manacraft.items.*;
 import net.dreamingworld.gameplay.manacraft.mobs.AstralCreature;
+import net.dreamingworld.gameplay.manacraft.researches.manainfusion.ManaInfusion;
 import net.dreamingworld.gameplay.manacraft.researches.manamanipulation.BasicManaGenerator;
-import net.dreamingworld.gameplay.manacraft.researches.manamanipulation.manaManipulation;
+import net.dreamingworld.gameplay.manacraft.researches.manamanipulation.ManaManipulation;
 import net.dreamingworld.gameplay.trees.IronTree;
 import net.dreamingworld.gameplay.trees.WhitePyramidTree;
 import org.bukkit.Material;
@@ -39,7 +40,6 @@ public class Manacraft {
         DreamingWorld.getInstance().getBlockManager().registerBlock(new IronLeafBlock());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new GreenIronMaker());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new IronWoodBlock());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new ManaInfuser());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new HolyLeafBlock());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new WhiteLogBlock());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new Boiler());
@@ -57,7 +57,8 @@ public class Manacraft {
         DreamingWorld.getInstance().getStructureManager().registerStructure("white_pyramid_tree", new WhitePyramidTree());
 
         // Researches
-        DreamingWorld.getInstance().getResearchManager().addResearch(new manaManipulation());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new ManaManipulation());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new ManaInfusion());
 
         long time = System.currentTimeMillis() - begin;
 

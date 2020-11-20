@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.blocks;
+package net.dreamingworld.gameplay.manacraft.researches.manainfusion;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
@@ -36,11 +36,9 @@ public class ManaInfuser extends ManaContainer {
         DreamingWorld.getInstance().getItemManager().registerItem(id, item);
 
         CustomRecipe recipe = new CustomRecipe(item);
-        recipe.shape(new String[] { "IGI", "BCB", "BGB" });
+        recipe.shape(new String[] { "G G", "GCG", "GIG" });
         recipe.setVanillaIngredient('I', Material.DIAMOND);
-        recipe.setVanillaIngredient('G', Material.GLASS);
-        recipe.setCustomIngredient('C', "mana_core");
-        recipe.setVanillaIngredient('B', Material.BRICK);
+        recipe.setCustomIngredient('C', "mana_capacitor");
         recipe.setVanillaIngredient('G', Material.GOLD_INGOT);
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
