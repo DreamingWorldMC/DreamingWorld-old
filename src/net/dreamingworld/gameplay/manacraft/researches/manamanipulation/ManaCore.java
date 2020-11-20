@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.items;
+package net.dreamingworld.gameplay.manacraft.researches.manamanipulation;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.crafting.CustomRecipe;
@@ -25,9 +25,11 @@ public class ManaCore {
 
         CustomRecipe recipe = new CustomRecipe(item);
         recipe.shape(new String[] { "IBI", "MBM", "IBI" });
-        recipe.setCustomIngredient('M', "mystic_peddle");
+        recipe.setCustomIngredient('M', "energium");
         recipe.setCustomIngredient('B', "manium");
         recipe.setCustomIngredient('I', "ignium");
+
+        recipe.setResearch("mana_manipulation");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }

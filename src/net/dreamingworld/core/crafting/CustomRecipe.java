@@ -20,6 +20,8 @@ public class CustomRecipe {
     private Map<Character, Material> vanillaItems;
     private Map<Character, String> customItems;
 
+    protected String requiredResearch = "non";
+
     public CustomRecipe(ItemStack item) {
         vanillaItems = new HashMap<>();
         customItems = new HashMap<>();
@@ -110,5 +112,9 @@ public class CustomRecipe {
 
     protected void register() {
         Bukkit.addRecipe(shapedRecipe);
+    }
+
+    public void setResearch(String r) {
+        requiredResearch = r;
     }
 }

@@ -9,6 +9,7 @@ import net.dreamingworld.core.blocks.CustomBlock;
 import net.dreamingworld.core.crafting.CustomRecipe;
 import net.dreamingworld.core.ui.ChestUI;
 import net.minecraft.server.v1_8_R3.EnumParticle;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,6 +17,7 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -79,7 +81,7 @@ public class ResearchChildBlock extends CustomBlock implements Listener {
 
 
             Integer i = 1;
-            for (String s : DreamingWorld.getInstance().getResearchManager().getResearchChildren(TagWizard.getItemTag(e.getItem(), "id"))) {
+            for (String s : DreamingWorld.getInstance().getResearchManager().getResearchChildren(TagWizard.getItemTag(e.getItem(), "research"))) {
                 ui.putItem(i, DreamingWorld.getInstance().getResearchManager().getResearchItem(s));
                 i++;
             }
@@ -92,8 +94,27 @@ public class ResearchChildBlock extends CustomBlock implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onClickUI(InventoryClickEvent e) {
+        if (e.getInventory().getItem(0) != null && TagWizard.getItemTag(e.getInventory().getItem(0), "ui") != null && TagWizard.getItemTag(e.getInventory().getItem(0), "ui").equals("research_child_block")) {
+            e.setCancelled(true);
+            if (TagWizard.getItemTag(e.getCurrentItem(), "ui") == null && e.getClick() == ClickType.RIGHT || TagWizard.getItemTag(e.getCurrentItem(), "ui") == null && e.getClick() == ClickType.LEFT) {
+                for (ItemStack x : e.getWhoClicked().getInventory().getContents()) {
+                    if (x != null && x.getItemMeta() != null && TagWizard.getItemTag(x, "id") != null && TagWizard.getItemTag(x, "id").equals("empty_research_paper")) {
+                        if (e.getWhoClicked().getInventory().firstEmpty() != -1) {
 
+                            e.getWhoClicked().getInventory().addItem(e.getCurrentItem());
+
+                            if (x.getAmount() > 1) {
+                                x.setAmount(x.getAmount() - 1);
+                                return;
+                            }
+                            else {
+                                x.setType(Material.AIR);
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-
-
 }

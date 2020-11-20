@@ -94,6 +94,10 @@ public class ResearchManager {
         return researches.get(id);
     }
 
+    public void addParent(String child, String parent) {
+        researchedFrom.put(child, parent);
+    }
+
     /**
      * @return researches which have this research as there parent
      */
@@ -114,7 +118,7 @@ public class ResearchManager {
      */
     public boolean playerHasResearch(Player p, String research) {
         for (ItemStack x : p.getInventory().getContents()) {
-            if (x.getType() == Material.WRITTEN_BOOK && TagWizard.getItemTag(x, "final_research") != null) {
+            if (x != null && TagWizard.getItemTag(x, "id") != null && TagWizard.getItemTag(x, "id").equals("final_research")) {
                 if (research.equals(TagWizard.getItemTag(x, "research"))) {
                     return true;
                 }

@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.items;
+package net.dreamingworld.gameplay.manacraft.researches.manamanipulation;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.TagWizard;
@@ -46,6 +46,8 @@ public class ManaFlowBinder implements Listener {
         recipe.shape(new String[] { " SM", "SMS", "MS " });
         recipe.setVanillaIngredient('S', Material.STICK);
         recipe.setCustomIngredient('M', "manium");
+
+        recipe.setResearch("mana_manipulation");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 

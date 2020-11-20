@@ -6,6 +6,7 @@ import net.dreamingworld.gameplay.manacraft.armor.GreenIronArmor;
 import net.dreamingworld.gameplay.manacraft.blocks.*;
 import net.dreamingworld.gameplay.manacraft.items.*;
 import net.dreamingworld.gameplay.manacraft.mobs.AstralCreature;
+import net.dreamingworld.gameplay.manacraft.researches.manamanipulation.manaManipulation;
 import net.dreamingworld.gameplay.trees.IronTree;
 import net.dreamingworld.gameplay.trees.WhitePyramidTree;
 import org.bukkit.Material;
@@ -17,15 +18,12 @@ public class Manacraft {
         long begin = System.currentTimeMillis();
 
         // Items
-        new ManaFlowBinder();
         new HotPeddle();
         new HotSword();
-        new ManaCore();
         new AdvancedStick();
         new HotStaff();
         new HardCoal();
         new GreenIron();
-        new ManaGlass();
         new ManaIngot();
         new AstrumIngot();
         new StarDust();
@@ -41,7 +39,6 @@ public class Manacraft {
         DreamingWorld.getInstance().getBlockManager().registerBlock(new IronLeafBlock());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new GreenIronMaker());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new IronWoodBlock());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new ManaCapacitor());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new ManaInfuser());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new HolyLeafBlock());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new WhiteLogBlock());
@@ -58,6 +55,9 @@ public class Manacraft {
         // Structures
         DreamingWorld.getInstance().getStructureManager().registerStructure("iron_tree", new IronTree());
         DreamingWorld.getInstance().getStructureManager().registerStructure("white_pyramid_tree", new WhitePyramidTree());
+
+        // Researches
+        DreamingWorld.getInstance().getResearchManager().addResearch(new manaManipulation());
 
         long time = System.currentTimeMillis() - begin;
 

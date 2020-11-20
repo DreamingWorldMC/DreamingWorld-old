@@ -1,13 +1,10 @@
-package net.dreamingworld.gameplay.manacraft.items;
+package net.dreamingworld.gameplay.manacraft.researches.manamanipulation;
 
 import net.dreamingworld.DreamingWorld;
-import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.Util;
 import net.dreamingworld.core.crafting.CustomRecipe;
-import net.dreamingworld.core.mana.ManaContainer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
@@ -44,6 +41,8 @@ public class ManaGlass implements Listener {
         recipe.setVanillaIngredient('S', Material.THIN_GLASS);
         recipe.setVanillaIngredient('G', Material.GOLD_INGOT);
         recipe.setCustomIngredient('M', "manium");
+
+        recipe.setResearch("mana_manipulation");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 

@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.blocks;
+package net.dreamingworld.gameplay.manacraft.researches.manamanipulation;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
@@ -11,13 +11,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.Directional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,12 +38,12 @@ public class ManaCapacitor extends ManaContainer {
         DreamingWorld.getInstance().getItemManager().registerItem(id, item);
 
         CustomRecipe recipe = new CustomRecipe(item);
-        recipe.shape(new String[] { "IGI", "ICI", "BGB" });
+        recipe.shape(new String[] { "I I", "GCG", "GGG" });
         recipe.setVanillaIngredient('I', Material.IRON_INGOT);
-        recipe.setVanillaIngredient('G', Material.GLASS);
         recipe.setCustomIngredient('C', "mana_core");
-        recipe.setVanillaIngredient('B', Material.BRICK);
         recipe.setVanillaIngredient('G', Material.GOLD_INGOT);
+
+        recipe.setResearch("mana_manipulation");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }
