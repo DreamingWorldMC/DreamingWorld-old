@@ -20,7 +20,7 @@ public class CustomRecipe {
     private Map<Character, Material> vanillaItems;
     private Map<Character, String> customItems;
 
-    protected String requiredResearch = "non";
+    protected String requiredResearch = null;
 
     public CustomRecipe(ItemStack item) {
         vanillaItems = new HashMap<>();

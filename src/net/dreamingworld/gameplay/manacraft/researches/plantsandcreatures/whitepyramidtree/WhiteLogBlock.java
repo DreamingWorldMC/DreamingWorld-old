@@ -1,9 +1,8 @@
-package net.dreamingworld.gameplay.manacraft.blocks;
+package net.dreamingworld.gameplay.manacraft.researches.plantsandcreatures.whitepyramidtree;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
 import net.dreamingworld.core.blocks.CustomBlock;
-import net.dreamingworld.core.crafting.CustomRecipe;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -16,36 +15,26 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WhitePlanks extends CustomBlock {
+public class WhiteLogBlock extends CustomBlock {
 
-    public WhitePlanks()  {
-        id = "white_planks";
-        item = new ItemStack(Material.WOOD);
+    public WhiteLogBlock()  {
+        id = "white_log";
+        item = new ItemStack(Material.LOG);
         ItemMeta meta = item.getItemMeta();
         item.setDurability((short)2);
 
-        meta.setDisplayName("White planks");
+        meta.setDisplayName("White log");
 
         meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
         List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.BLUE + "It seems very good looking and white. Is it worth to touch?");
+        lore.add(ChatColor.BLUE + "It seems very powerful and holy. Is it worth to touch?");
         meta.setLore(lore);
 
         item.setItemMeta(meta);
 
         DreamingWorld.getInstance().getItemManager().registerItem(id, item);
-
-        item.setAmount(4);
-
-        CustomRecipe recipe = new CustomRecipe(item);
-        recipe.shape(new String[] { "   ", " W ", "   " });
-        recipe.setCustomIngredient('W', "white_log");
-
-        DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
-
-
     }
 
     @Override

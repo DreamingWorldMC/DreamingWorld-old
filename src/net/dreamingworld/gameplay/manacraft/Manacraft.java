@@ -9,6 +9,7 @@ import net.dreamingworld.gameplay.manacraft.mobs.AstralCreature;
 import net.dreamingworld.gameplay.manacraft.researches.manainfusion.ManaInfusion;
 import net.dreamingworld.gameplay.manacraft.researches.manamanipulation.BasicManaGenerator;
 import net.dreamingworld.gameplay.manacraft.researches.manamanipulation.ManaManipulation;
+import net.dreamingworld.gameplay.manacraft.researches.plantsandcreatures.PlantsAndCreatures;
 import net.dreamingworld.gameplay.trees.IronTree;
 import net.dreamingworld.gameplay.trees.WhitePyramidTree;
 import org.bukkit.Material;
@@ -40,11 +41,8 @@ public class Manacraft {
         DreamingWorld.getInstance().getBlockManager().registerBlock(new IronLeafBlock());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new GreenIronMaker());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new IronWoodBlock());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new HolyLeafBlock());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new WhiteLogBlock());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new Boiler());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new SteamTurbine());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new WhitePlanks());
 
         // Mobs
         DreamingWorld.getInstance().getEntityManager().addEntity("astral_creature", new AstralCreature());
@@ -54,11 +52,11 @@ public class Manacraft {
 
         // Structures
         DreamingWorld.getInstance().getStructureManager().registerStructure("iron_tree", new IronTree());
-        DreamingWorld.getInstance().getStructureManager().registerStructure("white_pyramid_tree", new WhitePyramidTree());
 
         // Researches
         DreamingWorld.getInstance().getResearchManager().addResearch(new ManaManipulation());
         DreamingWorld.getInstance().getResearchManager().addResearch(new ManaInfusion());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new PlantsAndCreatures());
 
         long time = System.currentTimeMillis() - begin;
 
