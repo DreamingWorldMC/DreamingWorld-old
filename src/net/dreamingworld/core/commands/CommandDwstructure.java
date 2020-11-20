@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -61,6 +62,6 @@ public class CommandDwstructure implements CommandExecutor, TabCompleter {
             return Util.smartAutocomplete(DreamingWorld.getInstance().getStructureManager().getIds(), args);
         }
 
-        return null;
+        return new ArrayList<>();
     }
 }

@@ -5,6 +5,31 @@ authors: [Konstantin Tolstoy, Stepan Gaidukevich]
 website: dreamingworld.net
 
 commands:
+  channel:
+    description: Changes chat channel
+    permission: dreamingworld.channel
+    aliases: [ch, chat, chatchannel, cc]
+    usage: /<command> <global|local>
+
+  tell:
+    description: Sends private message to specified player
+    permission: dreamingworld.send
+    aliases: [msg, w]
+    usage: /<command> <player> <message...>
+
+  global:
+    description: Sends message to global chat instantly
+    permission: dreamingworld.instantmessage
+    aliases: [g]
+    usage: /<command> <message...>
+
+  local:
+    description: Sends message to local chat instantly
+    permission: dreamingworld.instantmessage
+    aliases: [l]
+    usage: /<command> <message...>
+
+
   dwgive:
     description: Gives DreamingWorld item to player
     permission: dreamingworld.give

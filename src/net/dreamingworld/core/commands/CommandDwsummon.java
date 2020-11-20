@@ -60,7 +60,7 @@ public class CommandDwsummon implements CommandExecutor, TabCompleter {
             return Util.smartAutocomplete(DreamingWorld.getInstance().getEntityManager().getIds(), args);
         }
 
-        return null;
+        return new ArrayList<>();
     }
 }
 

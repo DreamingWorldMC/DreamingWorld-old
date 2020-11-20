@@ -64,6 +64,6 @@ public class CommandDwgive implements CommandExecutor, TabCompleter {
             return Util.smartAutocomplete(DreamingWorld.getInstance().getItemManager().getIds(), args);
         }
 
-        return null;
+        return new ArrayList<>();
     }
 }
