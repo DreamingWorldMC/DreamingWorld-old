@@ -29,6 +29,8 @@ public class manaManipulation extends Research {
         new ManaCore();
         new ManaGlass();
 
+
         DreamingWorld.getInstance().getBlockManager().registerBlock(new ManaCapacitor());
+        DreamingWorld.getInstance().getBlockManager().registerBlock(new BasicManaGenerator());
     }
 }

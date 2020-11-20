@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.blocks;
+package net.dreamingworld.gameplay.manacraft.researches.manamanipulation;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
@@ -78,11 +78,13 @@ public class BasicManaGenerator extends ManaContainer {
         DreamingWorld.getInstance().getItemManager().registerItem(id, item);
 
         CustomRecipe recipe = new CustomRecipe(item);
-        recipe.shape(new String[] { "IGI", "NBN", "IGI" });
+        recipe.shape(new String[] { "IGI", "ICI", "BGB" });
         recipe.setVanillaIngredient('I', Material.IRON_INGOT);
         recipe.setVanillaIngredient('G', Material.GOLD_INGOT);
         recipe.setVanillaIngredient('B', Material.IRON_BLOCK);
-        recipe.setCustomIngredient('N', "ignium");
+        recipe.setCustomIngredient('C', "mana_capacitor");
+
+        recipe.setResearch("mana_manipulation");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 

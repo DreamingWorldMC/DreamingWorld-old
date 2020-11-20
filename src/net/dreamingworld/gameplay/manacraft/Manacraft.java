@@ -6,6 +6,7 @@ import net.dreamingworld.gameplay.manacraft.armor.GreenIronArmor;
 import net.dreamingworld.gameplay.manacraft.blocks.*;
 import net.dreamingworld.gameplay.manacraft.items.*;
 import net.dreamingworld.gameplay.manacraft.mobs.AstralCreature;
+import net.dreamingworld.gameplay.manacraft.researches.manamanipulation.BasicManaGenerator;
 import net.dreamingworld.gameplay.manacraft.researches.manamanipulation.manaManipulation;
 import net.dreamingworld.gameplay.trees.IronTree;
 import net.dreamingworld.gameplay.trees.WhitePyramidTree;
@@ -34,7 +35,6 @@ public class Manacraft {
         new AstrumArmor();
 
         // Blocks
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new BasicManaGenerator());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new IronTreeSapling());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new IronLeafBlock());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new GreenIronMaker());
