@@ -56,8 +56,9 @@ public class HolyLeafBlock extends CustomBlock {
 
             int random = ThreadLocalRandom.current().nextInt(0, 101);
 
-            if (random <= 2) // 2% chance
+            if (random <= 2) { // 2% chance
                 e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), DreamingWorld.getInstance().getItemManager().get("white_pyramid_tree_sapling"));
+            }
         }
     }
 }

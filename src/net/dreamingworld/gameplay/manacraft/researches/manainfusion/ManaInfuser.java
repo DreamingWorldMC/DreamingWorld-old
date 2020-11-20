@@ -45,12 +45,10 @@ public class ManaInfuser extends ManaContainer {
     }
 
 
-
     @Override
     public void place(Block block) {
         setMaxMana(block.getLocation(), 10000);
         setMana(block.getLocation(), 0);
-
     }
 
     @Override
@@ -71,8 +69,7 @@ public class ManaInfuser extends ManaContainer {
                                location.getWorld().dropItem(location, DreamingWorld.getInstance().getManaInfusionManager().getTo(item).result);
                                if (item.getAmount() > 1) {
                                    item.setAmount(item.getAmount() - 1);
-                               }
-                               else {
+                               } else {
                                    entity.remove();
                                }
                             }

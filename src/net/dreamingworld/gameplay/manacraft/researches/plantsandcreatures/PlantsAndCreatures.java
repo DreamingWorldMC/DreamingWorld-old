@@ -27,9 +27,9 @@ public class PlantsAndCreatures extends Research {
 
         DreamingWorld.getInstance().getResearchManager().addParent("plants_and_creatures", "basics");
 
+        DreamingWorld.getInstance().getBlockManager().registerBlock(new WhiteLogBlock());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new WhitePlanks());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new HolyLeafBlock());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new WhiteLogBlock());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new WhitePyramidTreeSapling());
 
         // Structures

@@ -44,8 +44,6 @@ public class WhitePlanks extends CustomBlock {
         recipe.setCustomIngredient('W', "white_log");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
-
-
     }
 
     @Override

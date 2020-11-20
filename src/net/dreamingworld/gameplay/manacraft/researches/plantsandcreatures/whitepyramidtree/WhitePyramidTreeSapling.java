@@ -33,7 +33,6 @@ public class WhitePyramidTreeSapling extends CustomBlock {
 
         DreamingWorld.getInstance().getItemManager().registerItem(id, item);
 
-
         Bukkit.getPluginManager().registerEvents(this, DreamingWorld.getInstance());
     }
 

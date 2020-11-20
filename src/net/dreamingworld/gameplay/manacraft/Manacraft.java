@@ -11,7 +11,6 @@ import net.dreamingworld.gameplay.manacraft.researches.manamanipulation.BasicMan
 import net.dreamingworld.gameplay.manacraft.researches.manamanipulation.ManaManipulation;
 import net.dreamingworld.gameplay.manacraft.researches.plantsandcreatures.PlantsAndCreatures;
 import net.dreamingworld.gameplay.trees.IronTree;
-import net.dreamingworld.gameplay.trees.WhitePyramidTree;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,6 +18,11 @@ public class Manacraft {
 
     public static void initialize() {
         long begin = System.currentTimeMillis();
+
+        // Researches
+        DreamingWorld.getInstance().getResearchManager().addResearch(new ManaManipulation());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new ManaInfusion());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new PlantsAndCreatures());
 
         // Items
         new HotPeddle();
@@ -52,11 +56,6 @@ public class Manacraft {
 
         // Structures
         DreamingWorld.getInstance().getStructureManager().registerStructure("iron_tree", new IronTree());
-
-        // Researches
-        DreamingWorld.getInstance().getResearchManager().addResearch(new ManaManipulation());
-        DreamingWorld.getInstance().getResearchManager().addResearch(new ManaInfusion());
-        DreamingWorld.getInstance().getResearchManager().addResearch(new PlantsAndCreatures());
 
         long time = System.currentTimeMillis() - begin;
 
