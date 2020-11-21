@@ -10,7 +10,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
 
-public class MojangAPI {
+public class MojangAPI { // Class from our (2018?) projects :+)
+
 	public static UUID getPlayerUUID(String nickname) {
 		URL url = null;
 		try {

@@ -43,7 +43,7 @@ public class ChatManager implements Listener {
 
 
     public void sendMessage(String msg, Player player, ChannelType channel) {
-        String message = Util.formatString(channel == ChannelType.GLOBAL ? "[$(PC)G&r] " : "[$(SC)L&r] ") + player.getDisplayName() + ": " + msg;
+        String message = Util.formatString(channel == ChannelType.GLOBAL ? "$(PC)G  &r" : "$(SC)L  &r") + player.getDisplayName() + ": " + msg;
 
         for (Entity entity : (channel == ChannelType.GLOBAL ? Bukkit.getOnlinePlayers() : player.getNearbyEntities(100, 255, 100))) {
             entity.sendMessage(message);
