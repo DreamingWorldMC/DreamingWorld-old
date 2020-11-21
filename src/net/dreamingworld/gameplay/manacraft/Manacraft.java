@@ -6,6 +6,8 @@ import net.dreamingworld.gameplay.manacraft.researches.astrum.*;
 import net.dreamingworld.gameplay.manacraft.mobs.AstralCreature;
 import net.dreamingworld.gameplay.manacraft.researches.advancedmaterials.AdvancedMaterials;
 import net.dreamingworld.gameplay.manacraft.researches.advancedtools.AdvancedStick;
+import net.dreamingworld.gameplay.manacraft.researches.astrumbow.AstrumBow;
+import net.dreamingworld.gameplay.manacraft.researches.astrumbow.AstrumBowResearch;
 import net.dreamingworld.gameplay.manacraft.researches.hotpeddle.HotPeddleResearch;
 import net.dreamingworld.gameplay.manacraft.researches.irontree.*;
 import net.dreamingworld.gameplay.manacraft.researches.manainfusion.ManaInfusion;
@@ -28,6 +30,7 @@ public class Manacraft {
         DreamingWorld.getInstance().getResearchManager().addResearch(new HotPeddleResearch());
         DreamingWorld.getInstance().getResearchManager().addResearch(new AdvancedTools());
         DreamingWorld.getInstance().getResearchManager().addResearch(new Astrum());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new AstrumBowResearch());
 
         // Mobs
         DreamingWorld.getInstance().getEntityManager().addEntity("astral_creature", new AstralCreature());

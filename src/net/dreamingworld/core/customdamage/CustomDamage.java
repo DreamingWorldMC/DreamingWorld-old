@@ -6,6 +6,7 @@ import net.dreamingworld.core.Util;
 import net.minecraft.server.v1_8_R3.MathHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -13,8 +14,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -32,6 +35,19 @@ public class CustomDamage implements Listener {
     }
 
     @EventHandler
+    public void onShoot(EntityShootBowEvent e) {
+        double finalDamage = DreamingWorld.getInstance().getCustomWeaponManager().getWeapon(TagWizard.getItemTag(e.getBow(), "id"));
+
+        if (finalDamage != -1) {
+            if (e.getBow().getItemMeta().hasEnchant(Enchantment.DAMAGE_ALL)) {
+                finalDamage += e.getBow().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ALL);
+            }
+        }
+
+        e.getProjectile().setMetadata("damage", new FixedMetadataValue(DreamingWorld.getInstance(), finalDamage));
+    }
+
+    @EventHandler
     public void onEntityDamagedByEntity(EntityDamageByEntityEvent e) {
         if (!(e.getEntity() instanceof LivingEntity)) {
             return;
@@ -39,6 +55,11 @@ public class CustomDamage implements Listener {
 
 
         double finalDamage = e.getDamage();
+
+        if (e.getDamager() instanceof Arrow && e.getDamager().getMetadata("damage").get(0).asDouble() != -1) {
+            finalDamage = e.getDamager().getMetadata("damage").get(0).asDouble() * ((((Arrow)e.getDamager()).getVelocity().getX() + ((Arrow)e.getDamager()).getVelocity().getY() + ((Arrow)e.getDamager()).getVelocity().getZ())/64);
+        }
+
         if (e.getDamager() instanceof LivingEntity) {
             finalDamage = DreamingWorld.getInstance().getCustomWeaponManager().getWeapon(TagWizard.getItemTag(((LivingEntity) e.getDamager()).getEquipment().getItemInHand(), "id"));
             if (finalDamage == -1) {
