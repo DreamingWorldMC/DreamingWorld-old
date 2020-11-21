@@ -47,7 +47,7 @@ public class EntityGeneration {
                 }
                 break;
             case ("NIGHT_TOP"):
-                if (p.getWorld().getTime() > 12300 && p.getWorld().getHighestBlockAt(x, z).getLightLevel() < 4) {
+                if (p.getWorld().getHighestBlockAt(x, z).getLightLevel() < 6) {
                     return p.getWorld().getHighestBlockAt(x, z).getLocation();
                 }
                 break;

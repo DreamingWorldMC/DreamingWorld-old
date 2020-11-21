@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.items;
+package net.dreamingworld.gameplay.manacraft.researches.astrum;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
@@ -35,7 +35,7 @@ public class StarDust implements Listener {
     @EventHandler
     public void onClick(PlayerInteractEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getPlayer().getItemInHand() != null && TagWizard.getItemTag(e.getPlayer().getItemInHand(), "id") != null) {
-            if (TagWizard.getItemTag(e.getPlayer().getItemInHand(), "id").equals("star_dust") && e.getClickedBlock().getType() == Material.IRON_BLOCK && DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()) == null) {
+            if (TagWizard.getItemTag(e.getPlayer().getItemInHand(), "id").equals("star_dust") && e.getClickedBlock().getType() == Material.IRON_BLOCK && DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()) == null && DreamingWorld.getInstance().getResearchManager().playerHasResearch(e.getPlayer(), "astrum")) {
                 e.getClickedBlock().setType(Material.AIR);
                 e.getClickedBlock().getWorld().dropItem(e.getClickedBlock().getLocation(), DreamingWorld.getInstance().getItemManager().get("astrum_ingot"));
                 PacketWizard.sendParticle(EnumParticle.ENCHANTMENT_TABLE, e.getClickedBlock().getLocation().add(0.5, 0.5, 0.5), 10);

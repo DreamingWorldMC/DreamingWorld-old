@@ -1,7 +1,8 @@
-package net.dreamingworld.gameplay.manacraft.items;
+package net.dreamingworld.gameplay.manacraft.researches.advancedtools;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.crafting.CustomRecipe;
+import net.dreamingworld.gameplay.manacraft.researches.irontree.GreenIron;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -24,10 +25,11 @@ public class AdvancedStick {
         DreamingWorld.getInstance().getItemManager().registerItem("advanced_rod", item);
 
         CustomRecipe recipe = new CustomRecipe(item);
-        recipe.shape(new String[] { "ISI", "SMS", "ISI" });
+        recipe.shape(new String[] { " S ", " M ", " S " });
         recipe.setCustomIngredient('M', "mana_core");
         recipe.setVanillaIngredient('S', Material.STICK);
-        recipe.setCustomIngredient('I', "ignium");
+
+        recipe.setResearch("advanced_tools");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }

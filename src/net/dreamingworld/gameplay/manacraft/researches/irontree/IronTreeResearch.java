@@ -31,8 +31,8 @@ public class IronTreeResearch extends Research {
         DreamingWorld.getInstance().getBlockManager().registerBlock(new IronWoodBlock());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new GreenIronMaker());
 
-        new GreenIronArmor();
         new GreenIron();
+        new GreenIronArmor();
 
         DreamingWorld.getInstance().getStructureManager().registerStructure("iron_tree", new IronTree());
     }

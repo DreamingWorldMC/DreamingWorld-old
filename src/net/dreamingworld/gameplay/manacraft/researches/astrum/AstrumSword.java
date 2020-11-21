@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.items;
+package net.dreamingworld.gameplay.manacraft.researches.astrum;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.TagWizard;
@@ -38,7 +38,7 @@ public class AstrumSword implements Listener {
         CustomRecipe recipe = new CustomRecipe(item);
         recipe.shape(new String[] { " I ", " I ", " B " });
         recipe.setCustomIngredient('I', "astrum_ingot");
-        recipe.setVanillaIngredient('B', Material.STICK);
+        recipe.setCustomIngredient('B', "advanced_stick");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
         DreamingWorld.getInstance().getCustomWeaponManager().addWeapon("astrum_sword", 10);

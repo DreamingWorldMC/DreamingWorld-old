@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.items;
+package net.dreamingworld.gameplay.manacraft.researches.astrum;
 
 import net.dreamingworld.DreamingWorld;
 import org.bukkit.ChatColor;

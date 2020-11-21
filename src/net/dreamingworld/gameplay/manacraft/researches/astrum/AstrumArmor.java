@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.armor;
+package net.dreamingworld.gameplay.manacraft.researches.astrum;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.crafting.CustomRecipe;
