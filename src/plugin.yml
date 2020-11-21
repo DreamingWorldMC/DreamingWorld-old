@@ -13,7 +13,7 @@ commands:
 
   tell:
     description: Sends private message to specified player
-    permission: dreamingworld.send
+    permission: dreamingworld.tell
     aliases: [msg, w]
     usage: /<command> <player> <message...>
 
@@ -28,6 +28,13 @@ commands:
     permission: dreamingworld.instantmessage
     aliases: [l]
     usage: /<command> <message...>
+
+
+  rank:
+    description: Rank management
+    permission: dreamingworld.rank
+    aliases: [rn, rk, rnk, perm, perms, permissions]
+    usage: /<command> <player> <rank>
 
 
   dwgive:
@@ -61,3 +68,48 @@ commands:
     permission: dreamingworld.guilds
     aliases: [g, guilds]
     usage: fak
+
+
+permissions:
+  dreamingworld.chat.*:
+    children:
+      dreamingworld.channel: true
+      dreamingworld.tell: true
+      dreamingworld.instantmessage: true
+
+  dreamingworld.debug.*:
+    children:
+      dreamingworld.give: true
+      dreamingworld.summon: true
+      dreamingworld.structure: true
+
+  dreamingworld.gameplay.*:
+    children:
+      dreamingworld.recipes: true
+      dreamingworld.guilds: true
+
+  # Chat
+  dreamingworld.channel:
+    default: true
+  dreamingworld.tell:
+    default: true
+  dreamingworld.instantmessage:
+    default: true
+
+  # Gameplay
+  dreamingworld.recipes:
+    default: true
+  dreamingworld.guilds:
+    default: true
+
+  # Shit
+  dreamingworld.rank:
+    default: op
+
+  # Debug
+  dreamingworld.give:
+    default: op
+  dreamingworld.summon:
+    default: op
+  dreamingworld.structure:
+    default: op

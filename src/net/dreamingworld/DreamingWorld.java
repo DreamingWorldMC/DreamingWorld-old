@@ -17,6 +17,7 @@ import net.dreamingworld.core.customfood.FoodManager;
 import net.dreamingworld.core.guilds.Guilds;
 import net.dreamingworld.core.guilds.commands.CommandGuild;
 import net.dreamingworld.core.manainfusion.ManaInfusionManager;
+import net.dreamingworld.core.ranks.RankManager;
 import net.dreamingworld.core.research.ResearchManager;
 import net.dreamingworld.core.structures.StructureManager;
 import net.dreamingworld.gameplay.alloys.*;
@@ -66,6 +67,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     private Guilds guildManager;
     private ResearchManager researchManager;
     private ChatManager chatManager;
+    private RankManager rankManager;
 
     public void onEnable() {
         inst = this;
@@ -88,6 +90,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         guildManager = new Guilds();
         researchManager = new ResearchManager();
         chatManager = new ChatManager();
+        rankManager = new RankManager();
 
         Bukkit.getPluginManager().registerEvents(fishManager, this);
         Bukkit.getPluginManager().registerEvents(alloyManager, this);
@@ -99,6 +102,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(smeltingManager, this);
         Bukkit.getPluginManager().registerEvents(guildManager, this);
         Bukkit.getPluginManager().registerEvents(chatManager, this);
+        Bukkit.getPluginManager().registerEvents(rankManager, this);
 
         new CommandDwgive();
         new CommandDwsummon();
@@ -192,5 +196,9 @@ public class DreamingWorld extends JavaPlugin implements Listener {
 
     public ChatManager getChatManager() {
         return chatManager;
+    }
+
+    public RankManager getRankManager() {
+        return rankManager;
     }
 }
