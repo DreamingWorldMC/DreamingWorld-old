@@ -32,7 +32,7 @@ public class AdvancedTools extends Research {
         book.addPage("Advanced tools they are better than normals ones yet are they that much more useful?");
 
 
-        DreamingWorld.getInstance().getResearchManager().addParent("hot_peddle", "advanced_materials");
+        DreamingWorld.getInstance().getResearchManager().addParent("advanced_tools", "advanced_materials");
 
         new AdvancedStick();
 
