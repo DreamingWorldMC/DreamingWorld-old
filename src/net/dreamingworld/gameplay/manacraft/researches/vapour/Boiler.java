@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.blocks;
+package net.dreamingworld.gameplay.manacraft.researches.vapour;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
@@ -19,7 +19,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Boiler extends CustomBlock implements Listener {
@@ -39,10 +38,12 @@ public class Boiler extends CustomBlock implements Listener {
         DreamingWorld.getInstance().getItemManager().registerItem(id, item);
 
         CustomRecipe recipe = new CustomRecipe(item);
-        recipe.shape(new String[] { "BBB", "NNN", "BGB" });
+        recipe.shape(new String[] { "GGG", "BNB", "BGB" });
         recipe.setVanillaIngredient('G', Material.GOLD_INGOT);
         recipe.setVanillaIngredient('B', Material.IRON_BLOCK);
         recipe.setCustomIngredient('N', "ignium");
+
+        recipe.setResearch("vapour");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }

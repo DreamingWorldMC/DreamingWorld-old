@@ -40,6 +40,8 @@ public class IronTreeSapling extends CustomBlock {
         recipe.setCustomIngredient('A', "advanced_rod");
         recipe.setCustomIngredient('U', "uranium");
 
+        recipe.setResearch("iron_tree");
+
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
         Bukkit.getPluginManager().registerEvents(this, DreamingWorld.getInstance());

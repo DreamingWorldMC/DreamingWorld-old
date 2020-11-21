@@ -18,7 +18,7 @@ public class IronTreeResearch extends Research {
         items = new HashMap<>();
         items.put("Something magical found in ore", "manium");
         items.put("hot stones liquid ice on them", Material.OBSIDIAN.toString());
-        items.put("Name[0]", Material.IRON_INGOT.toString());
+        items.put("____ Tree", Material.IRON_INGOT.toString());
 
         book = (BookMeta)(new ItemStack(Material.WRITTEN_BOOK).getItemMeta());
 

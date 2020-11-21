@@ -50,6 +50,8 @@ public class GreenIronMaker extends CustomBlock {
         recipe.setVanillaIngredient('B', Material.IRON_BLOCK);
         recipe.setCustomIngredient('N', "ignium");
 
+        recipe.setResearch("iron_tree");
+
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
         Bukkit.getPluginManager().registerEvents(this, DreamingWorld.getInstance());
