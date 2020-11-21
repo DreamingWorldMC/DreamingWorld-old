@@ -6,9 +6,9 @@ import net.dreamingworld.gameplay.manacraft.items.*;
 import net.dreamingworld.gameplay.manacraft.mobs.AstralCreature;
 import net.dreamingworld.gameplay.manacraft.researches.irontree.*;
 import net.dreamingworld.gameplay.manacraft.researches.manainfusion.ManaInfusion;
+import net.dreamingworld.gameplay.manacraft.researches.manamanipulation.HardCoal;
 import net.dreamingworld.gameplay.manacraft.researches.manamanipulation.ManaManipulation;
 import net.dreamingworld.gameplay.manacraft.researches.plantsandcreatures.PlantsAndCreatures;
-import net.dreamingworld.gameplay.manacraft.researches.steamtomana.SteamTurbine;
 import net.dreamingworld.gameplay.manacraft.researches.vapour.Vapour;
 
 public class Manacraft {
@@ -28,7 +28,6 @@ public class Manacraft {
         new HotSword();
         new AdvancedStick();
         new HotStaff();
-        new HardCoal();
         new AstrumIngot();
         new StarDust();
         new AstrumSword();

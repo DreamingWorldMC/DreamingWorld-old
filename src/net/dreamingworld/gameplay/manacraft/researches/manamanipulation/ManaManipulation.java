@@ -28,7 +28,7 @@ public class ManaManipulation extends Research {
         new ManaFlowBinder();
         new ManaCore();
         new ManaGlass();
-
+        new HardCoal();
 
         DreamingWorld.getInstance().getBlockManager().registerBlock(new ManaCapacitor());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new BasicManaGenerator());
