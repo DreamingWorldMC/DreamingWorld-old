@@ -37,7 +37,7 @@ public class CommandTell implements CommandExecutor, TabCompleter {
         }
 
         String senderInfo = Util.formatString("$(SC)You $(PC)to " + receiver.getDisplayName() + "&r: " + message);
-        String receiverInfo = Util.formatString(sender instanceof Player ? ((Player) sender).getDisplayName() : sender.getName() + " $(PC)to $(SC)you&r: " + message);
+        String receiverInfo = Util.formatString((sender instanceof Player ? ((Player) sender).getDisplayName() : sender.getName()) + " $(PC)to $(SC)you&r: " + message);
 
         sender.sendMessage(senderInfo);
         receiver.sendMessage(receiverInfo);
