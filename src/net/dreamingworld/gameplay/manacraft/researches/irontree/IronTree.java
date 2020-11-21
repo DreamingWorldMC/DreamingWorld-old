@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.trees;
+package net.dreamingworld.gameplay.manacraft.researches.irontree;
 
 import net.dreamingworld.core.structures.EasyBuilder;
 import net.dreamingworld.core.structures.Structure;

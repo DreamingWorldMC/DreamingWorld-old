@@ -55,14 +55,13 @@ public class Boiler extends CustomBlock implements Listener {
     @Override
     public void tick(Location location) {
         if (0 < Integer.valueOf(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "fuel_left"))) {
-            PacketWizard.sendParticle(EnumParticle.ENCHANTMENT_TABLE, location.add(0.5, 0.5, 0.5), 10);
             DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(location, "fuel_left", String.valueOf(Integer.valueOf(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "fuel_left")) - 1));
 
             if (DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()), "needsSteam") != null && DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()), "needsSteam").equals("true") && location.getWorld().getBlockAt(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ())).getType() == Material.STATIONARY_WATER) {
                 DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()), "vapour", String.valueOf(Integer.valueOf(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()), "vapour")) + 1));
             }
+            PacketWizard.sendParticle(EnumParticle.ENCHANTMENT_TABLE, location.add(0.5, 0.5, 0.5), 10);
         }
-
     }
 
     @EventHandler
