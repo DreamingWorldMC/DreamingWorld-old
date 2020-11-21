@@ -1,13 +1,11 @@
 package net.dreamingworld.gameplay.manacraft;
 
 import net.dreamingworld.DreamingWorld;
-import net.dreamingworld.gameplay.manacraft.researches.astrum.AstrumArmor;
+import net.dreamingworld.gameplay.manacraft.researches.advancedtools.AdvancedTools;
+import net.dreamingworld.gameplay.manacraft.researches.astrum.*;
 import net.dreamingworld.gameplay.manacraft.mobs.AstralCreature;
 import net.dreamingworld.gameplay.manacraft.researches.advancedmaterials.AdvancedMaterials;
 import net.dreamingworld.gameplay.manacraft.researches.advancedtools.AdvancedStick;
-import net.dreamingworld.gameplay.manacraft.researches.astrum.AstrumIngot;
-import net.dreamingworld.gameplay.manacraft.researches.astrum.AstrumSword;
-import net.dreamingworld.gameplay.manacraft.researches.astrum.StarDust;
 import net.dreamingworld.gameplay.manacraft.researches.hotpeddle.HotPeddleResearch;
 import net.dreamingworld.gameplay.manacraft.researches.irontree.*;
 import net.dreamingworld.gameplay.manacraft.researches.manainfusion.ManaInfusion;
@@ -28,6 +26,8 @@ public class Manacraft {
         DreamingWorld.getInstance().getResearchManager().addResearch(new Vapour());
         DreamingWorld.getInstance().getResearchManager().addResearch(new AdvancedMaterials());
         DreamingWorld.getInstance().getResearchManager().addResearch(new HotPeddleResearch());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new AdvancedTools());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new Astrum());
 
         // Mobs
         DreamingWorld.getInstance().getEntityManager().addEntity("astral_creature", new AstralCreature());
