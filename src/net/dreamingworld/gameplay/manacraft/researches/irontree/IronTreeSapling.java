@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.blocks;
+package net.dreamingworld.gameplay.manacraft.researches.irontree;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
@@ -39,6 +39,8 @@ public class IronTreeSapling extends CustomBlock {
         recipe.setVanillaIngredient('I', Material.IRON_BLOCK);
         recipe.setCustomIngredient('A', "advanced_rod");
         recipe.setCustomIngredient('U', "uranium");
+
+        recipe.setResearch("iron_tree");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 

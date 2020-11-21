@@ -2,6 +2,7 @@ package net.dreamingworld.gameplay.manacraft.researches.manainfusion;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.research.Research;
+import net.dreamingworld.gameplay.manacraft.items.ManaIngot;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
@@ -26,5 +27,6 @@ public class ManaInfusion extends Research {
         DreamingWorld.getInstance().getResearchManager().addParent("mana_infusion", "mana_manipulation");
 
         DreamingWorld.getInstance().getBlockManager().registerBlock(new ManaInfuser());
+        new ManaIngot();
     }
 }

@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.blocks;
+package net.dreamingworld.gameplay.manacraft.researches.irontree;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
@@ -49,6 +49,8 @@ public class GreenIronMaker extends CustomBlock {
         recipe.setVanillaIngredient('I', Material.IRON_INGOT);
         recipe.setVanillaIngredient('B', Material.IRON_BLOCK);
         recipe.setCustomIngredient('N', "ignium");
+
+        recipe.setResearch("iron_tree");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 

@@ -3,7 +3,6 @@ package net.dreamingworld.gameplay.manacraft.researches.plantsandcreatures;
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.research.Research;
 import net.dreamingworld.gameplay.manacraft.researches.plantsandcreatures.whitepyramidtree.*;
-import net.dreamingworld.gameplay.trees.IronTree;
 import net.dreamingworld.gameplay.trees.WhitePyramidTree;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

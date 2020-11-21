@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.blocks;
+package net.dreamingworld.gameplay.manacraft.researches.vapour;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
@@ -19,7 +19,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Boiler extends CustomBlock implements Listener {
@@ -39,10 +38,12 @@ public class Boiler extends CustomBlock implements Listener {
         DreamingWorld.getInstance().getItemManager().registerItem(id, item);
 
         CustomRecipe recipe = new CustomRecipe(item);
-        recipe.shape(new String[] { "BBB", "NNN", "BGB" });
+        recipe.shape(new String[] { "GGG", "BNB", "BGB" });
         recipe.setVanillaIngredient('G', Material.GOLD_INGOT);
         recipe.setVanillaIngredient('B', Material.IRON_BLOCK);
         recipe.setCustomIngredient('N', "ignium");
+
+        recipe.setResearch("vapour");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }
@@ -55,14 +56,13 @@ public class Boiler extends CustomBlock implements Listener {
     @Override
     public void tick(Location location) {
         if (0 < Integer.valueOf(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "fuel_left"))) {
-            PacketWizard.sendParticle(EnumParticle.ENCHANTMENT_TABLE, location.add(0.5, 0.5, 0.5), 10);
             DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(location, "fuel_left", String.valueOf(Integer.valueOf(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "fuel_left")) - 1));
 
             if (DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()), "needsSteam") != null && DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()), "needsSteam").equals("true") && location.getWorld().getBlockAt(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ())).getType() == Material.STATIONARY_WATER) {
                 DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()), "vapour", String.valueOf(Integer.valueOf(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()), "vapour")) + 1));
             }
+            PacketWizard.sendParticle(EnumParticle.ENCHANTMENT_TABLE, location.add(0.5, 0.5, 0.5), 10);
         }
-
     }
 
     @EventHandler
