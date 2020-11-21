@@ -2,12 +2,8 @@ package net.dreamingworld.core.guilds;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
-import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.Util;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -17,7 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.util.Vector;
 
 import java.io.File;
 import java.io.IOException;
@@ -272,6 +268,25 @@ public class Guilds implements Listener {
         for (Block block : e.blockList()) {
             if (getChunkOwner(block.getChunk()) != null) {
                 e.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onDispense(BlockDispenseEvent e) {
+        if (e.getItem().getType() == Material.WATER_BUCKET || e.getItem().getType() == Material.LAVA_BUCKET || e.getItem().getType() == Material.BUCKET) {
+            Vector v = e.getVelocity();
+            Vector bv = e.getBlock().getLocation().toVector();
+
+            if (v.subtract(bv).isInAABB(new Vector(-1, -1, -1), new Vector(1, 1, 1))) { // Mafs
+                Block block = v.add(bv).toLocation(e.getBlock().getWorld()).getBlock();
+
+                String o = getChunkOwner(e.getBlock().getChunk());
+                String g = getChunkOwner(block.getChunk());
+
+                if (!Objects.equals(g, o) && !(o != null && g == null)) {
+                    e.setCancelled(true);
+                }
             }
         }
     }
