@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.items;
+package net.dreamingworld.gameplay.manacraft.researches.manainfusion;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.manainfusion.ManaInfusionRecipe;

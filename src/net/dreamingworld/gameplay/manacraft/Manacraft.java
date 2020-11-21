@@ -2,14 +2,13 @@ package net.dreamingworld.gameplay.manacraft;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.gameplay.manacraft.armor.AstrumArmor;
-import net.dreamingworld.gameplay.manacraft.blocks.*;
 import net.dreamingworld.gameplay.manacraft.items.*;
 import net.dreamingworld.gameplay.manacraft.mobs.AstralCreature;
 import net.dreamingworld.gameplay.manacraft.researches.irontree.*;
 import net.dreamingworld.gameplay.manacraft.researches.manainfusion.ManaInfusion;
 import net.dreamingworld.gameplay.manacraft.researches.manamanipulation.ManaManipulation;
 import net.dreamingworld.gameplay.manacraft.researches.plantsandcreatures.PlantsAndCreatures;
-import net.dreamingworld.gameplay.manacraft.researches.vapour.Boiler;
+import net.dreamingworld.gameplay.manacraft.researches.steamtomana.SteamTurbine;
 import net.dreamingworld.gameplay.manacraft.researches.vapour.Vapour;
 
 public class Manacraft {
@@ -36,9 +35,6 @@ public class Manacraft {
 
         // Armor
         new AstrumArmor();
-
-        // Blocks
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new SteamTurbine());
 
         // Mobs
         DreamingWorld.getInstance().getEntityManager().addEntity("astral_creature", new AstralCreature());

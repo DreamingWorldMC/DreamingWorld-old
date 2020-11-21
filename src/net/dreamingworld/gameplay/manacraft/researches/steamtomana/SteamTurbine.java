@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.blocks;
+package net.dreamingworld.gameplay.manacraft.researches.steamtomana;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
@@ -33,10 +33,12 @@ public class SteamTurbine extends ManaContainer {
         DreamingWorld.getInstance().getItemManager().registerItem(id, item);
 
         CustomRecipe recipe = new CustomRecipe(item);
-        recipe.shape(new String[] { "ISI", "SMS", "ISI" });
+        recipe.shape(new String[] { "MSM", "SIS", "MSM" });
         recipe.setVanillaIngredient('S', Material.STICK);
         recipe.setVanillaIngredient('I', Material.IRON_INGOT);
         recipe.setCustomIngredient('M', "manium");
+
+        recipe.setResearch("steam_to_mana");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }
