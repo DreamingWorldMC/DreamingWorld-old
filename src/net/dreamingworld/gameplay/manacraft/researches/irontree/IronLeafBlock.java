@@ -3,7 +3,6 @@ package net.dreamingworld.gameplay.manacraft.researches.irontree;
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
 import net.dreamingworld.core.blocks.CustomBlock;
-import net.dreamingworld.gameplay.manacraft.items.HotStaff;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.items;
+package net.dreamingworld.gameplay.manacraft.researches.hotpeddle;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.alloys.OreAlloy;
@@ -28,6 +28,8 @@ public class HotPeddle {
         recipe.shape(new String[] { "III", "IBI", "III" });
         recipe.setCustomIngredient('I', "mystic_peddle");
         recipe.setCustomIngredient('B', "ignium");
+
+        recipe.setResearch("hot_peddle");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }

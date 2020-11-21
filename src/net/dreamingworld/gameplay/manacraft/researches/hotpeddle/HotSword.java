@@ -1,4 +1,4 @@
-package net.dreamingworld.gameplay.manacraft.items;
+package net.dreamingworld.gameplay.manacraft.researches.hotpeddle;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.crafting.CustomRecipe;
