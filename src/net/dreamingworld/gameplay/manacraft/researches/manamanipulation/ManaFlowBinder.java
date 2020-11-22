@@ -35,8 +35,8 @@ public class ManaFlowBinder implements Listener {
         lore.add(ChatColor.GRAY + "This thing makes channels for mana in fourth dimension");
         lore.add(ChatColor.GRAY + "Or in fifth... Anyway it works fine");
         lore.add("");
-        lore.add(Util.formatString("&5LMB &7to select input"));
-        lore.add(Util.formatString("&5RMB &7to select block to take mana from"));
+        lore.add(Util.formatString("&5RMB &7to select input"));
+        lore.add(Util.formatString("&5LMB &7to select block to take mana from"));
         meta.setLore(lore);
 
         item.setItemMeta(meta);
@@ -75,11 +75,11 @@ public class ManaFlowBinder implements Listener {
         else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             e.setCancelled(true);
             TagWizard.addItemTag(e.getItem(), "input", loc);
-            e.getPlayer().sendMessage(ChatColor.GREEN + "Input chosen successfully");
+            e.getPlayer().sendMessage(ChatColor.GREEN + "Parent chosen successfully");
         } else if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
             e.setCancelled(true);
             TagWizard.addItemTag(e.getItem(), "parent", loc);
-            e.getPlayer().sendMessage(ChatColor.GREEN + "Parent chosen successfully");
+            e.getPlayer().sendMessage(ChatColor.GREEN + "Input chosen successfully");
         } else {
             return;
         }
