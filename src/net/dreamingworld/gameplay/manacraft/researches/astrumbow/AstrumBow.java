@@ -16,7 +16,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AstrumBow implements Listener {
+public class AstrumBow {
 
     public AstrumBow() {
         ItemStack item = new ItemStack(Material.BOW);
