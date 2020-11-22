@@ -70,7 +70,12 @@ public class ResearchBlock extends CustomBlock implements Listener {
 
         if (bdm.getBlockTag(e.getClickedBlock().getLocation(), "current_research").equals("non") && e.getItem() != null) {
             if (TagWizard.getItemTag(e.getItem(), "id") != null && TagWizard.getItemTag(e.getItem(), "id").equals("research")) {
-                e.getPlayer().getInventory().setItemInHand(new ItemStack(Material.AIR));
+                if (e.getPlayer().getInventory().getItemInHand().getAmount() > 1) {
+                    e.getPlayer().getInventory().getItemInHand().setAmount(e.getPlayer().getInventory().getItemInHand().getAmount() - 1);
+                }
+                else {
+                    e.getPlayer().getInventory().setItemInHand(new ItemStack(Material.AIR));
+                }
                 bdm.setBlockTag(e.getClickedBlock().getLocation(), "current_research", TagWizard.getItemTag(e.getItem(), "research"));
                 PacketWizard.sendParticle(EnumParticle.VILLAGER_HAPPY, e.getClickedBlock().getLocation().add(0.5, 1, 0.5), 10);
             }

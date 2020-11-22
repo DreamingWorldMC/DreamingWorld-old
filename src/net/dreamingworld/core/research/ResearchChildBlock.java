@@ -104,13 +104,11 @@ public class ResearchChildBlock extends CustomBlock implements Listener {
                                 x.setAmount(x.getAmount() - 1);
                                 e.getWhoClicked().getInventory().addItem(e.getCurrentItem());
                                 return;
-                            } else {
-                                e.getWhoClicked().sendMessage(ChatColor.DARK_RED + "You need at least 2 research papers in your inventory");
-                                return;
                             }
                         }
                     }
                 }
+                e.getWhoClicked().sendMessage(ChatColor.DARK_RED + "You need to have 2 pieces of empty research table near each other.");
             }
         }
     }
