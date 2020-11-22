@@ -50,7 +50,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
 
     public static final String dataDirectory = "DreamingWorld/data/";
 
-    private FishManager fishManager;
+//    private FishManager fishManager;
     private ItemManager itemManager;
     private AlloyManager alloyManager;
     private BlockManager blockManager;
@@ -74,7 +74,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
 
         long begin = System.currentTimeMillis();
 
-        fishManager = new FishManager();
+//        fishManager = new FishManager();
         itemManager = new ItemManager();
         alloyManager = new AlloyManager();
         blockManager = new BlockManager();
@@ -92,7 +92,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         chatManager = new ChatManager();
         rankManager = new RankManager();
 
-        Bukkit.getPluginManager().registerEvents(fishManager, this);
+//        Bukkit.getPluginManager().registerEvents(fishManager, this);
         Bukkit.getPluginManager().registerEvents(alloyManager, this);
         Bukkit.getPluginManager().registerEvents(blockManager, this);
         Bukkit.getPluginManager().registerEvents(craftingManager, this);
@@ -136,9 +136,9 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     }
 
 
-    public FishManager getFishManager() {
-        return fishManager;
-    }
+//    public FishManager getFishManager() {
+//        return fishManager;
+//    }
 
     public ItemManager getItemManager() {
         return itemManager;

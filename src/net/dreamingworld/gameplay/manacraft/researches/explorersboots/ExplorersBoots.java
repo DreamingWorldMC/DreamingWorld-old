@@ -29,7 +29,7 @@ public class ExplorersBoots{
         meta.setDisplayName(ChatColor.DARK_PURPLE + "Explorer's boots");
 
         List<String> lore = new ArrayList<>();
-        lore.add(Util.formatString("Gives you speed and jump boots when wearing."));
+        lore.add(Util.formatString("Gives you speed and jump boost when wearing."));
 
         meta.setLore(lore);
 
@@ -50,8 +50,11 @@ public class ExplorersBoots{
         Bukkit.getScheduler().runTaskTimer(DreamingWorld.getInstance(), () -> {
             for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                 if (p.getEquipment().getBoots() != null && TagWizard.getItemTag(p.getEquipment().getBoots(), "id") != null && TagWizard.getItemTag(p.getEquipment().getBoots(), "id").equals("explorer_boots")) {
-                    p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 80, 2));
-                    p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 80, 2));
+                    p.removePotionEffect(PotionEffectType.SPEED);
+                    p.removePotionEffect(PotionEffectType.JUMP);
+
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 2));
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 40, 2));
                 }
             }
 

@@ -100,15 +100,12 @@ public class ResearchChildBlock extends CustomBlock implements Listener {
                 for (ItemStack x : e.getWhoClicked().getInventory().getContents()) {
                     if (x != null && x.getItemMeta() != null && TagWizard.getItemTag(x, "id") != null && TagWizard.getItemTag(x, "id").equals("empty_research_paper")) {
                         if (e.getWhoClicked().getInventory().firstEmpty() != -1) {
-
-                            e.getWhoClicked().getInventory().addItem(e.getCurrentItem());
-
                             if (x.getAmount() > 1) {
                                 x.setAmount(x.getAmount() - 1);
+                                e.getWhoClicked().getInventory().addItem(e.getCurrentItem());
                                 return;
-                            }
-                            else {
-                                x.setType(Material.AIR);
+                            } else {
+                                e.getWhoClicked().sendMessage(ChatColor.DARK_RED + "You need at least 2 research papers in your inventory");
                                 return;
                             }
                         }
