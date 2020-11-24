@@ -38,7 +38,7 @@ public class AstrumSword implements Listener {
         CustomRecipe recipe = new CustomRecipe(item);
         recipe.shape(new String[] { " I ", " I ", " B " });
         recipe.setCustomIngredient('I', "astrum_ingot");
-        recipe.setCustomIngredient('B', "advanced_stick");
+        recipe.setCustomIngredient('B', "advanced_rod");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
         DreamingWorld.getInstance().getCustomWeaponManager().addWeapon("astrum_sword", 10);

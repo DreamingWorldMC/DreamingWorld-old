@@ -49,6 +49,9 @@ public class Guilds implements Listener {
                 e.printStackTrace();
             }
         }, 0, 100);
+
+
+        GuildInvites.initializeInvites();
     }
 
 

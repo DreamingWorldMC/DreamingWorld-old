@@ -5,8 +5,6 @@ import net.dreamingworld.gameplay.manacraft.researches.advancedtools.AdvancedToo
 import net.dreamingworld.gameplay.manacraft.researches.astrum.*;
 import net.dreamingworld.gameplay.manacraft.mobs.AstralCreature;
 import net.dreamingworld.gameplay.manacraft.researches.advancedmaterials.AdvancedMaterials;
-import net.dreamingworld.gameplay.manacraft.researches.advancedtools.AdvancedStick;
-import net.dreamingworld.gameplay.manacraft.researches.astrumbow.AstrumBow;
 import net.dreamingworld.gameplay.manacraft.researches.astrumbow.AstrumBowResearch;
 import net.dreamingworld.gameplay.manacraft.researches.explorersboots.ExplorersBootsResearch;
 import net.dreamingworld.gameplay.manacraft.researches.hotpeddle.HotPeddleResearch;
@@ -23,14 +21,14 @@ public class Manacraft {
         long begin = System.currentTimeMillis();
 
         // Researches
+        DreamingWorld.getInstance().getResearchManager().addResearch(new AdvancedTools());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new AdvancedMaterials());
         DreamingWorld.getInstance().getResearchManager().addResearch(new ManaManipulation());
         DreamingWorld.getInstance().getResearchManager().addResearch(new ManaInfusion());
         DreamingWorld.getInstance().getResearchManager().addResearch(new PlantsAndCreatures());
         DreamingWorld.getInstance().getResearchManager().addResearch(new IronTreeResearch());
         DreamingWorld.getInstance().getResearchManager().addResearch(new Vapour());
-        DreamingWorld.getInstance().getResearchManager().addResearch(new AdvancedMaterials());
         DreamingWorld.getInstance().getResearchManager().addResearch(new HotPeddleResearch());
-        DreamingWorld.getInstance().getResearchManager().addResearch(new AdvancedTools());
         DreamingWorld.getInstance().getResearchManager().addResearch(new Astrum());
         DreamingWorld.getInstance().getResearchManager().addResearch(new AstrumBowResearch());
         DreamingWorld.getInstance().getResearchManager().addResearch(new SteamToMana());

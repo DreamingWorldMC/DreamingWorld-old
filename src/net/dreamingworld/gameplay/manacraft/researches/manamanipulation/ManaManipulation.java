@@ -25,8 +25,8 @@ public class ManaManipulation extends Research {
 
         DreamingWorld.getInstance().getResearchManager().addParent("mana_manipulation", "basics");
 
-        new ManaFlowBinder();
         new ManaCore();
+        new ManaFlowBinder();
         new ManaGlass();
         new HardCoal();
 

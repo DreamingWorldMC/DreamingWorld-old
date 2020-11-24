@@ -30,8 +30,8 @@ public class Astrum extends Research {
         DreamingWorld.getInstance().getResearchManager().addParent("astrum", "advanced_tools");
 
         new StarDust();
-        new AstrumArmor();
         new AstrumIngot();
+        new AstrumArmor();
         new AstrumSword();
     }
 }

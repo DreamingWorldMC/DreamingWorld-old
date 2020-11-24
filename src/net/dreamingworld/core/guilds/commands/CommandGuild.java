@@ -1,7 +1,9 @@
 package net.dreamingworld.core.guilds.commands;
 
 import net.dreamingworld.DreamingWorld;
+import net.dreamingworld.core.MojangAPI;
 import net.dreamingworld.core.Util;
+import net.dreamingworld.core.guilds.GuildInvites;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.command.Command;
@@ -29,12 +31,14 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
             add(Util.formatString("$(PC)/guild help &r- $(SC)displays this message"));
             add(Util.formatString("$(PC)/guild create <name> &r- $(SC)creates new guild"));
             add(Util.formatString("$(PC)/guild join <name> &r- $(SC)adds you to guild as member (if you invited)"));
+            add(Util.formatString("$(PC)/guild reject <name> &r- $(SC)rejects invite to guild"));
         }};
 
         memberUsage = new ArrayList<String>() {{
             add(Util.formatString("$(PC)/guild help &r- $(SC)displays this message"));
             add(Util.formatString("$(PC)/guild leave &r- $(SC)leave guild"));
             add(Util.formatString("$(PC)/guild pole &r- $(SC)privatizes chunk where player are standing"));
+            add(Util.formatString("$(PC)/guild invite <send|cancel> <player> &r- $(SC)invites (cancels invitation) player to guild"));
         }};
 
 
@@ -42,12 +46,14 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
             add("help");
             add("create");
             add("join");
+            add("reject");
         }};
 
         memberSubcommands = new ArrayList<String>() {{
             add("help");
             add("leave");
             add("pole");
+            add("invite");
         }};
     }
 
@@ -134,7 +140,7 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
                 DreamingWorld.getInstance().getGuildManager().removePlayerFromGuild(player, name);
 
                 sender.sendMessage(Util.formatString("$(PC)You successfully left guild $(SC)" + name + "$(PC). " + (removeGuild ? "You were only member of guild, so it was removed." : "")));
-                break;
+                return true;
 
             case ("pole"):
                 if (args.length != 1) {
@@ -191,6 +197,59 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
                 }
 
                 break;
+
+            case ("invite"):
+                if (args.length != 3) {
+                    sender.sendMessage(Util.formatString("&4Wrong command usage!"));
+                    sender.sendMessage(Util.formatString("&4/guild invite <send|cancel> <player>"));
+                    return true;
+                }
+
+                if (!member) {
+                    sender.sendMessage(Util.formatString("$(PC)You are not in guild"));
+                    return true;
+                }
+
+                String action = args[1];
+
+                switch (action.toLowerCase()) {
+                    case ("send"):
+                        res = GuildInvites.addInvite(args[2], DreamingWorld.getInstance().getGuildManager().getPlayerGuild(player)[0]);
+
+                        switch (res) {
+                            case (-1):
+                                sender.sendMessage(Util.formatString("$(PC)Sorry, but player $(SC)" + args[2] + " $(PC)not found in Mojang and KGB databases"));
+                                return true;
+                            case (-2):
+                                sender.sendMessage(Util.formatString("$(PC)Sorry, but this player is already invited to your guild"));
+                                return true;
+
+                            default:
+                                sender.sendMessage(Util.formatString("$(PC)Invite successfully sent to $(SC)" + args[2]));
+                                return true;
+                        }
+
+                    case ("cancel"):
+                        res = GuildInvites.cancelInvite(args[2], DreamingWorld.getInstance().getGuildManager().getPlayerGuild(player)[0]);
+
+                        switch (res) {
+                            case (-1):
+                                sender.sendMessage(Util.formatString("$(PC)Sorry, but player $(SC)" + args[2] + " $(PC)not found in whole Minecraft!"));
+                                return true;
+                            case (-2):
+                                sender.sendMessage(Util.formatString("$(PC)Sorry, but this player was not invited to your guild"));
+                                return true;
+
+                            default:
+                                sender.sendMessage(Util.formatString("$(PC)Invite successfully cancelled"));
+                                return true;
+                        }
+
+                    default:
+                        sender.sendMessage(Util.formatString("&4Wrong command usage!"));
+                        sender.sendMessage(Util.formatString("&4/guild invite <send|cancel> <player>"));
+                        return true;
+                }
         }
 
         return true;
