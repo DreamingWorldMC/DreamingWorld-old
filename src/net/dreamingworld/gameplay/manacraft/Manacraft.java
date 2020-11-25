@@ -21,9 +21,9 @@ public class Manacraft {
         long begin = System.currentTimeMillis();
 
         // Researches
-        DreamingWorld.getInstance().getResearchManager().addResearch(new AdvancedTools());
         DreamingWorld.getInstance().getResearchManager().addResearch(new AdvancedMaterials());
         DreamingWorld.getInstance().getResearchManager().addResearch(new ManaManipulation());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new AdvancedTools());
         DreamingWorld.getInstance().getResearchManager().addResearch(new ManaInfusion());
         DreamingWorld.getInstance().getResearchManager().addResearch(new PlantsAndCreatures());
         DreamingWorld.getInstance().getResearchManager().addResearch(new IronTreeResearch());

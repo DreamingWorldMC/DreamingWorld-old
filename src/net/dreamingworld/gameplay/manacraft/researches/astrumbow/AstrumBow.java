@@ -1,14 +1,9 @@
 package net.dreamingworld.gameplay.manacraft.researches.astrumbow;
 
 import net.dreamingworld.DreamingWorld;
-import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.crafting.CustomRecipe;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -25,7 +20,6 @@ public class AstrumBow {
         meta.setDisplayName(ChatColor.WHITE + "Astrum bow");
 
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-
 
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.WHITE + "No one likes bow spammers except people with projectile protection. . .");
@@ -44,7 +38,4 @@ public class AstrumBow {
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
         DreamingWorld.getInstance().getCustomWeaponManager().addWeapon("astrum_bow", 12);
     }
-
-
-
 }

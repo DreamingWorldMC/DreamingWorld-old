@@ -24,12 +24,10 @@ public class HotPeddleResearch extends Research {
 
         book.addPage("Hot peddle was found to be pretty interesting. \n When touching radiation it produces a pretty big spark and it is also similar to iron");
 
-
         DreamingWorld.getInstance().getResearchManager().addParent("hot_peddle", "advanced_materials");
 
         new HotPeddle();
-        new HotStaff();
         new HotSword();
-
+        new HotStaff();
     }
 }

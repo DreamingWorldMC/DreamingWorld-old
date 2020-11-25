@@ -1,7 +1,6 @@
 package net.dreamingworld.core.guilds.commands;
 
 import net.dreamingworld.DreamingWorld;
-import net.dreamingworld.core.MojangAPI;
 import net.dreamingworld.core.Util;
 import net.dreamingworld.core.guilds.GuildInvites;
 import org.bukkit.Bukkit;
@@ -14,6 +13,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class CommandGuild implements CommandExecutor, TabCompleter {
 
@@ -262,13 +262,46 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
             return new ArrayList<>();
         }
 
-        if (args.length == 1) {
-            Player player = (Player) sender;
+        Player player = (Player) sender;
 
+        if (args.length == 1) {
             if (isPlayerMember(player)) {
                 return Util.smartAutocomplete(memberSubcommands, args);
             } else {
                 return Util.smartAutocomplete(subcommands, args);
+            }
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("invite")) {
+            if (isPlayerMember(player)) {
+                return Util.smartAutocomplete(new ArrayList<String>() {{
+                    add("send");
+                    add("cancel");
+                }}, args);
+            }
+        } else if (args.length == 3) {
+            if (args[0].equalsIgnoreCase("invite")) {
+                if (args[1].equalsIgnoreCase("send")) {
+                    List<String> a = new ArrayList<>();
+
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (!isPlayerMember(p) && !GuildInvites.isInvited(p.getName(), DreamingWorld.getInstance().getGuildManager().getPlayerGuild(player)[0])) {
+                            a.add(p.getName());
+                        }
+                    }
+
+                    return a;
+                } else if (args[1].equalsIgnoreCase("cancel")) {
+                    List<String> a = new ArrayList<>();
+
+                    for (String uuid : GuildInvites.getInvited(DreamingWorld.getInstance().getGuildManager().getPlayerGuild(player)[0])) {
+                        String n = GuildInvites.getNick(uuid);
+
+                        if (n != null) {
+                            a.add(n);
+                        }
+                    }
+
+                    return a;
+                }
             }
         }
 

@@ -32,6 +32,7 @@ public class Guilds implements Listener {
             config.createSection("guilds");
         }
 
+        GuildInvites.initializeInvites();
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(DreamingWorld.getInstance(), () -> { // Player actionbar update
             for (Player player : Bukkit.getOnlinePlayers()) {
@@ -48,10 +49,9 @@ public class Guilds implements Listener {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            GuildInvites.saveConfig();
         }, 0, 100);
-
-
-        GuildInvites.initializeInvites();
     }
 
 

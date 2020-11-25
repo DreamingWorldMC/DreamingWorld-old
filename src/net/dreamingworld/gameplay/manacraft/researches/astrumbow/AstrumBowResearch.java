@@ -2,9 +2,6 @@ package net.dreamingworld.gameplay.manacraft.researches.astrumbow;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.research.Research;
-import net.dreamingworld.gameplay.manacraft.researches.hotpeddle.HotPeddle;
-import net.dreamingworld.gameplay.manacraft.researches.hotpeddle.HotStaff;
-import net.dreamingworld.gameplay.manacraft.researches.hotpeddle.HotSword;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
