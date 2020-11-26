@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.util.Vector;
 
 import java.io.File;
@@ -243,6 +244,12 @@ public class Guilds implements Listener {
 
     public int removePlayerFromGuild(Player player, String guild) {
         return addPlayerToGuild(player, guild, null);
+    }
+
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        GuildInvites.sendInviteMessages(e.getPlayer());
     }
 
 

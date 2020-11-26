@@ -223,6 +223,12 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
                             case (-2):
                                 sender.sendMessage(Util.formatString("$(PC)Sorry, but this player is already invited to your guild"));
                                 return true;
+                            case (-3):
+                                sender.sendMessage(Util.formatString("$(PC)Sorry, but specified player can`t be invited to $(SC)more than 15 guilds $(PC)at the same time"));
+                                return true;
+                            case (-4):
+                                sender.sendMessage(Util.formatString("$(PC)Sorry, but guild can`t have more than $(SC)30 pending invites"));
+                                return true;
 
                             default:
                                 sender.sendMessage(Util.formatString("$(PC)Invite successfully sent to $(SC)" + args[2]));
