@@ -9,24 +9,23 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class BlankGem {
-    public BlankGem() {
-        ItemStack item = new ItemStack(Material.QUARTZ);
+public class AirGem {
+    public AirGem() {
+        ItemStack item = new ItemStack(Material.DIAMOND);
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(ChatColor.WHITE + "Blank gem");
+        meta.setDisplayName(ChatColor.YELLOW + "Air gem");
 
         meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
         item.setItemMeta(meta);
-        DreamingWorld.getInstance().getItemManager().registerItem("blank_gem", item);
+        DreamingWorld.getInstance().getItemManager().registerItem("air_gem", item);
 
         CustomRecipe recipe = new CustomRecipe(item);
-        recipe.shape(new String[] { "III", "IMI", "III" });
-        recipe.setVanillaIngredient('I', Material.GLASS);
-        recipe.setCustomIngredient('M', "manium");
-
+        recipe.shape(new String[] { "FFF", "FGF", "FFF" });
+        recipe.setCustomIngredient('G', "blank_gem");
+        recipe.setVanillaIngredient('F', Material.FEATHER);
 
         recipe.setResearch("mana_gem");
 

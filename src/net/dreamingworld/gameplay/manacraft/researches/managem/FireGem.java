@@ -14,7 +14,7 @@ public class FireGem {
         ItemStack item = new ItemStack(Material.DIAMOND);
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(ChatColor.GREEN + "Fire gem");
+        meta.setDisplayName(ChatColor.DARK_RED + "Fire gem");
 
         meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);

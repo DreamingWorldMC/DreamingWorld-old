@@ -32,6 +32,9 @@ public class ManaGem extends Research {
         new BlankGem();
         new FireGem();
         new ManaGemItem();
+        new AirGem();
+        new EarthGem();
+        new WaterGem();
     }
 
 }

@@ -16,7 +16,7 @@ public class ManaGemItem {
         ItemStack item = new ItemStack(Material.DIAMOND);
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(ChatColor.GREEN + "Mana gem");
+        meta.setDisplayName(ChatColor.AQUA + "Mana gem");
 
         meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
