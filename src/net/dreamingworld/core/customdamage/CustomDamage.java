@@ -3,8 +3,10 @@ package net.dreamingworld.core.customdamage;
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.Util;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.MathHelper;
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
@@ -235,27 +237,13 @@ public class CustomDamage implements Listener {
 
             int resDamage = MathHelper.clamp((int) startDamage - (int) removeDMG, 0, 10000);
 
-            if (!((Player) e.getEntity()).hasPotionEffect(PotionEffectType.ABSORPTION)) {
-                if (((Player) e.getEntity()).getHealth() - resDamage > 0) {
-                    ((Player) e.getEntity()).setHealth(((Player) e.getEntity()).getHealth() - resDamage);
-                }
-                else {
-                    ((Player) e.getEntity()).setHealth(0);
-
-                    String deathMessage = deathMsg.getOrDefault(e.getCause(), " &7died from &7&kIDKDONTADDEDYET");
-                    Bukkit.broadcastMessage(Util.formatString("&9" + ((Player) e.getEntity()).getDisplayName() + deathMessage));
-                }
+            if (((Player) e.getEntity()).getHealth() + ((CraftPlayer)e.getEntity()).getHandle().getAbsorptionHearts() - resDamage > 0) {
+                ((Player) e.getEntity()).damage(resDamage);
             }
             else {
-                for (PotionEffect x : ((Player) e.getEntity()).getActivePotionEffects()) {
-                    if (x.getType().equals(PotionEffectType.ABSORPTION) && resDamage > 0) {
-                        ((Player) e.getEntity()).removePotionEffect(PotionEffectType.ABSORPTION);
-                        ((Player) e.getEntity()).addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, x.getDuration(), x.getAmplifier() - 1));
-                        if (x.getAmplifier() <= 0) {
-                            ((Player) e.getEntity()).removePotionEffect(PotionEffectType.ABSORPTION);
-                        }
-                    }
-                }
+                ((Player) e.getEntity()).damage(resDamage);
+                String deathMessage = deathMsg.getOrDefault(e.getCause(), " &7died from &7&kIDKDONTADDEDYET");
+                Bukkit.broadcastMessage(Util.formatString("&9" + ((Player) e.getEntity()).getDisplayName() + deathMessage));
             }
         }
     }
