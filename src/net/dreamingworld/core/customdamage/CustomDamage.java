@@ -3,7 +3,6 @@ package net.dreamingworld.core.customdamage;
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.Util;
-import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.MathHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -241,7 +240,7 @@ public class CustomDamage implements Listener {
                 ((Player) e.getEntity()).damage(resDamage);
             }
             else {
-                ((Player) e.getEntity()).damage(resDamage);
+                ((Player) e.getEntity()).setHealth(0);
                 String deathMessage = deathMsg.getOrDefault(e.getCause(), " &7died from &7&kIDKDONTADDEDYET");
                 Bukkit.broadcastMessage(Util.formatString("&9" + ((Player) e.getEntity()).getDisplayName() + deathMessage));
             }

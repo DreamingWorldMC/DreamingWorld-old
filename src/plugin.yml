@@ -29,6 +29,12 @@ commands:
     aliases: [l]
     usage: /<command> <message...>
 
+  teleport:
+    description: teleportation
+    permission: dreamingworld.teleport
+    aliases: [tp, plsservermovemeto]
+    usage: /<command> <subcommand|player> <player>
+
 
   rank:
     description: Rank management
@@ -75,6 +81,7 @@ permissions:
       dreamingworld.channel: true
       dreamingworld.tell: true
       dreamingworld.instantmessage: true
+      dreamingworld.teleport: true
 
   dreamingworld.debug.*:
     children:
@@ -93,6 +100,8 @@ permissions:
   dreamingworld.tell:
     default: true
   dreamingworld.instantmessage:
+    default: true
+  dreamingworld.teleport:
     default: true
 
   # Gameplay
