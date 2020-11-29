@@ -3,6 +3,7 @@ package net.dreamingworld;
 import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.blocks.BlockManager;
 import net.dreamingworld.core.chat.ChatManager;
+import net.dreamingworld.core.chat.commands.CommandTeleport;
 import net.dreamingworld.core.commands.CommandDwstructure;
 import net.dreamingworld.core.commands.CommandDwsummon;
 import net.dreamingworld.core.commands.CommandRecipes;
@@ -109,6 +110,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         new CommandRecipes();
         new CommandDwstructure();
         new CommandGuild();
+        new CommandTeleport();
 
         alloyManager.registerAlloy(Material.COAL_ORE, new Ignium());
         alloyManager.registerAlloy(Material.COAL_ORE, new Energium());

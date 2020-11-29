@@ -3,6 +3,7 @@ package net.dreamingworld.core.chat.commands;
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.Util;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -58,8 +59,13 @@ public class CommandTeleport implements CommandExecutor, TabCompleter, Listener 
                             if (x.getValue().equals(sender.getName())) {
                                 Bukkit.getPlayer(x.getKey()).teleport(((Player) sender).getLocation());
                                 tpRequests.remove(x.getKey());
+                                sender.sendMessage(Bukkit.getPlayer(x.getKey()).getDisplayName() + " has been teleported to you");
+                                Bukkit.getPlayer(x.getKey()).sendMessage("You have been teleported to " + ((Player) sender).getDisplayName());
                             }
                         }
+                    }
+                    else {
+                        sender.sendMessage(ChatColor.AQUA + "Wow such empty (:");
                     }
                 }
                 else {
@@ -68,6 +74,7 @@ public class CommandTeleport implements CommandExecutor, TabCompleter, Listener 
                             if (x.getValue().equals(sender.getName()) && x.getKey().equals(args[1])) {
                                 Bukkit.getPlayer(x.getKey()).teleport(((Player) sender).getLocation());
                                 tpRequests.remove(x.getKey());
+                                sender.sendMessage(Bukkit.getPlayer(x.getKey()).getDisplayName() + " has been teleported to you");
                             }
                         }
                     }
