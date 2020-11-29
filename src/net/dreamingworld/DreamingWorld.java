@@ -3,10 +3,7 @@ package net.dreamingworld;
 import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.blocks.BlockManager;
 import net.dreamingworld.core.chat.ChatManager;
-import net.dreamingworld.core.commands.TeleportCommands;
-import net.dreamingworld.core.commands.CommandDwstructure;
-import net.dreamingworld.core.commands.CommandDwsummon;
-import net.dreamingworld.core.commands.CommandRecipes;
+import net.dreamingworld.core.commands.*;
 import net.dreamingworld.core.crafting.RecipeBook;
 import net.dreamingworld.core.crafting.SmeltingManager;
 import net.dreamingworld.core.customdamage.CustomWeapon;
@@ -23,7 +20,6 @@ import net.dreamingworld.core.structures.StructureManager;
 import net.dreamingworld.gameplay.alloys.*;
 import net.dreamingworld.core.ItemManager;
 import net.dreamingworld.core.alloys.AlloyManager;
-import net.dreamingworld.core.commands.CommandDwgive;
 import net.dreamingworld.core.crafting.CraftingManager;
 import net.dreamingworld.gameplay.bosskills.BossKills;
 import net.dreamingworld.gameplay.fishing.Fishing;
@@ -110,6 +106,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         new CommandDwstructure();
         new CommandGuild();
         new TeleportCommands();
+        new CommandSystemInfo();
 
         alloyManager.registerAlloy(Material.COAL_ORE, new Ignium());
         alloyManager.registerAlloy(Material.COAL_ORE, new Energium());

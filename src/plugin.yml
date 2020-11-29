@@ -74,6 +74,12 @@ commands:
     aliases: [dwstruct, dwstr]
     usage: /<command> <structure>
 
+  systeminfo:
+    description: Shows server status
+    permission: dreamingworld.systeminfo
+    aliases: [sysinfo, si, servhealth, health]
+    usage: /<command>
+
 
   recipes:
     description: Shows recipe book
@@ -100,6 +106,7 @@ permissions:
       dreamingworld.give: true
       dreamingworld.summon: true
       dreamingworld.structure: true
+      dreamingworld.systeminfo: true
 
   dreamingworld.gameplay.*:
     children:
@@ -142,4 +149,6 @@ permissions:
   dreamingworld.summon:
     default: op
   dreamingworld.structure:
+    default: op
+  dreamingworld.systeminfo:
     default: op

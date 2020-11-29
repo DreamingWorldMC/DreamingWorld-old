@@ -12,6 +12,7 @@ public class CommandRecipes implements CommandExecutor, TabCompleter {
 
     public CommandRecipes() {
         Bukkit.getPluginCommand("recipes").setExecutor(this);
+        Bukkit.getPluginCommand("recipes").setTabCompleter(this);
     }
 
     @Override
