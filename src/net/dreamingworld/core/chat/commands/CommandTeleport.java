@@ -9,7 +9,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,9 +82,31 @@ public class CommandTeleport implements CommandExecutor, TabCompleter, Listener 
                     }
                 }
             } else if (args[0].toLowerCase().charAt(0) == 'd') {
-
+                if (args.length < 2) {
+                    if (tpRequests.containsValue(sender.getName())) {
+                        for (Map.Entry<String, String> x : tpRequests.entrySet()) {
+                            if (x.getValue().equals(sender.getName())) {
+                                tpRequests.remove(x.getKey());
+                            }
+                        }
+                    }
+                    else {
+                        sender.sendMessage(ChatColor.AQUA + "It is already: wow such empty (:");
+                    }
+                }
+                else {
+                    if (tpRequests.containsValue(sender.getName())) {
+                        for (Map.Entry<String, String> x : tpRequests.entrySet()) {
+                            if (x.getValue().equals(sender.getName()) && x.getKey().equals(args[1])) {
+                                tpRequests.remove(x.getKey());
+                            }
+                        }
+                    }
+                }
             } else if (args[0].toLowerCase().charAt(0) == 'c') {
-
+                if (tpRequests.containsKey(sender.getName())) {
+                    tpRequests.remove(sender.getName());
+                }
             }
         }
         else {
@@ -125,5 +149,12 @@ public class CommandTeleport implements CommandExecutor, TabCompleter, Listener 
         }
 
         return new ArrayList<>();
+    }
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent e) {
+        if (tpRequests.containsKey(e.getPlayer().getName())){
+            tpRequests.remove(e.getPlayer().getName());
+        }
     }
 }
