@@ -1,4 +1,4 @@
-package net.dreamingworld.core.chat.commands;
+package net.dreamingworld.core.commands;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.Util;
