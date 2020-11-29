@@ -14,6 +14,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -65,7 +66,9 @@ public class ResearchChildBlock extends CustomBlock implements Listener {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK || e.getClickedBlock() == null || DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()) == null || !"research_child_block".equals(DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()))) {
             return;
         }
+
         e.setCancelled(true);
+
         if (e.getItem() != null && TagWizard.getItemTag(e.getItem(), "id") != null && TagWizard.getItemTag(e.getItem(), "id").equals("final_research")) {
             PacketWizard.sendParticle(EnumParticle.VILLAGER_HAPPY, e.getClickedBlock().getLocation().add(0.5, 1, 0.5), 10);
 
@@ -79,15 +82,14 @@ public class ResearchChildBlock extends CustomBlock implements Listener {
             ui.putItem(0, testItem);
             ui.putItem(8, testItem);
 
-
-            Integer i = 1;
+            int i = 1;
             for (String s : DreamingWorld.getInstance().getResearchManager().getResearchChildren(TagWizard.getItemTag(e.getItem(), "research"))) {
                 ui.putItem(i, DreamingWorld.getInstance().getResearchManager().getResearchItem(s));
                 i++;
             }
+
             ui.show(e.getPlayer());
-        }
-        else {
+        } else {
             e.getPlayer().sendMessage(ChatColor.DARK_RED + "That is not a thing you can research.");
         }
     }
@@ -96,20 +98,30 @@ public class ResearchChildBlock extends CustomBlock implements Listener {
     public void onClickUI(InventoryClickEvent e) {
         if (e.getInventory().getItem(0) != null && TagWizard.getItemTag(e.getInventory().getItem(0), "ui") != null && TagWizard.getItemTag(e.getInventory().getItem(0), "ui").equals("research_child_block")) {
             e.setCancelled(true);
+
             if (TagWizard.getItemTag(e.getCurrentItem(), "ui") == null && e.getClick() == ClickType.RIGHT || TagWizard.getItemTag(e.getCurrentItem(), "ui") == null && e.getClick() == ClickType.LEFT) {
+                int slot = 0;
                 for (ItemStack x : e.getWhoClicked().getInventory().getContents()) {
                     if (x != null && x.getItemMeta() != null && TagWizard.getItemTag(x, "id") != null && TagWizard.getItemTag(x, "id").equals("empty_research_paper")) {
                         if (e.getWhoClicked().getInventory().firstEmpty() != -1) {
-                            if (x.getAmount() > 1) {
+                            if (x.getAmount() > 0) {
                                 x.setAmount(x.getAmount() - 1);
                                 e.getWhoClicked().getInventory().addItem(e.getCurrentItem());
+
+                                if (x.getAmount() <= 0) {
+                                    e.getWhoClicked().getInventory().clear(slot);
+                                }
+
                                 return;
                             }
                         }
                     }
+
+                    slot++;
                 }
-                e.getWhoClicked().sendMessage(ChatColor.DARK_RED + "You need to have 2 pieces of empty research table near each other.");
             }
+
+            e.getWhoClicked().sendMessage(ChatColor.DARK_RED + "You need at least one empty research paper");
         }
     }
 }

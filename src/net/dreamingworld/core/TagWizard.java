@@ -3,6 +3,7 @@ package net.dreamingworld.core;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -15,6 +16,10 @@ import java.util.Map;
 public class TagWizard {
 
     public static void addItemTag(ItemStack item, String tag, String value) {
+        if (item == null) {
+            return;
+        }
+
         if (item.getType() == Material.AIR) {
             return;
         }
@@ -47,8 +52,20 @@ public class TagWizard {
 
         if (n == -1) {
             lore.add(makeInvisible(makeTagData(data)));
+
+            if (data.containsKey("id")) {
+                lore.add(ChatColor.GRAY + data.get("id").toUpperCase());
+            }
         } else {
             lore.set(n, makeInvisible(makeTagData(data)));
+
+            if (data.containsKey("id")) {
+                if (n == lore.size() - 1) {
+                    lore.add(ChatColor.GRAY + data.get("id").toUpperCase());
+                } else {
+                    lore.set(lore.size() - 1, ChatColor.GRAY + data.get("id").toUpperCase());
+                }
+            }
         }
 
         meta.setLore(lore);
@@ -56,6 +73,10 @@ public class TagWizard {
     }
 
     public static String getItemTag(ItemStack item, String tag) {
+        if (item == null) {
+            return null;
+        }
+
         if (!item.hasItemMeta()) {
             return null;
         }
@@ -70,12 +91,10 @@ public class TagWizard {
         }
 
         Map<String, String> data = null;
-        int n = -1;
         for (String s : lore) {
             String vs = makeVisible(s);
             if (vs.startsWith("$DATA")) {
                 data = getTagData(vs);
-                n = lore.indexOf(s);
                 break;
             }
         }

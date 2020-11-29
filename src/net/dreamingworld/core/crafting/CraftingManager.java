@@ -2,6 +2,7 @@ package net.dreamingworld.core.crafting;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.TagWizard;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -11,27 +12,39 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class CraftingManager implements Listener {
 
     private Set<CustomRecipe> recipes;
+    private List<ItemStack> vanillaResults;
 
     private Map<String, String> itemsRequiringResearch;
 
     public CraftingManager() {
         recipes = new HashSet<>();
         itemsRequiringResearch = new HashMap<>();
+
+        vanillaResults = new ArrayList<>();
+
+        Iterator<Recipe> it = Bukkit.recipeIterator();
+        while (it.hasNext()) {
+            Recipe r = it.next();
+
+            if (r instanceof ShapedRecipe) {
+                vanillaResults.add(r.getResult());
+            }
+        }
     }
 
 
     public void registerRecipe(CustomRecipe recipe) {
         recipe.register();
         recipes.add(recipe);
+
         if (recipe.requiredResearch != null) {
             itemsRequiringResearch.put(TagWizard.getItemTag(recipe.getResult(), "id"), recipe.requiredResearch);
         }
@@ -45,11 +58,17 @@ public class CraftingManager implements Listener {
     @EventHandler
     public void onCraftPrepare(PrepareItemCraftEvent e) {
         CraftingInventory inventory = e.getInventory();
-        for (CustomRecipe recipe : recipes) {
+
+        rcp: for (CustomRecipe recipe : recipes) {
+            for (ItemStack item : vanillaResults) {
+                if (item.isSimilar(e.getRecipe().getResult())) {
+                    continue rcp;
+                }
+            }
+
             if (!recipe.isValid(inventory.getMatrix())) {
                 inventory.setResult(new ItemStack(Material.AIR));
-            }
-            else {
+            } else {
                 inventory.setResult(recipe.getResult());
                 return;
             }
@@ -65,10 +84,7 @@ public class CraftingManager implements Listener {
     @EventHandler
     public void onTake(CraftItemEvent e) {
         if (itemsRequiringResearch.containsKey(TagWizard.getItemTag(e.getCurrentItem(), "id"))) {
-            if (DreamingWorld.getInstance().getResearchManager().playerHasResearch((Player) e.getWhoClicked(), itemsRequiringResearch.get(TagWizard.getItemTag(e.getCurrentItem(), "id")))) {
-                return;
-            }
-            else {
+            if (!DreamingWorld.getInstance().getResearchManager().playerHasResearch((Player) e.getWhoClicked(), itemsRequiringResearch.get(TagWizard.getItemTag(e.getCurrentItem(), "id")))) {
                 e.getWhoClicked().sendMessage(ChatColor.DARK_RED + "You don't have needed research in your inventory.");
                 e.setCancelled(true);
             }

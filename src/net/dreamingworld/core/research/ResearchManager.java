@@ -4,6 +4,7 @@ import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.Util;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -65,7 +66,7 @@ public class ResearchManager {
             meta.addPage("∷ᒷᓭ∴ᔑ∷ᓵ⍑ \n \n Unfinished Research");
 
             lore.add(x.getValue().name);
-            meta.setAuthor("no one");
+            meta.setAuthor(ChatColor.MAGIC + "somebody");
             meta.setLore(lore);
             item.setItemMeta(meta);
 
@@ -73,8 +74,8 @@ public class ResearchManager {
             TagWizard.addItemTag(item, "research", x.getKey());
 
             researchBooks.put(x.getKey(), item);
-
         }
+
         new ResearchRecipes();
     }
 

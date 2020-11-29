@@ -17,8 +17,8 @@ public class BasicResearch extends Research {
         items.put("Something hot found in ore.", "ignium");
         items.put("White and holy", "white_log");
 
-        book = (BookMeta)(new ItemStack(Material.WRITTEN_BOOK).getItemMeta());
+        book = (BookMeta) (new ItemStack(Material.WRITTEN_BOOK).getItemMeta());
 
-        book.addPage( "This is basic research which you can make using a crafting table and research using research table it is used to have other researches as it's children");
+        book.addPage("This is basic research which you can make using a crafting table and research using research table it is used to have other researches as it's children");
     }
 }
