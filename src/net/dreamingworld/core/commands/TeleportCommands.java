@@ -76,10 +76,10 @@ public class TeleportCommands implements CommandExecutor, TabCompleter, Listener
                     if (set.contains(player)) {
                         set.remove(player);
                         requests.put(receiver, set);
-                    }
 
-                    if (player.isOnline()) {
-                        player.sendMessage(Util.formatString("$(PC)Your teleport request to " + receiver.getDisplayName() + " $(PC)was expired"));
+                        if (player.isOnline()) {
+                            player.sendMessage(Util.formatString("$(PC)Your teleport request to " + receiver.getDisplayName() + " $(PC)was expired"));
+                        }
                     }
                 }, 1200);
 
