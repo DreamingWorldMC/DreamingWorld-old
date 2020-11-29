@@ -29,11 +29,24 @@ commands:
     aliases: [l]
     usage: /<command> <message...>
 
+
   teleport:
-    description: teleportation
+    description: Teleportation request command
     permission: dreamingworld.teleport
     aliases: [tp, plsservermovemeto]
-    usage: /<command> <subcommand|player> <player>
+    usage: /<command> <player>
+
+  teleportaccept:
+    description: Accepts teleportation request
+    permission: dreamingworld.teleportaccept
+    aliases: [tpaccept]
+    usage: /<command> [player]
+
+  teleportdeny:
+    description: Denies teleportation request
+    permission: dreamingworld.teleportdeny
+    aliases: [tpdeny]
+    usage: /<command> [player]
 
 
   rank:
@@ -81,7 +94,6 @@ permissions:
       dreamingworld.channel: true
       dreamingworld.tell: true
       dreamingworld.instantmessage: true
-      dreamingworld.teleport: true
 
   dreamingworld.debug.*:
     children:
@@ -91,8 +103,12 @@ permissions:
 
   dreamingworld.gameplay.*:
     children:
+      dreamingworld.teleport: true
+      dreamingworld.teleportaccept: true
+      dreamingworld.teleportdeny: true
       dreamingworld.recipes: true
       dreamingworld.guilds: true
+
 
   # Chat
   dreamingworld.channel:
@@ -101,10 +117,16 @@ permissions:
     default: true
   dreamingworld.instantmessage:
     default: true
-  dreamingworld.teleport:
-    default: true
 
   # Gameplay
+  # Teleportation
+  dreamingworld.teleport:
+    default: true
+  dreamingworld.teleportaccept:
+    default: true
+  dreamingworld.teleportdeny:
+    default: true
+  # Other
   dreamingworld.recipes:
     default: true
   dreamingworld.guilds:

@@ -32,4 +32,9 @@ public class PacketWizard {
         PacketPlayOutChat packet = new PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + message + "\"}"), (byte) 2);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
+
+    public static void tellraw(Player player, String json) {
+        PacketPlayOutChat packet = new PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a(json), (byte) 0);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+    }
 }
