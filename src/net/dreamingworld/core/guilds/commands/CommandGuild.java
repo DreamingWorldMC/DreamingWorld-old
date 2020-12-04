@@ -17,11 +17,11 @@ import java.util.UUID;
 
 public class CommandGuild implements CommandExecutor, TabCompleter {
 
-    private List<String> usage;
-    private List<String> memberUsage;
+    private final List<String> usage;
+    private final List<String> memberUsage;
 
-    private List<String> subcommands;
-    private List<String> memberSubcommands;
+    private final List<String> subcommands;
+    private final List<String> memberSubcommands;
 
     public CommandGuild() {
         Bukkit.getPluginCommand("guild").setExecutor(this);
@@ -113,6 +113,61 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
                         sender.sendMessage(Util.formatString("$(PC)Created guild $(SC)" + args[1] + " $(PC)successfully."));
                         return true;
                 }
+
+            case ("join"):
+                if (args.length != 2) {
+                    sender.sendMessage(Util.formatString("&4Wrong command usage!"));
+                    sender.sendMessage(Util.formatString("&4/guild join <name>"));
+                    return true;
+                }
+
+                if (DreamingWorld.getInstance().getGuildManager().getPlayerGuild(player)[0] != null) {
+                    sender.sendMessage(Util.formatString("$(PC)Sorry, but you are already in a guild"));
+                    return true;
+                }
+
+                if (!GuildInvites.isInvited(player.getUniqueId(), args[1])) {
+                    sender.sendMessage(Util.formatString("$(PC)Sorry, but you were not invited to this guild!"));
+                    return true;
+                }
+
+                res = DreamingWorld.getInstance().getGuildManager().addPlayerToGuild(player, args[1], "member");
+
+                if (res != 0) {
+                    sender.sendMessage(Util.formatString("$(PC)Sorry, but specified guild not found!"));
+                    return true;
+                }
+
+                sender.sendMessage(Util.formatString("$(PC)You have successfully joined $(SC)" + args[1]));
+
+                for (String pl : DreamingWorld.getInstance().getGuildManager().getGuildMembers(args[1])) {
+                    Player p = Bukkit.getPlayer(UUID.fromString(pl));
+
+                    if (p != null) {
+                        p.sendMessage(Util.formatString(player.getDisplayName() + " $(PC)has joined the guild"));
+                    }
+                }
+
+                GuildInvites.cancelInvite(player.getUniqueId(), args[1]);
+
+                return true;
+
+            case ("reject"):
+                if (args.length != 2) {
+                    sender.sendMessage(Util.formatString("&4Wrong command usage!"));
+                    sender.sendMessage(Util.formatString("&4/guild reject <name>"));
+                    return true;
+                }
+
+                if (!GuildInvites.isInvited(player.getUniqueId(), args[1])) {
+                    sender.sendMessage(Util.formatString("$(PC)Sorry, but you were not invited to this guild!"));
+                    return true;
+                }
+
+                sender.sendMessage(Util.formatString("$(PC)You have successfully rejected invitation to $(SC)" + args[1]));
+                GuildInvites.cancelInvite(player.getUniqueId(), args[1]);
+
+                return true;
 
             ///////////////////////////////////////////////////////// Guild members commands
 
@@ -276,12 +331,18 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
             } else {
                 return Util.smartAutocomplete(subcommands, args);
             }
-        } else if (args.length == 2 && args[0].equalsIgnoreCase("invite")) {
-            if (isPlayerMember(player)) {
-                return Util.smartAutocomplete(new ArrayList<String>() {{
-                    add("send");
-                    add("cancel");
-                }}, args);
+        } else if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("invite")) {
+                if (isPlayerMember(player)) {
+                    return Util.smartAutocomplete(new ArrayList<String>() {{
+                        add("send");
+                        add("cancel");
+                    }}, args);
+                }
+            } else if (args[0].equalsIgnoreCase("join") || args[0].equalsIgnoreCase("reject")) {
+                if (!isPlayerMember(player)) {
+                    return Util.smartAutocomplete(GuildInvites.getPlayerInvites(player.getUniqueId()), args);
+                }
             }
         } else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("invite")) {

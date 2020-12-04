@@ -121,16 +121,10 @@ public class GuildInvites {
         return -2;
     }
 
-    public static int cancelInvite(String player, String guild) {
+    public static int cancelInvite(UUID uuid, String guild) {
         ConfigurationSection s = config.getConfigurationSection("invites");
         ConfigurationSection p = config.getConfigurationSection("players");
         ConfigurationSection n = config.getConfigurationSection("nicks");
-
-        UUID uuid = MojangAPI.getPlayerUUID(player);
-
-        if (uuid == null) {
-            return -1;
-        }
 
         if (isInvited(uuid, guild)) {
             List<String> l = s.getStringList(guild);
@@ -147,6 +141,16 @@ public class GuildInvites {
         }
 
         return -2;
+    }
+
+    public static int cancelInvite(String player, String guild) {
+        UUID uuid = MojangAPI.getPlayerUUID(player);
+
+        if (uuid == null) {
+            return -1;
+        }
+
+        return cancelInvite(uuid, guild);
     }
 
 

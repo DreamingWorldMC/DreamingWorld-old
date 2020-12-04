@@ -13,7 +13,9 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 public class AstrumArmor {
 
     public AstrumArmor() {
-        ItemStack item = new ItemStack(Material.QUARTZ_STAIRS);
+        ItemStack item = new ItemStack(Material.STEP);
+        item.setDurability((short) 7);
+
         ItemMeta meta = item.getItemMeta();
 
         meta.setDisplayName(ChatColor.DARK_PURPLE + "Astrum helmet");

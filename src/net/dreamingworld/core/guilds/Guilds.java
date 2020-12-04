@@ -79,12 +79,12 @@ public class Guilds implements Listener {
         return 0;
     }
 
-    public int removeGuild(String name) {
+    public void removeGuild(String name) {
         ConfigurationSection g = config.getConfigurationSection("guilds");
         Set<String> guilds = g.getKeys(false);
 
         if (!guilds.contains(name)) {
-            return -1;
+            return;
         }
 
         ConfigurationSection sect = g.getConfigurationSection(name).getConfigurationSection("chunks");
@@ -95,9 +95,11 @@ public class Guilds implements Listener {
             }
         }
 
-        g.set(name, null);
+        for (String player : GuildInvites.getInvited(name)) {
+            GuildInvites.cancelInvite(player, name);
+        }
 
-        return 0;
+        g.set(name, null);
     }
 
 
@@ -105,7 +107,6 @@ public class Guilds implements Listener {
         ConfigurationSection guild = config.getConfigurationSection("guilds").getConfigurationSection(name);
 
         if (guild == null) {
-            Bukkit.broadcastMessage("a");
             return new ArrayList<>();
         }
 

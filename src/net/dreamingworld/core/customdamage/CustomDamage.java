@@ -54,7 +54,6 @@ public class CustomDamage implements Listener {
             return;
         }
 
-
         double finalDamage = e.getDamage();
 
         if (e.getDamager() instanceof Arrow && e.getDamager().getMetadata("damage").get(0).asDouble() != -1) {
@@ -118,7 +117,7 @@ public class CustomDamage implements Listener {
 
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent e) {
-        if (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) && now != true) {
+        if (e.getCause() != null && e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) && !now) {
             return;
         }
 
@@ -200,16 +199,12 @@ public class CustomDamage implements Listener {
                         armorPoints += armorItem.getEnchantments().get(Enchantment.PROTECTION_ENVIRONMENTAL);
                     }
 
-                    if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_FIRE)) {
-                        if (e.getCause().equals(EntityDamageEvent.DamageCause.FIRE) || e.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK) || e.getCause().equals(EntityDamageEvent.DamageCause.LAVA)) {
-                            armorPoints += armorItem.getEnchantments().get(Enchantment.PROTECTION_FIRE) * 3;
-                        }
+                    if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_FIRE) && (e.getCause().equals(EntityDamageEvent.DamageCause.FIRE) || e.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK) || e.getCause().equals(EntityDamageEvent.DamageCause.LAVA))) {
+                        armorPoints += armorItem.getEnchantments().get(Enchantment.PROTECTION_FIRE) * 3;
                     }
 
-                    if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_EXPLOSIONS)) {
-                        if (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) || e.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION)) {
-                            armorPoints += armorItem.getEnchantments().get(Enchantment.PROTECTION_EXPLOSIONS) * 3;
-                        }
+                    if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_EXPLOSIONS) && (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) || e.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION))) {
+                        armorPoints += armorItem.getEnchantments().get(Enchantment.PROTECTION_EXPLOSIONS) * 3;
                     }
 
                     if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_FALL) && e.getCause() == EntityDamageEvent.DamageCause.FALL) {
@@ -219,27 +214,27 @@ public class CustomDamage implements Listener {
                     if (armorItem.getItemMeta().hasEnchant(Enchantment.PROTECTION_PROJECTILE) && e.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
                         armorPoints += armorItem.getEnchantments().get(Enchantment.PROTECTION_PROJECTILE) * 3;
                     }
+
                     for (PotionEffect x : ((Player) e.getEntity()).getActivePotionEffects()) {
                         if (x.getType().equals(PotionEffectType.ABSORPTION)) {
                             armorPoints += x.getAmplifier() * 5;
                         }
                     }
-
                 }
             }
 
             removeDMG += startDamage * MathHelper.clamp(armorPoints, 0, 20) * 3 / 100;
             e.setDamage(0);
 
-            if (armorPoints > 20)
+            if (armorPoints > 20) {
                 removeDMG += startDamage * MathHelper.clamp(armorPoints, 20, 75) * 0.5 / 100;
+            }
 
             int resDamage = MathHelper.clamp((int) startDamage - (int) removeDMG, 0, 10000);
 
             if (((Player) e.getEntity()).getHealth() + ((CraftPlayer)e.getEntity()).getHandle().getAbsorptionHearts() - resDamage > 0) {
                 ((Player) e.getEntity()).damage(resDamage);
-            }
-            else {
+            } else {
                 ((Player) e.getEntity()).setHealth(0);
                 String deathMessage = deathMsg.getOrDefault(e.getCause(), " &7died from &7&kIDKDONTADDEDYET");
                 Bukkit.broadcastMessage(Util.formatString("&9" + ((Player) e.getEntity()).getDisplayName() + deathMessage));
