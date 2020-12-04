@@ -36,26 +36,15 @@ public class BasicManaGenerator extends ManaContainer {
         public final int manaOutput;
         public final int fusionTime;
 
-        public final int drop0Chance;
-        public final ItemStack drop0;
-
-        public final int drop1Chance;
-        public final ItemStack drop1;
-
-        public FusionResult(int manaOutput, int fusionTime, int drop0Chance, ItemStack drop0, int drop1Chance, ItemStack drop1) {
+        public FusionResult(int manaOutput, int fusionTime) {
             this.manaOutput = manaOutput;
             this.fusionTime = fusionTime;
-
-            this.drop0Chance = drop0Chance;
-            this.drop0 = drop0;
-            this.drop1Chance = drop1Chance;
-            this.drop1 = drop1;
         }
     }
 
 
-    private Map<Player, Tuple<ChestUI, Location>> viewers;
-    private static Map<ItemStack, FusionResult> results;
+    private final Map<Player, Tuple<ChestUI, Location>> viewers;
+    private static final Map<ItemStack, FusionResult> results;
 
     static {
         results = new HashMap<>();
@@ -177,25 +166,16 @@ public class BasicManaGenerator extends ManaContainer {
 
         FusionResult finalRes = res;
         Bukkit.getScheduler().runTaskLaterAsynchronously(DreamingWorld.getInstance(), () -> {
-            Location dropLocation = new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ()).add(0.5, 1.0, 0.5);
-
             for (int i = 0; i <= amount; i++) {
-                int random1 = ThreadLocalRandom.current().nextInt(0, 101);
-                if (random1 < finalRes.drop0Chance)
-                    dropLocation.getWorld().dropItem(dropLocation, finalRes.drop0);
-
-                int random2 = ThreadLocalRandom.current().nextInt(0, 101);
-                if (random2 < finalRes.drop1Chance)
-                    dropLocation.getWorld().dropItem(dropLocation, finalRes.drop1);
-
                 int currentMana = getMana(loc);
                 int available = getMaxMana(loc) - currentMana;
                 int toStore = Math.min(available, finalRes.manaOutput);
 
                 setMana(loc, currentMana + toStore);
 
-                if (toStore > available)
+                if (toStore > available) {
                     PacketWizard.sendParticle(EnumParticle.EXPLOSION_HUGE, loc, (toStore - available) / 10);
+                }
 
                 DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(loc, "locked", "false");
             }
@@ -220,9 +200,10 @@ public class BasicManaGenerator extends ManaContainer {
     public void tick(Location location) {
         manaTick(location);
 
-        if ("true".equals(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "locked")))
+        if ("true".equals(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "locked"))) {
             PacketWizard.sendParticle(EnumParticle.CRIT_MAGIC, location.add(0.5, 0.5, 0.5), 50);
-        else
+        } else {
             PacketWizard.sendParticle(EnumParticle.ENCHANTMENT_TABLE, location.add(0.5, 0.5, 0.5), 100);
+        }
     }
 }

@@ -36,7 +36,7 @@ public class ManaFlowBinder implements Listener {
         lore.add(ChatColor.GRAY + "Or in fifth... Anyway it works fine");
         lore.add("");
         lore.add(Util.formatString("&5LMB &7to select input"));
-        lore.add(Util.formatString("&5RMB &7to select block to take mana from"));
+        lore.add(Util.formatString("&5RMB &7to select parent block"));
         meta.setLore(lore);
 
         item.setItemMeta(meta);
@@ -56,8 +56,9 @@ public class ManaFlowBinder implements Listener {
 
     @EventHandler
         public void onInteract(PlayerInteractEvent e) {
-        if (e.getItem() == null || !DreamingWorld.getInstance().getItemManager().checkItemAuthenticity(e.getItem(), "mana_flow_binder"))
+        if (e.getItem() == null || !DreamingWorld.getInstance().getItemManager().checkItemAuthenticity(e.getItem(), "mana_flow_binder")) {
             return;
+        }
 
         if (e.getAction() == Action.RIGHT_CLICK_AIR && e.getPlayer().isSneaking()) {
             e.getPlayer().sendMessage(ChatColor.DARK_RED + "Binder has been reset");
@@ -70,16 +71,17 @@ public class ManaFlowBinder implements Listener {
 
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getPlayer().isSneaking()) {
             DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(e.getClickedBlock().getLocation(), "inputs", null);
-            e.getPlayer().sendMessage(ChatColor.DARK_RED + "Block's parent has been reset");
-        }
-        else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            e.setCancelled(true);
-            TagWizard.addItemTag(e.getItem(), "input", loc);
-            e.getPlayer().sendMessage(ChatColor.GREEN + "Parent chosen successfully");
+            e.getPlayer().sendMessage(DreamingWorld.primaryColor + "Block's parent has been reset");
         } else if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
             e.setCancelled(true);
+
+            TagWizard.addItemTag(e.getItem(), "input", loc);
+            e.getPlayer().sendMessage(DreamingWorld.primaryColor + "Input chosen successfully");
+        } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            e.setCancelled(true);
+
             TagWizard.addItemTag(e.getItem(), "parent", loc);
-            e.getPlayer().sendMessage(ChatColor.GREEN + "Input chosen successfully");
+            e.getPlayer().sendMessage(DreamingWorld.primaryColor + "Parent chosen successfully");
         } else {
             return;
         }
@@ -87,8 +89,9 @@ public class ManaFlowBinder implements Listener {
         String parent = TagWizard.getItemTag(e.getItem(), "parent");
         String input = TagWizard.getItemTag(e.getItem(), "input");
 
-        if (parent == null || input == null)
+        if (parent == null || input == null) {
             return;
+        }
 
         String[] parentCoords = parent.split("_");
         String[] inputCoords = input.split("_");
@@ -101,8 +104,9 @@ public class ManaFlowBinder implements Listener {
         Location parentLocation = new Location(Bukkit.getWorld(parentCoords[0]), Integer.parseInt(parentCoords[1]), Integer.parseInt(parentCoords[2]), Integer.parseInt(parentCoords[3]));
         Location inputLocation = new Location(Bukkit.getWorld(inputCoords[0]), Integer.parseInt(inputCoords[1]), Integer.parseInt(inputCoords[2]), Integer.parseInt(inputCoords[3]));
 
-        if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(parentLocation) == null || DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(inputLocation) == null)
+        if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(parentLocation) == null || DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(inputLocation) == null) {
             return;
+        }
 
         if  (parentLocation.equals(inputLocation)) {
             Bukkit.getLogger().info(ChatColor.DARK_RED + "Can't bind block to itself");

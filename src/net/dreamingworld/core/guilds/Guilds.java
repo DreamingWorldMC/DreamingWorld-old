@@ -22,8 +22,8 @@ import java.util.*;
 
 public class Guilds implements Listener {
 
-    private File file;
-    private YamlConfiguration config;
+    private final File file;
+    private final YamlConfiguration config;
 
     public Guilds() {
         file = new File(DreamingWorld.dataDirectory + "guilds/", "guilds.yml");

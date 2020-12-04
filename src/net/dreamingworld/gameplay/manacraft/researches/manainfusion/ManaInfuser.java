@@ -5,6 +5,7 @@ import net.dreamingworld.core.PacketWizard;
 import net.dreamingworld.core.crafting.CustomRecipe;
 import net.dreamingworld.core.mana.ManaContainer;
 import net.minecraft.server.v1_8_R3.EnumParticle;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -58,22 +59,33 @@ public class ManaInfuser extends ManaContainer {
 
         if (location.getWorld().getBlockAt(location).isBlockIndirectlyPowered()) {
             Collection<Entity> entities = location.getWorld().getNearbyEntities(location.add(0, 1,0), 1, 1, 1);
+
             for (Entity entity : entities) {
                 if (entity instanceof Item) {
                     ItemStack item = ((Item) entity).getItemStack();
 
                     if (DreamingWorld.getInstance().getManaInfusionManager().getTo(item) != null) {
-                        for (int i = 0 ; i < item.getAmount() ; i++) {
-                            if (Integer.parseInt(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "storedMana")) >= DreamingWorld.getInstance().getManaInfusionManager().getTo(item).manaTakes) {
-                               DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(location, "storedMana", String.valueOf(Integer.parseInt(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "storedMana")) - DreamingWorld.getInstance().getManaInfusionManager().getTo(item).manaTakes));
-                               location.getWorld().dropItem(location, DreamingWorld.getInstance().getManaInfusionManager().getTo(item).result);
-                               if (item.getAmount() > 1) {
-                                   item.setAmount(item.getAmount() - 1);
-                               } else {
-                                   entity.remove();
-                               }
-                            }
-                            PacketWizard.sendParticle(EnumParticle.ENCHANTMENT_TABLE, location, DreamingWorld.getInstance().getManaInfusionManager().getTo(item).manaTakes / 10);
+                        int sm = Integer.parseInt(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "storedMana"));
+
+                        int canDrop = (int) Math.floor(sm / (double) DreamingWorld.getInstance().getManaInfusionManager().getTo(item).manaTakes);
+                        int willDrop = Math.min(canDrop, item.getAmount());
+
+                        if (willDrop <= 0) {
+                            return;
+                        }
+
+                        ItemStack result = new ItemStack(DreamingWorld.getInstance().getManaInfusionManager().getTo(item).result);
+                        result.setAmount(willDrop);
+
+                        location.getWorld().dropItem(location, result);
+
+                        DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(location, "storedMana", String.valueOf(sm - willDrop * DreamingWorld.getInstance().getManaInfusionManager().getTo(item).manaTakes));
+                        PacketWizard.sendParticle(EnumParticle.ENCHANTMENT_TABLE, location, DreamingWorld.getInstance().getManaInfusionManager().getTo(item).manaTakes / 10 * willDrop);
+
+                        item.setAmount(item.getAmount() - willDrop);
+
+                        if (item.getAmount() <= 0) {
+                            entity.remove();
                         }
                     }
                 }

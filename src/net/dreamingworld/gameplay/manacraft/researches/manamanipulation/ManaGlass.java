@@ -66,20 +66,22 @@ public class ManaGlass implements Listener {
             if (mana != null) {
                 e.getPlayer().sendMessage(Util.formatString("&bContains: &7" + mana + " §9lmml"));
             }
+
             if (maxmana != null) {
                 e.getPlayer().sendMessage(Util.formatString("&bCan contain: &7" + maxmana + " §9lmml"));
             }
+
             if (inputs != null) {
                 e.getPlayer().sendMessage(Util.formatString("&bCapacitors it takes mana from: &7" + inputs));
             }
+
             if (vapour != null) {
                 e.getPlayer().sendMessage(Util.formatString("&bIt has: &7" + vapour + " §9units of vapour left"));
             }
+
             if (fuel != null) {
                 e.getPlayer().sendMessage(Util.formatString("&bIt has: &7" + fuel + " §9units of fuel left"));
             }
-
         }
-
     }
 }
