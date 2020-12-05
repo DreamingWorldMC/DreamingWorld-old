@@ -55,17 +55,22 @@ public class ManaFlowBinder implements Listener {
     }
 
     @EventHandler
-        public void onInteract(PlayerInteractEvent e) {
+    public void onInteract(PlayerInteractEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+
         if (e.getItem() == null || !DreamingWorld.getInstance().getItemManager().checkItemAuthenticity(e.getItem(), "mana_flow_binder")) {
             return;
         }
 
         if (e.getAction() == Action.RIGHT_CLICK_AIR && e.getPlayer().isSneaking()) {
-            e.getPlayer().sendMessage(ChatColor.DARK_RED + "Binder has been reset");
+            e.getPlayer().sendMessage(DreamingWorld.primaryColor + "Binder has been reset");
         }
 
-        if (e.getClickedBlock() == null)
+        if (e.getClickedBlock() == null) {
             return;
+        }
 
         String loc = e.getClickedBlock().getWorld().getName() + "_" + e.getClickedBlock().getX() + "_" + e.getClickedBlock().getY() + "_" + e.getClickedBlock().getZ();
 

@@ -10,10 +10,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.util.Vector;
 
@@ -39,7 +41,9 @@ public class Guilds implements Listener {
         Bukkit.getScheduler().runTaskTimerAsynchronously(DreamingWorld.getInstance(), () -> { // Player actionbar update
             for (Player player : Bukkit.getOnlinePlayers()) {
                 String o = getChunkOwner(player.getLocation().getChunk());
-                String g = o == null ? Util.formatString("&4Wilderness") : DreamingWorld.primaryColor + o;
+                String pg = getPlayerGuild(player)[0];
+
+                String g = o == null ? Util.formatString("&4Wilderness") : ((pg != null && pg.equals(o)) ? ChatColor.GREEN : ChatColor.GOLD) + o;
 
                 PacketWizard.sendActionBar(player, "[" + g + ChatColor.RESET + "]");
             }
@@ -260,9 +264,18 @@ public class Guilds implements Listener {
         cancelPrivatized(e, e.getPlayer(), e.getBlock().getChunk());
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onBreak(BlockBreakEvent e) {
         cancelPrivatized(e, e.getPlayer(), e.getBlock().getChunk());
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent e) {
+        Block b = e.getClickedBlock();
+
+        if (b != null) {
+            cancelPrivatized(e, e.getPlayer(), e.getClickedBlock().getChunk());
+        }
     }
 
     @EventHandler
