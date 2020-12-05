@@ -21,7 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ExplorersBoots{
+public class ExplorersBoots {
+
     public ExplorersBoots () {
         ItemStack item = new ItemStack(Material.LEATHER_BOOTS);
         ItemMeta meta = item.getItemMeta();
@@ -36,16 +37,16 @@ public class ExplorersBoots{
         item.setItemMeta(meta);
         DreamingWorld.getInstance().getItemManager().registerItem("explorer_boots", item);
         DreamingWorld.getInstance().getCustomArmor().addPiece("explorer_boots", 3);
-        DreamingWorld.getInstance().getCustomArmor().addHeadPiece("explorer_boots");
 
         CustomRecipe recipe = new CustomRecipe(item);
+
         recipe.shape(new String[] { "M M", "I I", "D D" });
         recipe.setCustomIngredient('I', "mana_ingot");
         recipe.setVanillaIngredient('D', Material.FEATHER);
         recipe.setCustomIngredient('M', "advanced_rod");
         recipe.setResearch("explorer_boots");
-        DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
+        DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
         Bukkit.getScheduler().runTaskTimer(DreamingWorld.getInstance(), () -> {
             for (Player p : Bukkit.getServer().getOnlinePlayers()) {
@@ -57,7 +58,6 @@ public class ExplorersBoots{
                     p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 40, 2));
                 }
             }
-
         }, 0, 12);
     }
 }

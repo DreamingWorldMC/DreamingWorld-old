@@ -22,6 +22,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,6 +63,7 @@ public class CustomDamage implements Listener {
 
         if (e.getDamager() instanceof LivingEntity) {
             finalDamage = DreamingWorld.getInstance().getCustomWeaponManager().getWeapon(TagWizard.getItemTag(((LivingEntity) e.getDamager()).getEquipment().getItemInHand(), "id"));
+
             if (finalDamage == -1) {
                 finalDamage = e.getDamage();
             }
@@ -123,10 +125,15 @@ public class CustomDamage implements Listener {
 
         now = false;
 
+        if (e.getEntity().isDead()) {
+            return;
+        }
+
         if (e.getEntity() instanceof Player) {
             double startDamage = e.getDamage();
             int armorPoints = 0;
             double removeDMG = 0;
+
             ItemStack[] armor = ((Player) e.getEntity()).getInventory().getArmorContents();
 
             for (ItemStack armorItem : armor) {
@@ -232,12 +239,17 @@ public class CustomDamage implements Listener {
 
             int resDamage = MathHelper.clamp((int) startDamage - (int) removeDMG, 0, 10000);
 
-            if (((Player) e.getEntity()).getHealth() + ((CraftPlayer)e.getEntity()).getHandle().getAbsorptionHearts() - resDamage > 0) {
+            if (((Player) e.getEntity()).getHealth() + ((CraftPlayer) e.getEntity()).getHandle().getAbsorptionHearts() - resDamage > 0) {
                 ((Player) e.getEntity()).damage(resDamage);
             } else {
-                ((Player) e.getEntity()).setHealth(0);
-                String deathMessage = deathMsg.getOrDefault(e.getCause(), " &7died from &7&kIDKDONTADDEDYET");
-                Bukkit.broadcastMessage(Util.formatString("&9" + ((Player) e.getEntity()).getDisplayName() + deathMessage));
+                String deathMessage = Util.formatString(((CraftPlayer) e.getEntity()).getDisplayName() + deathMsg.getOrDefault(e.getCause(), " &7died from &7&kIDKDONTADDEDYET"));
+
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    p.sendMessage(deathMessage);
+                }
+
+                ((CraftPlayer) e.getEntity()).setHealth(0.0);
+                ((CraftPlayer) e.getEntity()).setRealHealth(0.0);
             }
         }
     }
@@ -245,6 +257,7 @@ public class CustomDamage implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         e.setDeathMessage(null);
+        ((CraftPlayer) e.getEntity()).getHandle().setAbsorptionHearts(0);
     }
 
     public void addDeathMessage(EntityDamageEvent.DamageCause d, String s) {

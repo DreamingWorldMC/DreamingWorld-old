@@ -12,6 +12,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.util.Vector;
@@ -279,7 +280,15 @@ public class Guilds implements Listener {
         for (Block block : e.blockList()) {
             if (getChunkOwner(block.getChunk()) != null) {
                 e.setCancelled(true);
+                break;
             }
+        }
+    }
+
+    @EventHandler
+    public void onBlockChange(EntityChangeBlockEvent e) {
+        if (getChunkOwner(e.getBlock().getChunk()) != null) {
+            e.setCancelled(true);
         }
     }
 

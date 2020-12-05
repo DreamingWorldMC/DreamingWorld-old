@@ -21,7 +21,7 @@ public class ExplorersBootsResearch extends Research {
         items.put("Light as air leaf", Material.FEATHER.toString());
         items.put("Leather", Material.LEATHER.toString());
 
-        book = (BookMeta)(new ItemStack(Material.WRITTEN_BOOK).getItemMeta());
+        book = (BookMeta) (new ItemStack(Material.WRITTEN_BOOK).getItemMeta());
 
         book.addPage( "Very good for exploration yet not a good source of armour");
 
