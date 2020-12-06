@@ -26,9 +26,8 @@ public class AstrumSword implements Listener {
 
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
-
         List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.WHITE + "Well they exist. . .");
+        lore.add(ChatColor.WHITE + "Well they exist...");
         lore.add(ChatColor.BLUE + "[Deals 10 damage]");
         meta.setLore(lore);
 
@@ -51,6 +50,4 @@ public class AstrumSword implements Listener {
             e.getItem().setDurability((short) 0);
         }
     }
-
-
 }

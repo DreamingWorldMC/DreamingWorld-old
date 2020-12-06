@@ -69,10 +69,16 @@ commands:
     usage: /<command> <player> <mob>
 
   dwstructure:
-    description: Generates structure at player's postion
+    description: Generates structure at player's target
     permission: dreamingworld.structure
     aliases: [dwstruct, dwstr]
     usage: /<command> <structure>
+
+  dwresearch:
+    description: Gives research to player
+    permission: dreamingworld.research
+    aliases: [dwr]
+    usage: /<command> <player> <research>
 
   systeminfo:
     description: Shows server status
@@ -91,7 +97,7 @@ commands:
   guild:
     description: Guild management
     permission: dreamingworld.guilds
-    usage: fak
+    usage: Type /guild help for info
 
 
 permissions:
@@ -106,6 +112,7 @@ permissions:
       dreamingworld.give: true
       dreamingworld.summon: true
       dreamingworld.structure: true
+      dreamingworld.research: true
       dreamingworld.systeminfo: true
 
   dreamingworld.gameplay.*:
@@ -149,6 +156,8 @@ permissions:
   dreamingworld.summon:
     default: op
   dreamingworld.structure:
+    default: op
+  dreamingworld.research:
     default: op
   dreamingworld.systeminfo:
     default: op

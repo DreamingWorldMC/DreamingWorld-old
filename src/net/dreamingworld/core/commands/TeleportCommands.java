@@ -193,24 +193,16 @@ public class TeleportCommands implements CommandExecutor, TabCompleter, Listener
         }
 
         if (args.length == 1) {
-            switch (cmd.getName()) {
-                case "teleport":
-                    List<String> names = new ArrayList<>();
+            if ("teleport".equals(cmd.getName())) {
+                return Util.smartAutocomplete(new ArrayList<>(DreamingWorld.playerNames), args);
+            } else {
+                List<String> names = new ArrayList<>();
 
-                    for (Player player : Bukkit.getOnlinePlayers()) {
-                        names.add(player.getName());
-                    }
+                for (Player player : requests.get(sender)) {
+                    names.add(player.getName());
+                }
 
-                    return names;
-
-                default:
-                    names = new ArrayList<>();
-
-                    for (Player player : requests.get(sender)) {
-                        names.add(player.getName());
-                    }
-
-                    return names;
+                return names;
             }
         }
 

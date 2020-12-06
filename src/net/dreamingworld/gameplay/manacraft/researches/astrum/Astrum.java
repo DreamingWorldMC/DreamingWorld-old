@@ -9,8 +9,8 @@ import org.bukkit.inventory.meta.BookMeta;
 import java.util.HashMap;
 
 public class Astrum extends Research {
-    public Astrum() {
 
+    public Astrum() {
         id = "astrum";
         name = "Astrum";
         description = "Looking at the skies";
@@ -23,9 +23,7 @@ public class Astrum extends Research {
         items.put("Dirt", Material.DIRT.toString());
 
         book = (BookMeta) (new ItemStack(Material.WRITTEN_BOOK).getItemMeta());
-
-        book.addPage("Hot peddle was found to be pretty interesting. \n When touching radiation it produces a pretty big spark and it is also similar to iron");
-
+        book.addPage("Hot peddle was found to be pretty interesting...");
 
         DreamingWorld.getInstance().getResearchManager().addParent("astrum", "advanced_tools");
 

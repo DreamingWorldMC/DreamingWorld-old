@@ -17,13 +17,13 @@ import java.util.Map;
 
 public class ResearchManager {
 
-    private Map<String, Research> researches;
+    private final Map<String, Research> researches;
 
-    private Map<String, ItemStack> researchFinalBooks;
-    private Map<String, ItemStack> researchBooks;
+    private final Map<String, ItemStack> researchFinalBooks;
+    private final Map<String, ItemStack> researchBooks;
 
     // First one is which one and second one is from what
-    private Map<String, String> researchedFrom;
+    private final Map<String, String> researchedFrom;
 
     public ResearchManager() {
         researchedFrom = new HashMap<>();
@@ -119,12 +119,15 @@ public class ResearchManager {
      */
     public boolean playerHasResearch(Player p, String research) {
         for (ItemStack x : p.getInventory().getContents()) {
-            if (x != null && TagWizard.getItemTag(x, "id") != null && TagWizard.getItemTag(x, "id").equals("final_research")) {
-                if (research.equals(TagWizard.getItemTag(x, "research"))) {
-                    return true;
-                }
+            if (x != null && TagWizard.getItemTag(x, "id") != null && TagWizard.getItemTag(x, "id").equals("final_research") && research.equals(TagWizard.getItemTag(x, "research"))) {
+                return true;
             }
         }
+
         return false;
+    }
+
+    public Map<String, Research> getResearches() {
+        return researches;
     }
 }

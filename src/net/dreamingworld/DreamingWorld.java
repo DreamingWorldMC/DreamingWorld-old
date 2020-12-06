@@ -28,8 +28,15 @@ import net.dreamingworld.gameplay.manacraft.Manacraft;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class DreamingWorld extends JavaPlugin implements Listener {
 
@@ -40,6 +47,8 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static Set<String> playerNames = new HashSet<>();
 
     public static final ChatColor primaryColor = ChatColor.GREEN;
     public static final ChatColor secondaryColor = ChatColor.AQUA;
@@ -69,6 +78,10 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         inst = this;
 
         long begin = System.currentTimeMillis();
+
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            playerNames.add(p.getName());
+        }
 
 //        fishManager = new FishManager();
         itemManager = new ItemManager();
@@ -105,6 +118,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         new CommandRecipes();
         new CommandDwstructure();
         new CommandGuild();
+        new CommandDwresearch();
         new TeleportCommands();
         new CommandSystemInfo();
 
@@ -131,6 +145,17 @@ public class DreamingWorld extends JavaPlugin implements Listener {
 
     public void onDisable() {
         Bukkit.getScheduler().cancelAllTasks();
+    }
+
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        playerNames.add(e.getPlayer().getName());
+    }
+
+    @EventHandler
+    public void onDisconnect(PlayerQuitEvent e) {
+        playerNames.remove(e.getPlayer().getName());
     }
 
 
