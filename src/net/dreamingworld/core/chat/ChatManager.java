@@ -2,6 +2,7 @@ package net.dreamingworld.core.chat;
 
 import net.dreamingworld.core.Util;
 import net.dreamingworld.core.chat.commands.CommandChannel;
+import net.dreamingworld.core.chat.commands.CommandReply;
 import net.dreamingworld.core.chat.commands.CommandTell;
 import net.dreamingworld.core.chat.commands.InstantMessageCommands;
 import org.bukkit.Bukkit;
@@ -24,6 +25,7 @@ public class ChatManager implements Listener {
         new CommandTell();
         new CommandChannel();
         new InstantMessageCommands();
+        new CommandReply();
 
         channels = new HashMap<>();
     }

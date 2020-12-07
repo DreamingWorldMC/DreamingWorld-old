@@ -29,6 +29,12 @@ commands:
     aliases: [l]
     usage: /<command> <message...>
 
+  reply:
+    description: Sends reply to last direct message
+    permission: dreamingworld.reply
+    aliases: [r]
+    usage: /<command> <message...>
+
 
   teleport:
     description: Teleportation request command

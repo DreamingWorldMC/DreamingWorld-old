@@ -3,6 +3,7 @@ package net.dreamingworld;
 import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.blocks.BlockManager;
 import net.dreamingworld.core.chat.ChatManager;
+import net.dreamingworld.core.chat.commands.CommandReply;
 import net.dreamingworld.core.commands.*;
 import net.dreamingworld.core.crafting.RecipeBook;
 import net.dreamingworld.core.crafting.SmeltingManager;
@@ -28,6 +29,7 @@ import net.dreamingworld.gameplay.manacraft.Manacraft;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,7 +37,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class DreamingWorld extends JavaPlugin implements Listener {
@@ -49,6 +53,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public static Set<String> playerNames = new HashSet<>();
+    public static Map<CommandSender, CommandSender> lastSenders = new HashMap<>();
 
     public static final ChatColor primaryColor = ChatColor.GREEN;
     public static final ChatColor secondaryColor = ChatColor.AQUA;
