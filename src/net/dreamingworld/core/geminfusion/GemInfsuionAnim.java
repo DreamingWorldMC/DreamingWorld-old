@@ -68,8 +68,7 @@ public class GemInfsuionAnim {
                 for (Map.Entry<String, Integer> x: recipe.gems.entrySet()) {
                     if (Integer.parseInt(TagWizard.getItemTag(e.getPlayer().getItemInHand(), x.getKey())) > x.getValue()) {
                         TagWizard.addItemTag(e.getPlayer().getItemInHand(), x.getKey(), String.valueOf(Integer.parseInt(TagWizard.getItemTag(e.getPlayer().getItemInHand(), x.getKey())) - x.getValue()));
-                    }
-                    else {
+                    } else {
                         e.getPlayer().sendMessage(ChatColor.DARK_RED + "You don't have needed gems.");
                         return;
                     }

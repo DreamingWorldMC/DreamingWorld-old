@@ -31,8 +31,7 @@ public class GemInfusionManager {
     public int getStabilizer(String str) {
         if (stabilizers.containsKey(str)) {
             return stabilizers.get(str);
-        }
-        else {
+        } else {
             return 0;
         }
     }
@@ -55,8 +54,7 @@ public class GemInfusionManager {
                     }
                     if (xx.contains(mi)) {
                         xx.remove(x.items.indexOf(mi));
-                    }
-                    else {
+                    } else {
                         worked = false;
                         break;
                     }

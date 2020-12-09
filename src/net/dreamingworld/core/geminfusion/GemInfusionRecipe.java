@@ -10,8 +10,8 @@ public class GemInfusionRecipe {
     protected ItemStack result;
     protected String mainItem;
     protected List<String> items;
-    protected Float instability;
-    protected String reserach;
+    protected float instability;
+    protected String research;
 
     public void setGems(Map<String, Integer> gems) {
         this.gems = gems;
@@ -33,19 +33,7 @@ public class GemInfusionRecipe {
         this.instability = instability;
     }
 
-    public void setReserach(String reserach) {
-        this.reserach = reserach;
-    }
-
-    @Override
-    public String toString() {
-        return "GemInfusionRecipe{" +
-                "gems=" + gems +
-                ", result=" + result +
-                ", mainItem='" + mainItem + '\'' +
-                ", items=" + items +
-                ", instability=" + instability +
-                ", reserach='" + reserach + '\'' +
-                '}';
+    public void setResearch(String reserach) {
+        this.research = reserach;
     }
 }

@@ -29,7 +29,7 @@ public class ManaCoveredStick {
 
         GemInfusionRecipe recipe = new GemInfusionRecipe();
 
-        recipe.setReserach("gem_infusion");
+        recipe.setResearch("gem_infusion");
 
         recipe.setInstability(0f);
 
