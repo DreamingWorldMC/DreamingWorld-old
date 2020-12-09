@@ -41,9 +41,7 @@ public class GemInfsuionAnim {
             if (x instanceof Item) {
                 if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(x.getLocation().add(0,-1.5,0))!=null && DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(x.getLocation().add(0,-1.5,0)).equals("main_pedestal")) {
                     mainItem = (Item)x;
-                }
-                if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(x.getLocation().add(0,-1.5,0))!=null && DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(x.getLocation().add(0,-1.5,0)).equals("pedestal")) {
-                    items.add((Item)x);
+                } else if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(x.getLocation().add(0,-1.5,0))!=null && DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(x.getLocation().add(0,-1.5,0)).equals("pedestal")) {
                     if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(x.getLocation().add(0,-2.5,0))!=null) {
                         stability += DreamingWorld.getInstance().getGemInfusionManager().getStabilizer(DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(x.getLocation().add(0,-2.5,0)));
                     }
@@ -52,13 +50,14 @@ public class GemInfsuionAnim {
                             stability -= 5;
                         }
                     }
+                    items.add((Item)x);
                 }
             }
         }
         if (mainItem != null && mainItem.getItemStack().getAmount() == 1) {
             recipe = DreamingWorld.getInstance().getGemInfusionManager().getPossibleRecipe(mainItem.getItemStack(), items);
 
-            if (recipe != null && DreamingWorld.getInstance().getResearchManager().playerHasResearch(e.getPlayer(), recipe.reserach)) {
+            if (recipe != null && DreamingWorld.getInstance().getResearchManager().playerHasResearch(e.getPlayer(), recipe.research)) {
                 neededSteps = recipe.items.size() * 5;
 
                 for (Map.Entry<String, Integer> x : recipe.gems.entrySet()) {
@@ -102,7 +101,7 @@ public class GemInfsuionAnim {
 
                     currentStep++;
 
-                    if (currentStep <= neededSteps) {
+                    if (currentStep >= neededSteps) {
                         PacketWizard.sendParticle(EnumParticle.HEART, e.getClickedBlock().getLocation().add(0.5, 1.5, 0.5), 5, 0.1f, 0.1f);
 
                         Item it = e.getClickedBlock().getWorld().dropItem(e.getClickedBlock().getLocation().add(0.5, 1.5, 0.5), recipe.result);

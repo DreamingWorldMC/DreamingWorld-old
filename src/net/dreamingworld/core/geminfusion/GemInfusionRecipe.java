@@ -33,7 +33,31 @@ public class GemInfusionRecipe {
         this.instability = instability;
     }
 
-    public void setResearch(String reserach) {
-        this.research = reserach;
+    public void setResearch(String research) {
+        this.research = research;
+    }
+
+    public Map<String, Integer> getGems() {
+        return gems;
+    }
+
+    public ItemStack getResult() {
+        return result;
+    }
+
+    public String getMainItem() {
+        return mainItem;
+    }
+
+    public List<String> getItems() {
+        return items;
+    }
+
+    public float getInstability() {
+        return instability;
+    }
+
+    public String getResearch() {
+        return research;
     }
 }

@@ -38,7 +38,6 @@ public class GemInfusionManager {
 
     public GemInfusionRecipe getPossibleRecipe(ItemStack mainItem, List<Item> items) {
         for (GemInfusionRecipe x : recipes) {
-
             String mi = TagWizard.getItemTag(mainItem, "id");
             if (mi == null) {
                 mi = mainItem.getType().toString();
@@ -50,10 +49,11 @@ public class GemInfusionManager {
                 for (Item y : items) {
                     mi = TagWizard.getItemTag(y.getItemStack(), "id");
                     if (mi == null) {
-                        mi = mainItem.getType().toString();
+                        mi = y.getItemStack().getType().toString();
                     }
+
                     if (xx.contains(mi)) {
-                        xx.remove(x.items.indexOf(mi));
+                        xx.remove(xx.indexOf(mi));
                     } else {
                         worked = false;
                         break;

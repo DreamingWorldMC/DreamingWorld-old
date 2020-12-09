@@ -7,6 +7,7 @@ import net.dreamingworld.core.blocks.CustomBlock;
 import net.dreamingworld.core.crafting.CustomRecipe;
 import net.dreamingworld.core.geminfusion.GemInfsuionAnim;
 import net.minecraft.server.v1_8_R3.EnumParticle;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -71,13 +72,13 @@ public class MainPedestal extends CustomBlock {
         if (e.getClickedBlock() == null || e.getAction() != Action.RIGHT_CLICK_BLOCK || DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()) == null || !DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()).equals("main_pedestal") || e.getItem() == null)
             return;
 
-        if (!(TagWizard.getItemTag(e.getItem(), "id") != null && TagWizard.getItemTag(e.getItem(), "id").equals("altar_activator"))) {
+        if (!(TagWizard.getItemTag(e.getItem(), "id") != null && (TagWizard.getItemTag(e.getItem(), "id").equals("altar_activator"))) && !(TagWizard.getItemTag(e.getItem(), "id") != null && (TagWizard.getItemTag(e.getItem(), "id").equals("altar_checker")))) {
             e.setCancelled(true);
             Item item = e.getClickedBlock().getWorld().dropItem(e.getClickedBlock().getLocation().add(0.5,1.5,0.5), e.getItem());
             item.setMetadata("#noDespawn", new FixedMetadataValue(DreamingWorld.getInstance(), "true"));
             item.setVelocity(new Vector(0,0,0));
             e.getPlayer().setItemInHand(new ItemStack(Material.AIR));
-        } else { // here lies the shitty ton of code
+        } else if (!(TagWizard.getItemTag(e.getItem(), "id") != null && (TagWizard.getItemTag(e.getItem(), "id").equals("altar_checker")))) { // here lies the shitty ton of code
             new GemInfsuionAnim(e);
         }
     }
