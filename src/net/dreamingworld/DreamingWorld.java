@@ -12,6 +12,7 @@ import net.dreamingworld.core.customentities.EntityManager;
 import net.dreamingworld.core.customdamage.CustomArmor;
 import net.dreamingworld.core.customdamage.CustomDamage;
 import net.dreamingworld.core.customfood.FoodManager;
+import net.dreamingworld.core.geminfusion.GemInfusionManager;
 import net.dreamingworld.core.guilds.Guilds;
 import net.dreamingworld.core.guilds.commands.CommandGuild;
 import net.dreamingworld.core.manainfusion.ManaInfusionManager;
@@ -78,6 +79,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     private ResearchManager researchManager;
     private ChatManager chatManager;
     private RankManager rankManager;
+    private GemInfusionManager gemInfusionManager;
 
     public void onEnable() {
         inst = this;
@@ -105,6 +107,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         researchManager = new ResearchManager();
         chatManager = new ChatManager();
         rankManager = new RankManager();
+        gemInfusionManager = new GemInfusionManager();
 
 //        Bukkit.getPluginManager().registerEvents(fishManager, this);
         Bukkit.getPluginManager().registerEvents(alloyManager, this);
@@ -228,5 +231,9 @@ public class DreamingWorld extends JavaPlugin implements Listener {
 
     public RankManager getRankManager() {
         return rankManager;
+    }
+
+    public GemInfusionManager getGemInfusionManager() {
+        return gemInfusionManager;
     }
 }

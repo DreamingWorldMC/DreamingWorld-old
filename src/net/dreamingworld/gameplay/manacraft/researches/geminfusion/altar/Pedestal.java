@@ -5,16 +5,13 @@ import net.dreamingworld.core.PacketWizard;
 import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.blocks.CustomBlock;
 import net.dreamingworld.core.crafting.CustomRecipe;
-import net.dreamingworld.core.geminfusion.GemInfsuionAnim;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.ItemDespawnEvent;
@@ -25,18 +22,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.List;
 
+public class Pedestal extends CustomBlock {
 
-public class MainPedestal extends CustomBlock {
-
-    public MainPedestal()  {
-        id = "main_pedestal";
+    public Pedestal()  {
+        id = "pedestal";
         item = new ItemStack(Material.COBBLE_WALL);
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(ChatColor.AQUA + "Main pedestal");
+        meta.setDisplayName(ChatColor.AQUA + "Pedestal");
 
         meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -46,9 +40,9 @@ public class MainPedestal extends CustomBlock {
         DreamingWorld.getInstance().getItemManager().registerItem(id, item);
 
         CustomRecipe recipe = new CustomRecipe(item);
-        recipe.shape(new String[] { "III", "IBI", "I I" });
+        recipe.shape(new String[] { "III", " B ", "BBB" });
         recipe.setCustomIngredient('I', "mana_ingot");
-        recipe.setCustomIngredient('B', "pedestal");
+        recipe.setCustomIngredient('B', "ignium");
 
         recipe.setResearch("gem_infusion");
 
@@ -62,30 +56,19 @@ public class MainPedestal extends CustomBlock {
 
     @Override
     public void tick(Location location) {
-        PacketWizard.sendParticle(EnumParticle.CRIT_MAGIC, location.add(0.5, 1.5, 0.5), 10, 0.4f, 0.5f);
+        PacketWizard.sendParticle(EnumParticle.CRIT_MAGIC, location.add(0.5, 1.5, 0.5), 3, 0.4f, 0.5f);
     }
 
 
     @EventHandler
     public void onClick(PlayerInteractEvent e) {
-        if (e.getClickedBlock() == null || e.getAction() != Action.RIGHT_CLICK_BLOCK || DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()) == null || !DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()).equals("main_pedestal") || e.getItem() == null)
+        if (e.getClickedBlock() == null || e.getAction() != Action.RIGHT_CLICK_BLOCK || DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()) == null || !DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()).equals("pedestal") || e.getItem() == null)
             return;
 
-        if (!(TagWizard.getItemTag(e.getItem(), "id") != null && TagWizard.getItemTag(e.getItem(), "id").equals("altar_activator"))) {
-            e.setCancelled(true);
-            Item item = e.getClickedBlock().getWorld().dropItem(e.getClickedBlock().getLocation().add(0.5,1.5,0.5), e.getItem());
-            item.setMetadata("#noDespawn", new FixedMetadataValue(DreamingWorld.getInstance(), "true"));
-            item.setVelocity(new Vector(0,0,0));
-            e.getPlayer().setItemInHand(new ItemStack(Material.AIR));
-        } else { // here lies the shitty ton of code
-            new GemInfsuionAnim(e);
-        }
-    }
-
-    @EventHandler
-    public void onItemDespawn(ItemDespawnEvent e) {
-        if (e.getEntity().hasMetadata("#noDespawn")) {
-            e.setCancelled(true);
-        }
+        e.setCancelled(true);
+        Item item = e.getClickedBlock().getWorld().dropItem(e.getClickedBlock().getLocation().add(0.5,1.5,0.5), e.getItem());
+        item.setMetadata("#noDespawn", new FixedMetadataValue(DreamingWorld.getInstance(), "true"));
+        item.setVelocity(new Vector(0,0,0));
+        e.getPlayer().setItemInHand(new ItemStack(Material.AIR));
     }
 }

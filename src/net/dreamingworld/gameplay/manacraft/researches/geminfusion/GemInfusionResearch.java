@@ -2,7 +2,9 @@ package net.dreamingworld.gameplay.manacraft.researches.geminfusion;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.research.Research;
+import net.dreamingworld.gameplay.manacraft.researches.geminfusion.altar.AltarActivator;
 import net.dreamingworld.gameplay.manacraft.researches.geminfusion.altar.MainPedestal;
+import net.dreamingworld.gameplay.manacraft.researches.geminfusion.altar.Pedestal;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
@@ -33,6 +35,12 @@ public class GemInfusionResearch extends Research {
 
         DreamingWorld.getInstance().getResearchManager().addParent("gem_infusion", "mana_gem");
 
+        DreamingWorld.getInstance().getBlockManager().registerBlock(new Pedestal());
+
         DreamingWorld.getInstance().getBlockManager().registerBlock(new MainPedestal());
+
+        new AltarActivator();
+
+        new ManaCoveredStick();
     }
 }
