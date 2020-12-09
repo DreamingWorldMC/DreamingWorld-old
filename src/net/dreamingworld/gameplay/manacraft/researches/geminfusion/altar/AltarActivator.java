@@ -94,25 +94,30 @@ public class AltarActivator implements Listener {
 
                         e.getPlayer().getInventory().clear(slot);
                     }
-                slot++;
+                    slot++;
                 }
                 e.getPlayer().setFireTicks(150);
 
-                List<String> lore = e.getPlayer().getItemInHand().getItemMeta().getLore();
-
-                lore.set(3, Util.formatString("&7- &eAir gems: &f" + Integer.parseInt(TagWizard.getItemTag(e.getPlayer().getItemInHand(), "air"))));
-                lore.set(4, Util.formatString("&7- &1Water gems: &f" + Integer.parseInt(TagWizard.getItemTag(e.getPlayer().getItemInHand(), "water"))));
-                lore.set(5, Util.formatString("&7- &4Fire gems: &f" + Integer.parseInt(TagWizard.getItemTag(e.getPlayer().getItemInHand(), "fire"))));
-                lore.set(6, Util.formatString("&7- &bMana gems: &f" + Integer.parseInt(TagWizard.getItemTag(e.getPlayer().getItemInHand(), "mana"))));
-                lore.set(7, Util.formatString("&7- &8Earth gems: &f" + Integer.parseInt(TagWizard.getItemTag(e.getPlayer().getItemInHand(), "earth"))));
-
-                ItemMeta meta = e.getPlayer().getItemInHand().getItemMeta();
-                meta.setLore(lore);
-                e.getPlayer().getItemInHand().setItemMeta(meta);
-
+                updateDescription(e.getPlayer().getItemInHand());
             } else {
                 e.getPlayer().sendMessage(ChatColor.DARK_RED + "You can't be on fire while doing that");
             }
         }
+    }
+
+    public static ItemStack updateDescription(ItemStack item) {
+        List<String> lore = item.getItemMeta().getLore();
+
+        lore.set(3, Util.formatString("&7- &eAir gems: &f" + Integer.parseInt(TagWizard.getItemTag(item, "air"))));
+        lore.set(4, Util.formatString("&7- &1Water gems: &f" + Integer.parseInt(TagWizard.getItemTag(item, "water"))));
+        lore.set(5, Util.formatString("&7- &4Fire gems: &f" + Integer.parseInt(TagWizard.getItemTag(item, "fire"))));
+        lore.set(6, Util.formatString("&7- &bMana gems: &f" + Integer.parseInt(TagWizard.getItemTag(item, "mana"))));
+        lore.set(7, Util.formatString("&7- &8Earth gems: &f" + Integer.parseInt(TagWizard.getItemTag(item, "earth"))));
+
+        ItemMeta meta = item.getItemMeta();
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+
+        return item;
     }
 }

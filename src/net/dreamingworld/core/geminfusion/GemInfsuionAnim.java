@@ -3,6 +3,7 @@ package net.dreamingworld.core.geminfusion;
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
 import net.dreamingworld.core.TagWizard;
+import net.dreamingworld.gameplay.manacraft.researches.geminfusion.altar.AltarActivator;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -70,7 +71,9 @@ public class GemInfsuionAnim {
                     }
                     else {
                         e.getPlayer().sendMessage(ChatColor.DARK_RED + "You don't have needed gems.");
+                        return;
                     }
+                    AltarActivator.updateDescription(e.getPlayer().getItemInHand());
                 }
 
                 for (Item y : items) {

@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class ManaCoveredStick {
     public ManaCoveredStick() {
-        ItemStack item = new ItemStack(Material.FLINT);
+        ItemStack item = new ItemStack(Material.STICK);
         ItemMeta meta = item.getItemMeta();
 
         meta.setDisplayName(ChatColor.AQUA + "Mana covered stick");

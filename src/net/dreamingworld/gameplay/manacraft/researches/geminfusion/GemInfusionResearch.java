@@ -33,6 +33,16 @@ public class GemInfusionResearch extends Research {
 
         book.addPage("Infusing items with gems and stuff");
 
+        book.addPage("Mana covered stick:\n\n" +
+                "Instability: 0\n\n" +
+                "Gems required:\n" +
+                " - Mana gem: 3\n\n" +
+                "Main item: Advanced rod\n\n" +
+                "Items required:\n" +
+                " - Mana ingot\n" +
+                " - Mana ingot\n" +
+                " - Mana ingot");
+
         DreamingWorld.getInstance().getResearchManager().addParent("gem_infusion", "mana_gem");
 
         DreamingWorld.getInstance().getBlockManager().registerBlock(new Pedestal());
