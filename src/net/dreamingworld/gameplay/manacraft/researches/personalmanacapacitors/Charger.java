@@ -59,7 +59,7 @@ public class Charger extends ManaContainer {
                 if (entity instanceof Item) {
                     ItemStack item = ((Item) entity).getItemStack();
                     if (TagWizard.getItemTag(item, "max_mana") != null) {
-                        if (Integer.parseInt(TagWizard.getItemTag(item, "max_mana")) < Integer.parseInt(TagWizard.getItemTag(item, "mana"))) {
+                        if (Integer.parseInt(TagWizard.getItemTag(item, "max_mana")) > Integer.parseInt(TagWizard.getItemTag(item, "mana"))) {
                             int manaToGive = Integer.parseInt(TagWizard.getItemTag(item, "max_mana")) - Integer.parseInt(TagWizard.getItemTag(item, "mana"));
                             manaToGive = MathHelper.clamp(manaToGive, 0, 100);
                             manaToGive = MathHelper.clamp(manaToGive, 0, getMana(location));
@@ -69,8 +69,7 @@ public class Charger extends ManaContainer {
 
                             List<String> lore = item.getItemMeta().getLore();
 
-                            lore.set(Integer.parseInt(TagWizard.getItemTag(item, "mana_line")), Util.formatString("&b[&f" + TagWizard.getItemTag(item, "mana" + "&b/&f" + TagWizard.getItemTag(item, "max_mana") + "&b]")));
-
+                            lore.set(Integer.parseInt(TagWizard.getItemTag(item, "mana_line")), Util.formatString("&b[&f" + TagWizard.getItemTag(item, "mana") + "&b/&f" + TagWizard.getItemTag(item, "max_mana") + "lmml&b]"));
                             ItemMeta meta = item.getItemMeta();
                             meta.setLore(lore);
                             item.setItemMeta(meta);
