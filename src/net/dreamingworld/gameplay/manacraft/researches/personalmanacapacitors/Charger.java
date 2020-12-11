@@ -25,8 +25,8 @@ import java.util.List;
 public class Charger extends ManaContainer {
 
     public Charger() {
-        id = "Charger";
-        item = new ItemStack(Material.IRON_PLATE);
+        id = "charger";
+        item = new ItemStack(Material.GOLD_PLATE);
         ItemMeta meta = item.getItemMeta();
 
         meta.setDisplayName("Charger");
@@ -59,11 +59,11 @@ public class Charger extends ManaContainer {
                 if (entity instanceof Item) {
                     ItemStack item = ((Item) entity).getItemStack();
                     if (TagWizard.getItemTag(item, "max_mana") != null) {
-                        if (Integer.parseInt(TagWizard.getItemTag(item, "max_mana")) >= Integer.parseInt(TagWizard.getItemTag(item, "mana"))) {
+                        if (Integer.parseInt(TagWizard.getItemTag(item, "max_mana")) < Integer.parseInt(TagWizard.getItemTag(item, "mana"))) {
                             int manaToGive = Integer.parseInt(TagWizard.getItemTag(item, "max_mana")) - Integer.parseInt(TagWizard.getItemTag(item, "mana"));
                             manaToGive = MathHelper.clamp(manaToGive, 0, 100);
                             manaToGive = MathHelper.clamp(manaToGive, 0, getMana(location));
-                            setMana(location, getMana(location)-manaToGive);
+                            setMana(location, getMana(location) - manaToGive);
 
                             TagWizard.addItemTag(item, "mana", String.valueOf(manaToGive + Integer.parseInt(TagWizard.getItemTag(item, "mana"))));
 

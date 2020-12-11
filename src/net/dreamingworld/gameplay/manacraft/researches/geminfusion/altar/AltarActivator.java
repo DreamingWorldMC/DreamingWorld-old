@@ -62,7 +62,7 @@ public class AltarActivator implements Listener {
     @EventHandler
     public void onClick(PlayerInteractEvent e) {
         int slot = 0;
-        if (e.getPlayer().isSneaking() && e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
+        if (e.getPlayer().isSneaking() && e.getAction().equals(Action.RIGHT_CLICK_AIR) && "altar_activator".equals(TagWizard.getItemTag(e.getItem(), "id"))) {
             if (e.getPlayer().getFireTicks() < 2) {
 
                 if (TagWizard.getItemTag(e.getItem(), "version") == null || !TagWizard.getItemTag(e.getItem(), "version").equals("awfme")) {

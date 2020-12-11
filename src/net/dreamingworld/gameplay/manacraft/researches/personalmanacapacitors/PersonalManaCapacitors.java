@@ -36,5 +36,7 @@ public class PersonalManaCapacitors extends Research {
 
         DreamingWorld.getInstance().getResearchManager().addParent("personal_mana_capacitors", "gem_infusion");
 
+        new Charger();
+        new ManaBattery();
     }
 }
