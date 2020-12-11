@@ -14,6 +14,8 @@ import net.dreamingworld.gameplay.manacraft.researches.irontree.*;
 import net.dreamingworld.gameplay.manacraft.researches.managem.ManaGem;
 import net.dreamingworld.gameplay.manacraft.researches.manainfusion.ManaInfusion;
 import net.dreamingworld.gameplay.manacraft.researches.manamanipulation.ManaManipulation;
+import net.dreamingworld.gameplay.manacraft.researches.manapickaxe.ManaPickaxeResearch;
+import net.dreamingworld.gameplay.manacraft.researches.personalmanacapacitors.PersonalManaCapacitors;
 import net.dreamingworld.gameplay.manacraft.researches.plantsandcreatures.PlantsAndCreatures;
 import net.dreamingworld.gameplay.manacraft.researches.steamtomana.SteamToMana;
 import net.dreamingworld.gameplay.manacraft.researches.vapour.Vapour;
@@ -39,6 +41,8 @@ public class Manacraft {
         DreamingWorld.getInstance().getResearchManager().addResearch(new ManaGem());
         DreamingWorld.getInstance().getResearchManager().addResearch(new GemInfusionResearch());
         DreamingWorld.getInstance().getResearchManager().addResearch(new AltarCheckerResearch());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new ManaPickaxeResearch());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new PersonalManaCapacitors());
 
         // Mobs
         DreamingWorld.getInstance().getEntityManager().addEntity("astral_creature", new AstralCreature());

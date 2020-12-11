@@ -26,7 +26,7 @@ public class AltarCheckerResearch extends Research {
 
         book = (BookMeta) (new ItemStack(Material.WRITTEN_BOOK).getItemMeta());
 
-        book.addPage("Checks will craft be stable or no");
+        book.addPage("Checks if craft be stable or not.");
 
         book.addPage("Altar cheacker:\n\n" +
                 "Instability: 0\n\n" +
