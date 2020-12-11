@@ -89,6 +89,6 @@ public class ManaCapacitor extends ManaContainer {
     @Override
     public void tick(Location location) {
         manaTick(location);
-        PacketWizard.sendParticle(EnumParticle.TOWN_AURA, location.add(0.5, 0.5, 0.5), 100);
+        PacketWizard.sendParticle(EnumParticle.TOWN_AURA, location.add(0.5, 0.5, 0.5), 30);
     }
 }

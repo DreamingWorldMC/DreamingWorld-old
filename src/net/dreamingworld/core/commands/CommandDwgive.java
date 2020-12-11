@@ -53,7 +53,7 @@ public class CommandDwgive implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLine, String[] args) {
         if (args.length == 1) {
-            return Util.smartAutocomplete(new ArrayList<>(DreamingWorld.playerNames), args);
+            return Util.smartAutocomplete(DreamingWorld.playerNames, args);
         } else if (args.length == 2) {
             return Util.smartAutocomplete(DreamingWorld.getInstance().getItemManager().getIds(), args);
         }

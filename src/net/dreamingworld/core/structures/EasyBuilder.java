@@ -2,13 +2,21 @@ package net.dreamingworld.core.structures;
 
 import net.dreamingworld.DreamingWorld;
 import org.bukkit.Location;
+import org.bukkit.Material;
 
 public class EasyBuilder {
 
-    public Location startLocation;
+    private Location startLocation;
 
     public EasyBuilder(Location start) {
         startLocation = start;
+    }
+
+    public void buildMinecraftBlock(int x, int y, int z, Material type, int durability) {
+        startLocation.add(x, y, z);
+        startLocation.getBlock().setType(type);
+        startLocation.getBlock().setData((byte) durability);
+        startLocation.subtract(x, y, z);
     }
 
     public void buildCustomBlock(int x, int y, int z, String customBlock) {
@@ -19,6 +27,7 @@ public class EasyBuilder {
         startLocation.subtract(x, y, z);
     }
 
+
     public void buildCircle(int cx, int cy, int cz, int radius, String material) {
         int r2 = radius * radius;
         for (int x = cx - radius; x <= cx + radius; x++) {
@@ -28,5 +37,10 @@ public class EasyBuilder {
                 }
             }
         }
+    }
+
+
+    public Location getStartLocation() {
+        return startLocation;
     }
 }

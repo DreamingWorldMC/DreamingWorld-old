@@ -194,7 +194,7 @@ public class TeleportCommands implements CommandExecutor, TabCompleter, Listener
 
         if (args.length == 1) {
             if ("teleport".equals(cmd.getName())) {
-                return Util.smartAutocomplete(new ArrayList<>(DreamingWorld.playerNames), args);
+                return Util.smartAutocomplete(DreamingWorld.playerNames, args);
             } else {
                 List<String> names = new ArrayList<>();
 

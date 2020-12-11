@@ -27,6 +27,7 @@ import net.dreamingworld.gameplay.bosskills.BossKills;
 import net.dreamingworld.gameplay.fishing.Fishing;
 import net.dreamingworld.gameplay.foodcraft.Foodcraft;
 import net.dreamingworld.gameplay.manacraft.Manacraft;
+import net.dreamingworld.gameplay.obelisks.Obelisks;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -38,10 +39,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class DreamingWorld extends JavaPlugin implements Listener {
 
@@ -53,7 +51,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static Set<String> playerNames = new HashSet<>();
+    public static List<String> playerNames = new ArrayList<>();
     public static Map<CommandSender, CommandSender> lastSenders = new HashMap<>();
 
     public static final ChatColor primaryColor = ChatColor.GREEN;
@@ -141,6 +139,8 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         Fishing.initialize();
         Foodcraft.initialize();
         BossKills.initialize();
+
+        new Obelisks();
 
         researchManager.initializeResearchItems(); // Please keep this after anything which creates new researches
 
