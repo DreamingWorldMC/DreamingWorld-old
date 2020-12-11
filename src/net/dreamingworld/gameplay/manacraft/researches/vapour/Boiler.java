@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Boiler extends CustomBlock implements Listener {
+
     public Boiler() {
         id = "boiler";
         item = new ItemStack(Material.FURNACE);
@@ -67,8 +68,9 @@ public class Boiler extends CustomBlock implements Listener {
 
     @EventHandler
     public void onClick(PlayerInteractEvent e) {
-        if (e.getItem() == null || e.getClickedBlock() == null || e.getAction() != Action.RIGHT_CLICK_BLOCK || DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()) == null || TagWizard.getItemTag(e.getItem(), "id") == null)
+        if (e.getItem() == null || e.getClickedBlock() == null || e.getAction() != Action.RIGHT_CLICK_BLOCK || DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()) == null || TagWizard.getItemTag(e.getItem(), "id") == null) {
             return;
+        }
 
         if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()).equals("boiler") && !e.getPlayer().isSneaking()) {
             e.setCancelled(true);
@@ -86,8 +88,7 @@ public class Boiler extends CustomBlock implements Listener {
             if (takeItem) {
                 if (e.getPlayer().getInventory().getItemInHand().getAmount() > 1) {
                     e.getPlayer().getInventory().getItemInHand().setAmount(e.getPlayer().getInventory().getItemInHand().getAmount() - 1);
-                }
-                else {
+                } else {
                     e.getPlayer().setItemInHand(new ItemStack(Material.AIR));
                 }
             }

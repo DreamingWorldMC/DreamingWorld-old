@@ -34,8 +34,6 @@ public class ManaBattery {
         TagWizard.addItemTag(item, "max_mana", "200");
         TagWizard.addItemTag(item, "mana_line", "0");
 
-        Bukkit.getLogger().info(item.toString());
-
         DreamingWorld.getInstance().getItemManager().registerItem("mana_battery", item);
     }
 }
