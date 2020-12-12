@@ -6,6 +6,7 @@ import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.Util;
 import net.dreamingworld.core.blocks.CustomBlock;
 import net.dreamingworld.core.crafting.CustomRecipe;
+import net.dreamingworld.core.geminfusion.GemInfusionRecipe;
 import net.dreamingworld.core.mana.ManaContainer;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.MathHelper;
@@ -20,9 +21,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class Charger extends ManaContainer {
 
@@ -40,6 +39,32 @@ public class Charger extends ManaContainer {
         item.setItemMeta(meta);
 
         DreamingWorld.getInstance().getItemManager().registerItem(id, item);
+
+        GemInfusionRecipe recipe = new GemInfusionRecipe();
+
+        recipe.setResearch("personal_mana_capacitors");
+
+        recipe.setInstability(0f);
+
+        recipe.setResult(item);
+
+        Map<String, Integer> gems = new HashMap<>();
+
+        gems.put("mana", 5);
+
+        recipe.setGems(gems);
+
+        recipe.setMainItem(Material.IRON_BLOCK.toString());
+
+        List<String> items = new ArrayList<>();
+
+        items.add("mana_ingot");
+        items.add("mana_ingot");
+        items.add("mana_battery");
+
+        recipe.setItems(items);
+
+        DreamingWorld.getInstance().getGemInfusionManager().addRecipe(recipe);
     }
 
 

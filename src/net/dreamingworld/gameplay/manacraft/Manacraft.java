@@ -1,6 +1,7 @@
 package net.dreamingworld.gameplay.manacraft;
 
 import net.dreamingworld.DreamingWorld;
+import net.dreamingworld.gameplay.manacraft.researches.activatedmanapickaxe.ActivatedManaPickaxeResearch;
 import net.dreamingworld.gameplay.manacraft.researches.advancedtools.AdvancedTools;
 import net.dreamingworld.gameplay.manacraft.researches.altarchecker.AltarCheckerResearch;
 import net.dreamingworld.gameplay.manacraft.researches.astrum.*;
@@ -41,8 +42,9 @@ public class Manacraft {
         DreamingWorld.getInstance().getResearchManager().addResearch(new ManaGem());
         DreamingWorld.getInstance().getResearchManager().addResearch(new GemInfusionResearch());
         DreamingWorld.getInstance().getResearchManager().addResearch(new AltarCheckerResearch());
-        DreamingWorld.getInstance().getResearchManager().addResearch(new ManaPickaxeResearch());
         DreamingWorld.getInstance().getResearchManager().addResearch(new PersonalManaCapacitors());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new ManaPickaxeResearch());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new ActivatedManaPickaxeResearch());
 
         // Mobs
         DreamingWorld.getInstance().getEntityManager().addEntity("astral_creature", new AstralCreature());

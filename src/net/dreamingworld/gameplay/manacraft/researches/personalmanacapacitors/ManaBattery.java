@@ -3,6 +3,7 @@ package net.dreamingworld.gameplay.manacraft.researches.personalmanacapacitors;
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.Util;
+import net.dreamingworld.core.crafting.CustomRecipe;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -35,5 +36,15 @@ public class ManaBattery {
         TagWizard.addItemTag(item, "mana_line", "0");
 
         DreamingWorld.getInstance().getItemManager().registerItem("mana_battery", item);
+
+        CustomRecipe recipe = new CustomRecipe(item);
+        recipe.shape(new String[] { " G ", "GCG", "GSG" });
+        recipe.setCustomIngredient('G', "mana_ingot");
+        recipe.setCustomIngredient('C', "mana_core");
+        recipe.setCustomIngredient('S', "uranium");
+
+        recipe.setResearch("personal_mana_capacitors");
+
+        DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }
 }
