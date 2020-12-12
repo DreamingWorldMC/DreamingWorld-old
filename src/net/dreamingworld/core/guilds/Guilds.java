@@ -96,7 +96,7 @@ public class Guilds implements Listener {
 
         for (String world : sect.getKeys(false)) {
             for (String chunk : sect.getStringList(world)) {
-                config.getConfigurationSection("chunks").set(chunk, null);
+                config.getConfigurationSection("chunks").getConfigurationSection(world).set(chunk, null);
             }
         }
 
@@ -137,6 +137,26 @@ public class Guilds implements Listener {
         return chnks;
     }
 
+    public int getGuildMaxChunks(String name) {
+        if (config.getConfigurationSection("guilds").getConfigurationSection(name) == null) {
+            return -1;
+        }
+
+        int c = 0;
+
+        for (String uuid : getGuildMembers(name)) {
+            Player player = Bukkit.getPlayer(UUID.fromString(uuid));
+
+            if (player == null) {
+                continue;
+            }
+
+            c += DreamingWorld.getInstance().getRankManager().getRankChunks(DreamingWorld.getInstance().getRankManager().getPlayerRank(UUID.fromString(uuid)));
+        }
+
+        return c;
+    }
+
 
     public String getChunkOwner(Chunk chunk) {
         ConfigurationSection chunks = config.getConfigurationSection("chunks").getConfigurationSection(chunk.getWorld().getName());
@@ -158,6 +178,7 @@ public class Guilds implements Listener {
         chunks.set(chunk.getX() + "_" + chunk.getZ(), guild);
     }
 
+
     public int giveChunk(Chunk chunk, String guild) {
         Set<String> guilds = config.getConfigurationSection("guilds").getKeys(false);
 
@@ -171,6 +192,10 @@ public class Guilds implements Listener {
             return guild.equals(o) ? -2 : -3;
         }
 
+        if (getGuildChunkList(guild).size() >= getGuildMaxChunks(guild)) {
+            return -4;
+        }
+
         setChunkOwner(chunk, guild);
 
         List<String> ch = config.getConfigurationSection("guilds").getConfigurationSection(guild).getConfigurationSection("chunks").getStringList(chunk.getWorld().getName());
@@ -181,6 +206,27 @@ public class Guilds implements Listener {
 
         ch.add(chunk.getX() + "_" + chunk.getZ());
         config.getConfigurationSection("guilds").getConfigurationSection(guild).getConfigurationSection("chunks").set(chunk.getWorld().getName(), ch);
+
+        return 0;
+    }
+
+    public int removeChunk(Chunk chunk) {
+        String guild = getChunkOwner(chunk);
+
+        if (guild == null) {
+            return -1;
+        }
+
+        List<String> ch = config.getConfigurationSection("guilds").getConfigurationSection(guild).getConfigurationSection("chunks").getStringList(chunk.getWorld().getName());
+
+        if (ch == null) {
+            return -2;
+        }
+
+        ch.remove(chunk.getX() + "_" + chunk.getZ());
+        config.getConfigurationSection("guilds").getConfigurationSection(guild).getConfigurationSection("chunks").set(chunk.getWorld().getName(), ch);
+
+        setChunkOwner(chunk, null);
 
         return 0;
     }

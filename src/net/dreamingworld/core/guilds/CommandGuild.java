@@ -1,9 +1,10 @@
-package net.dreamingworld.core.guilds.commands;
+package net.dreamingworld.core.guilds;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.Util;
 import net.dreamingworld.core.guilds.GuildInvites;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,9 +20,11 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
 
     private final List<String> usage;
     private final List<String> memberUsage;
+    private final List<String> ownerUsage;
 
     private final List<String> subcommands;
     private final List<String> memberSubcommands;
+    private final List<String> ownerSubcommands;
 
     public CommandGuild() {
         Bukkit.getPluginCommand("guild").setExecutor(this);
@@ -30,15 +33,21 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
         usage = new ArrayList<String>() {{
             add(Util.formatString("$(PC)/guild help &r- $(SC)displays this message"));
             add(Util.formatString("$(PC)/guild create <name> &r- $(SC)creates new guild"));
-            add(Util.formatString("$(PC)/guild join <name> &r- $(SC)adds you to guild as member (if you invited)"));
+            add(Util.formatString("$(PC)/guild join <name> $(SC)- adds you to guild as member (if you invited)"));
             add(Util.formatString("$(PC)/guild reject <name> &r- $(SC)rejects invite to guild"));
         }};
 
         memberUsage = new ArrayList<String>() {{
-            add(Util.formatString("$(PC)/guild help &r- $(SC)displays this message"));
-            add(Util.formatString("$(PC)/guild leave &r- $(SC)leave guild"));
-            add(Util.formatString("$(PC)/guild pole &r- $(SC)privatizes chunk where player are standing"));
-            add(Util.formatString("$(PC)/guild invite <send|cancel> <player> &r- $(SC)invites (cancels invitation) player to guild"));
+            add(Util.formatString("$(PC)/guild help $(SC)- displays this message"));
+            add(Util.formatString("$(PC)/guild leave $(SC)- leave guild"));
+            add(Util.formatString("$(PC)/guild pole $(SC)- privatizes chunk where player are standing"));
+            add(Util.formatString("$(PC)/guild invite <send|cancel> <player> $(SC)- invites (cancels invitation) player to guild"));
+            add(Util.formatString("$(PC)/guild info $(SC)- prints guild info"));
+        }};
+
+        ownerUsage = new ArrayList<String>() {{
+            addAll(memberUsage);
+            add(Util.formatString("$(PC)/guild abandon $(SC)- chunk where you are standing will not belong to your guild..."));
         }};
 
 
@@ -54,6 +63,12 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
             add("leave");
             add("pole");
             add("invite");
+            add("info");
+        }};
+
+        ownerSubcommands = new ArrayList<String>() {{
+            addAll(memberSubcommands);
+            add("abandon");
         }};
     }
 
@@ -80,7 +95,7 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
         boolean member = isPlayerMember(player);
 
         if (args.length < 1 || args[0].equals("help")) {
-            sendUsage(player, member ? memberUsage : usage);
+            sendUsage(player, !member ? usage : ("owner".equals(DreamingWorld.getInstance().getGuildManager().getPlayerGuild(player)[1]) ? ownerUsage : memberUsage));
             return true;
         }
 
@@ -246,8 +261,57 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
                     case (-3):
                         sender.sendMessage(Util.formatString("$(PC)This chunk already belongs to $(SC)" + DreamingWorld.getInstance().getGuildManager().getChunkOwner(chunk)));
                         break;
+                    case (-4):
+                        sender.sendMessage(Util.formatString("$(PC)Your guild already has max count of private chunks! Invite new members to increase this limit"));
+                        break;
                     default:
                         sender.sendMessage(Util.formatString("$(PC)Successfully claimed chunk at X: $(SC)" + chunk.getX() + "$(PC), Z: $(SC)" + chunk.getZ()));
+                        break;
+                }
+
+                break;
+
+            case ("abandon"):
+                if (args.length != 1) {
+                    sender.sendMessage(Util.formatString("&4Wrong command usage!"));
+                    sender.sendMessage(Util.formatString("&4/guild abandon"));
+                    return true;
+                }
+
+                if (!member) {
+                    sender.sendMessage(Util.formatString("$(PC)You are not in guild"));
+                    return true;
+                }
+
+                chunk = player.getLocation().getChunk();
+
+                String[] d = DreamingWorld.getInstance().getGuildManager().getPlayerGuild(player);
+
+                if (!"owner".equals(d[1])) {
+                    sender.sendMessage(Util.formatString("$(PC)Sorry, but you are not owner of this guild"));
+                    return true;
+                }
+
+                String o = DreamingWorld.getInstance().getGuildManager().getChunkOwner(chunk);
+                String g = d[0];
+
+                if (o != null && !o.equals(g)) {
+                    sender.sendMessage(Util.formatString("$(PC)Sorry, but this chunk does not belong to your guild"));
+                    return true;
+                }
+
+                res = DreamingWorld.getInstance().getGuildManager().removeChunk(chunk);
+
+                switch (res) {
+                    case (-1):
+                        sender.sendMessage(Util.formatString("$(PC)Sorry, but this chunk is already..."));
+                        sender.sendMessage(Util.formatString(" &5&oLost in a Roman &lwilderness &r&5&oof pain"));
+                        break;
+                    case (-2):
+                        sender.sendMessage(Util.formatString("$(PC)Sorry, but this chunk does not belong to your guild"));
+                        break;
+                    case (0):
+                        sender.sendMessage(Util.formatString("$(PC)Successfully abandoned chunk at X: $(SC)" + chunk.getX() + "$(PC), Z: $(SC)" + chunk.getZ()));
                         break;
                 }
 
@@ -311,6 +375,56 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
                         sender.sendMessage(Util.formatString("&4/guild invite <send|cancel> <player>"));
                         return true;
                 }
+
+            case ("info"):
+                if (args.length != 1) {
+                    sender.sendMessage(Util.formatString("&4Wrong command usage!"));
+                    sender.sendMessage(Util.formatString("&4/guild info"));
+                    return true;
+                }
+
+                if (!member) {
+                    sender.sendMessage(Util.formatString("$(PC)You are not in guild"));
+                    return true;
+                }
+
+                Guilds gm = DreamingWorld.getInstance().getGuildManager();
+
+                String guild = gm.getPlayerGuild(player)[0];
+
+                String owner = null;
+                String members = null;
+
+                for (String m : gm.getGuildMembers(guild)) {
+                    Player mem = Bukkit.getPlayer(UUID.fromString(m));
+
+                    if (mem == null) {
+                        continue;
+                    }
+
+                    String rank = gm.getPlayerGuild(mem)[1];
+
+                    if ("owner".equals(rank)) {
+                        if (owner == null) {
+                            owner = "";
+                        }
+
+                        owner += (mem.isOnline() ? ChatColor.WHITE : ChatColor.GRAY) + mem.getName() + " ";
+                    } else {
+                        if (members == null) {
+                            members = "";
+                        }
+
+                        members += (mem.isOnline() ? ChatColor.WHITE : ChatColor.GRAY) + mem.getName() + " ";
+                    }
+                }
+
+                sender.sendMessage(Util.formatString("$(SC)" + guild + " $(PC)guild info:"));
+                sender.sendMessage(Util.formatString("$(PC)Owner: " + (owner == null ? "&rn/a" : owner)));
+                sender.sendMessage(Util.formatString("$(PC)Members: " + (members == null ? "&rn/a" : members)));
+                sender.sendMessage(Util.formatString("$(PC)Chunks: &r" + gm.getGuildChunkList(guild).size() + "/" + gm.getGuildMaxChunks(guild)));
+
+                break;
         }
 
         return true;
@@ -327,7 +441,13 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
 
         if (args.length == 1) {
             if (isPlayerMember(player)) {
-                return Util.smartAutocomplete(memberSubcommands, args);
+                String rank = DreamingWorld.getInstance().getGuildManager().getPlayerGuild(player)[1];
+
+                if ("owner".equals(rank)) {
+                    return Util.smartAutocomplete(ownerSubcommands, args);
+                } else {
+                    return Util.smartAutocomplete(memberSubcommands, args);
+                }
             } else {
                 return Util.smartAutocomplete(subcommands, args);
             }

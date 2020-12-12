@@ -1,6 +1,7 @@
 package net.dreamingworld.core.crafting;
 
 import net.dreamingworld.DreamingWorld;
+import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.Util;
 import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.ui.ChestUI;
@@ -120,8 +121,8 @@ public class RecipeBook implements Listener {
         }
 
         Map<ItemStack, ItemStack[]> pgs_ = new TreeMap<>((t0, t1) -> {
-            String dn0 = t0.getItemMeta().getDisplayName().replaceAll("§\\w", "");
-            String dn1 = t1.getItemMeta().getDisplayName().replaceAll("§\\w", "");
+            String dn0 = TagWizard.getItemTag(t0, "id").replaceAll("§\\w", "");
+            String dn1 = TagWizard.getItemTag(t1, "id").replaceAll("§\\w", "");
 
             return dn0.compareTo(dn1);
         });

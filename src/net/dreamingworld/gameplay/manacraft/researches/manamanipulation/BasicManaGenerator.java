@@ -4,7 +4,6 @@ import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
 import net.dreamingworld.core.Util;
 import net.dreamingworld.core.UtilItems;
-import net.dreamingworld.core.blocks.CustomBlock;
 import net.dreamingworld.core.crafting.CustomRecipe;
 import net.dreamingworld.core.mana.ManaContainer;
 import net.dreamingworld.core.ui.ChestUI;
@@ -12,7 +11,6 @@ import net.dreamingworld.core.ui.SlotInteractType;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -27,7 +25,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class BasicManaGenerator extends ManaContainer {
 
@@ -59,7 +56,7 @@ public class BasicManaGenerator extends ManaContainer {
         meta.setDisplayName("Basic Mana Generator");
 
         List<String> lore = new ArrayList<>();
-        lore.add(Util.formatString("&7Outputs &420 lmml&r/&7tick"));
+        lore.add(Util.formatString("&7Outputs 20 lmml/tick"));
 
         meta.setLore(lore);
         item.setItemMeta(meta);

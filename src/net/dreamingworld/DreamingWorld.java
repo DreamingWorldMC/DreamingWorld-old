@@ -3,7 +3,6 @@ package net.dreamingworld;
 import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.blocks.BlockManager;
 import net.dreamingworld.core.chat.ChatManager;
-import net.dreamingworld.core.chat.commands.CommandReply;
 import net.dreamingworld.core.commands.*;
 import net.dreamingworld.core.crafting.RecipeBook;
 import net.dreamingworld.core.crafting.SmeltingManager;
@@ -14,7 +13,7 @@ import net.dreamingworld.core.customdamage.CustomDamage;
 import net.dreamingworld.core.customfood.FoodManager;
 import net.dreamingworld.core.geminfusion.GemInfusionManager;
 import net.dreamingworld.core.guilds.Guilds;
-import net.dreamingworld.core.guilds.commands.CommandGuild;
+import net.dreamingworld.core.guilds.CommandGuild;
 import net.dreamingworld.core.manainfusion.ManaInfusionManager;
 import net.dreamingworld.core.ranks.RankManager;
 import net.dreamingworld.core.research.ResearchManager;
@@ -118,6 +117,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(guildManager, this);
         Bukkit.getPluginManager().registerEvents(chatManager, this);
         Bukkit.getPluginManager().registerEvents(rankManager, this);
+        Bukkit.getPluginManager().registerEvents(this, this);
 
         new CommandDwgive();
         new CommandDwsummon();
