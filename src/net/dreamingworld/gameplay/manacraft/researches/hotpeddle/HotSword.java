@@ -22,6 +22,7 @@ public class HotSword {
 
         meta.addEnchant(Enchantment.FIRE_ASPECT, 2, true);
 
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
         List<String> lore = new ArrayList<>();

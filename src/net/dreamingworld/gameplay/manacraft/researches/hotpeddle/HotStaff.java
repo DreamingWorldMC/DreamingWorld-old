@@ -12,6 +12,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
@@ -34,6 +35,9 @@ public class HotStaff implements Listener {
         lore.add(ChatColor.DARK_PURPLE + "Press to summon fireball.");
         lore.add(ChatColor.DARK_PURPLE + "Uses 2 durability per use");
         meta.setLore(lore);
+
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
         item.setItemMeta(meta);
         DreamingWorld.getInstance().getItemManager().registerItem("hot_staff", item);

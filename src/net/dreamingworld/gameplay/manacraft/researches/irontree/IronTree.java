@@ -2,7 +2,6 @@ package net.dreamingworld.gameplay.manacraft.researches.irontree;
 
 import net.dreamingworld.core.structures.EasyBuilder;
 import net.dreamingworld.core.structures.Structure;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.WorldType;
 import org.bukkit.block.Biome;
@@ -21,8 +20,6 @@ public class IronTree extends Structure {
 
     @Override
     public void generate(EasyBuilder builder) {
-        Bukkit.getLogger().info("hello!");
-
         int height = ThreadLocalRandom.current().nextInt(2, 4 + 1);
         int radiusModifier = height == 4 ? 1 : 0;
 

@@ -31,16 +31,16 @@ public class GemObelisk extends Structure {
         Material material;
         int durability = 0;
 
-        if (biome == Biome.PLAINS) {
-            id = "obsidian_obelisk_top";
-            material = Material.OBSIDIAN;
+        if (biome == Biome.DESERT) {
+            id = "sandstone_obelisk_top";
+            material = Material.SANDSTONE;
+            durability = 2;
         } else if (biome == Biome.ROOFED_FOREST) {
             id = "cobblestone_obelisk_top";
             material = Material.COBBLESTONE;
         } else {
-            id = "sandstone_obelisk_top";
-            material = Material.SANDSTONE;
-            durability = 2;
+            id = "obsidian_obelisk_top";
+            material = Material.OBSIDIAN;
         }
 
         int bodyHeight = ThreadLocalRandom.current().nextInt(1, 2);
