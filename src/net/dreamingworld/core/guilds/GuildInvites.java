@@ -79,24 +79,18 @@ public class GuildInvites {
     }
 
 
-    public static int addInvite(String player, String guild) {
+    public static int addInvite(UUID uuid, String guild) {
         ConfigurationSection s = config.getConfigurationSection("invites");
         ConfigurationSection p = config.getConfigurationSection("players");
         ConfigurationSection n = config.getConfigurationSection("nicks");
 
-        UUID uuid = MojangAPI.getPlayerUUID(player);
-
-        if (uuid == null) {
-            return -1;
-        }
-
         if (!isInvited(uuid, guild)) {
             if (getPlayerInvites(uuid).size() > 15) {
-                return -3;
+                return -2;
             }
 
             if (getInvited(guild).size() > 20) {
-                return -4;
+                return -3;
             }
 
             List<String> l = s.getStringList(guild);
@@ -107,7 +101,7 @@ public class GuildInvites {
             l.add(guild);
             p.set(uuid.toString(), l);
 
-            n.set(uuid.toString(), player);
+            n.set(uuid.toString(), Bukkit.getPlayer(uuid).getName());
 
             Player pl = Bukkit.getPlayer(uuid);
 
@@ -118,7 +112,7 @@ public class GuildInvites {
             return 0;
         }
 
-        return -2;
+        return -1;
     }
 
     public static int cancelInvite(UUID uuid, String guild) {

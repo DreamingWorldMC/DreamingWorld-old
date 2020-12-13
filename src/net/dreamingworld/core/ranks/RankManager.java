@@ -124,7 +124,7 @@ public class RankManager implements Listener {
         ConfigurationSection s = config.getConfigurationSection("hierarchy").getConfigurationSection(rank);
 
         if (s == null) {
-            return " ";
+            return "";
         }
 
         String p = s.getString("postfix");

@@ -36,6 +36,10 @@ public class Guilds implements Listener {
             config.createSection("guilds");
         }
 
+        if (config.getConfigurationSection("chunks") == null) {
+            config.createSection("chunks");
+        }
+
         GuildInvites.initializeInvites();
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(DreamingWorld.getInstance(), () -> { // Player actionbar update
@@ -145,9 +149,7 @@ public class Guilds implements Listener {
         int c = 0;
 
         for (String uuid : getGuildMembers(name)) {
-            Player player = Bukkit.getPlayer(UUID.fromString(uuid));
-
-            if (player == null) {
+            if (Bukkit.getOfflinePlayer(UUID.fromString(uuid)) == null) {
                 continue;
             }
 
@@ -233,8 +235,12 @@ public class Guilds implements Listener {
 
 
     public String[] getPlayerGuild(Player player) {
+        return getPlayerGuild(player.getUniqueId());
+    }
+
+    public String[] getPlayerGuild(UUID uuid_) {
         Set<String> guilds = config.getConfigurationSection("guilds").getKeys(false);
-        String uuid = player.getUniqueId().toString();
+        String uuid = uuid_.toString();
 
         String[] output = new String[2];
 
@@ -271,6 +277,10 @@ public class Guilds implements Listener {
     }
 
     public int addPlayerToGuild(Player player, String guild, String role) {
+        return addPlayerToGuild(player.getUniqueId(), guild, role);
+    }
+
+    public int addPlayerToGuild(UUID uuid, String guild, String role) {
         ConfigurationSection g = config.getConfigurationSection("guilds").getConfigurationSection(guild);
 
         if (g == null) {
@@ -283,7 +293,7 @@ public class Guilds implements Listener {
             pl = g.createSection("players");
         }
 
-        pl.set(player.getUniqueId().toString(), role);
+        pl.set(uuid.toString(), role);
 
         return 0;
     }
