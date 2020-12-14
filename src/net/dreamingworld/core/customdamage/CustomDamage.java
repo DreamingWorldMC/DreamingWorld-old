@@ -30,9 +30,9 @@ import java.util.Map;
 
 public class CustomDamage implements Listener {
 
-    private Map<EntityDamageEvent.DamageCause, String> deathMsg;
+    private final Map<EntityDamageEvent.DamageCause, String> deathMsg;
 
-    private Boolean now;
+    private boolean now = false;
 
     public CustomDamage() {
         deathMsg = new HashMap<>();

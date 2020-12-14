@@ -36,6 +36,10 @@ public class Guilds implements Listener {
             config.createSection("guilds");
         }
 
+        if (config.getConfigurationSection("chunks") == null) {
+            config.createSection("chunks");
+        }
+
         GuildInvites.initializeInvites();
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(DreamingWorld.getInstance(), () -> { // Player actionbar update
@@ -96,7 +100,7 @@ public class Guilds implements Listener {
 
         for (String world : sect.getKeys(false)) {
             for (String chunk : sect.getStringList(world)) {
-                config.getConfigurationSection("chunks").set(chunk, null);
+                config.getConfigurationSection("chunks").getConfigurationSection(world).set(chunk, null);
             }
         }
 
@@ -137,6 +141,24 @@ public class Guilds implements Listener {
         return chnks;
     }
 
+    public int getGuildMaxChunks(String name) {
+        if (config.getConfigurationSection("guilds").getConfigurationSection(name) == null) {
+            return -1;
+        }
+
+        int c = 0;
+
+        for (String uuid : getGuildMembers(name)) {
+            if (Bukkit.getOfflinePlayer(UUID.fromString(uuid)) == null) {
+                continue;
+            }
+
+            c += DreamingWorld.getInstance().getRankManager().getRankChunks(DreamingWorld.getInstance().getRankManager().getPlayerRank(UUID.fromString(uuid)));
+        }
+
+        return c;
+    }
+
 
     public String getChunkOwner(Chunk chunk) {
         ConfigurationSection chunks = config.getConfigurationSection("chunks").getConfigurationSection(chunk.getWorld().getName());
@@ -158,6 +180,7 @@ public class Guilds implements Listener {
         chunks.set(chunk.getX() + "_" + chunk.getZ(), guild);
     }
 
+
     public int giveChunk(Chunk chunk, String guild) {
         Set<String> guilds = config.getConfigurationSection("guilds").getKeys(false);
 
@@ -169,6 +192,10 @@ public class Guilds implements Listener {
 
         if (o != null) {
             return guild.equals(o) ? -2 : -3;
+        }
+
+        if (getGuildChunkList(guild).size() >= getGuildMaxChunks(guild)) {
+            return -4;
         }
 
         setChunkOwner(chunk, guild);
@@ -185,10 +212,35 @@ public class Guilds implements Listener {
         return 0;
     }
 
+    public int removeChunk(Chunk chunk) {
+        String guild = getChunkOwner(chunk);
+
+        if (guild == null) {
+            return -1;
+        }
+
+        List<String> ch = config.getConfigurationSection("guilds").getConfigurationSection(guild).getConfigurationSection("chunks").getStringList(chunk.getWorld().getName());
+
+        if (ch == null) {
+            return -2;
+        }
+
+        ch.remove(chunk.getX() + "_" + chunk.getZ());
+        config.getConfigurationSection("guilds").getConfigurationSection(guild).getConfigurationSection("chunks").set(chunk.getWorld().getName(), ch);
+
+        setChunkOwner(chunk, null);
+
+        return 0;
+    }
+
 
     public String[] getPlayerGuild(Player player) {
+        return getPlayerGuild(player.getUniqueId());
+    }
+
+    public String[] getPlayerGuild(UUID uuid_) {
         Set<String> guilds = config.getConfigurationSection("guilds").getKeys(false);
-        String uuid = player.getUniqueId().toString();
+        String uuid = uuid_.toString();
 
         String[] output = new String[2];
 
@@ -225,6 +277,10 @@ public class Guilds implements Listener {
     }
 
     public int addPlayerToGuild(Player player, String guild, String role) {
+        return addPlayerToGuild(player.getUniqueId(), guild, role);
+    }
+
+    public int addPlayerToGuild(UUID uuid, String guild, String role) {
         ConfigurationSection g = config.getConfigurationSection("guilds").getConfigurationSection(guild);
 
         if (g == null) {
@@ -237,7 +293,7 @@ public class Guilds implements Listener {
             pl = g.createSection("players");
         }
 
-        pl.set(player.getUniqueId().toString(), role);
+        pl.set(uuid.toString(), role);
 
         return 0;
     }

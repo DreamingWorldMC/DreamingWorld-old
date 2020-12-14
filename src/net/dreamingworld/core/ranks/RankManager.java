@@ -20,21 +20,26 @@ import java.util.UUID;
 
 public class RankManager implements Listener {
 
-    private File file;
-    private YamlConfiguration config;
+    private final YamlConfiguration config;
+
+    private final File playersFile;
+    private final YamlConfiguration players;
 
     private String defaultRank = "player";
 
     public RankManager() {
-        file = new File(DreamingWorld.dataDirectory, "ranks.yml");
+        File file = new File(DreamingWorld.dataDirectory, "ranks.yml");
         config = YamlConfiguration.loadConfiguration(file);
+
+        playersFile = new File(DreamingWorld.dataDirectory, "players.yml");
+        players = YamlConfiguration.loadConfiguration(playersFile);
 
         if (config.getConfigurationSection("hierarchy") == null) {
             config.createSection("hierarchy");
         }
 
-        if (config.getConfigurationSection("players") == null) {
-            config.createSection("players");
+        if (players.getConfigurationSection("players") == null) {
+            players.createSection("players");
         }
 
         new CommandRank();
@@ -57,24 +62,27 @@ public class RankManager implements Listener {
         UUID uuid = MojangAPI.getPlayerUUID(name);
 
         if (uuid != null) {
-            config.getConfigurationSection("players").set(uuid.toString(), rank);
+            players.getConfigurationSection("players").set(uuid.toString(), rank);
         }
 
         try {
-            config.save(file);
+            players.save(playersFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public String getPlayerRank(String name) {
-        UUID uuid = MojangAPI.getPlayerUUID(name);
-
-        if (uuid != null && config.getConfigurationSection("players").contains(uuid.toString())) {
-            return config.getConfigurationSection("players").getString(uuid.toString());
+    public String getPlayerRank(UUID uuid) {
+        if (uuid != null && players.getConfigurationSection("players").contains(uuid.toString())) {
+            return players.getConfigurationSection("players").getString(uuid.toString());
         }
 
         return null;
+    }
+
+    public String getPlayerRank(String name) {
+        UUID uuid = MojangAPI.getPlayerUUID(name);
+        return getPlayerRank(uuid);
     }
 
 
@@ -116,11 +124,27 @@ public class RankManager implements Listener {
         ConfigurationSection s = config.getConfigurationSection("hierarchy").getConfigurationSection(rank);
 
         if (s == null) {
-            return " ";
+            return "";
         }
 
         String p = s.getString("postfix");
         return Util.formatString(p);
+    }
+
+    public int getRankChunks(String rank) {
+        ConfigurationSection s = config.getConfigurationSection("hierarchy").getConfigurationSection(rank);
+
+        if (s == null) {
+            return 3;
+        }
+
+        int i = s.getInt("chunks");
+
+        if (i < 3) {
+            i = 3;
+        }
+
+        return i;
     }
 
 
