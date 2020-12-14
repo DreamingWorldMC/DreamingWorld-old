@@ -18,12 +18,14 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CustomDamage implements Listener {
@@ -142,7 +144,18 @@ public class CustomDamage implements Listener {
                 }
 
                 if (DreamingWorld.getInstance().getCustomArmor().getPiece(TagWizard.getItemTag(armorItem, "id")) != -1) {
-                    armorPoints += DreamingWorld.getInstance().getCustomArmor().getPiece(TagWizard.getItemTag(armorItem, "id"));
+                    if (TagWizard.getItemTag(armorItem, "mana") == null) {
+                        armorPoints += DreamingWorld.getInstance().getCustomArmor().getPiece(TagWizard.getItemTag(armorItem, "id"));
+                    } else if (Integer.valueOf(TagWizard.getItemTag(armorItem, "mana")) > 0) {
+                        armorPoints += DreamingWorld.getInstance().getCustomArmor().getPiece(TagWizard.getItemTag(armorItem, "id"));
+                        TagWizard.addItemTag(armorItem, "mana", String.valueOf(Integer.valueOf(TagWizard.getItemTag(armorItem, "mana")) - (int)e.getDamage()*3));
+
+                        List<String> lore = armorItem.getItemMeta().getLore();
+                        lore.set(Integer.valueOf(TagWizard.getItemTag(armorItem, "mana_line")), Util.formatString("&b[&f" + TagWizard.getItemTag(armorItem, "mana") + "&b/&f1000lmml&b]"));
+                        ItemMeta meta = armorItem.getItemMeta();
+                        meta.setLore(lore);
+                        armorItem.setItemMeta(meta);
+                    }
                 }
 
                 else {
