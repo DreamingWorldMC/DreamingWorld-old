@@ -161,7 +161,7 @@ public class Guilds implements Listener {
 
 
     public String getChunkOwner(Chunk chunk) {
-        ConfigurationSection chunks = config.getConfigurationSection("chunks").getConfigurationSection(chunk.getWorld().getName());
+        ConfigurationSection chunks = config.getConfigurationSection("chunks");
 
         if (chunks == null) {
             return null;
