@@ -18,6 +18,7 @@ import net.dreamingworld.core.manainfusion.ManaInfusionManager;
 import net.dreamingworld.core.ranks.RankManager;
 import net.dreamingworld.core.research.ResearchManager;
 import net.dreamingworld.core.structures.StructureManager;
+import net.dreamingworld.core.vanity.VanityManager;
 import net.dreamingworld.gameplay.alloys.*;
 import net.dreamingworld.core.ItemManager;
 import net.dreamingworld.core.alloys.AlloyManager;
@@ -77,6 +78,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
     private ChatManager chatManager;
     private RankManager rankManager;
     private GemInfusionManager gemInfusionManager;
+    private VanityManager vanityManager;
 
     public void onEnable() {
         inst = this;
@@ -105,6 +107,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         chatManager = new ChatManager();
         rankManager = new RankManager();
         gemInfusionManager = new GemInfusionManager();
+        vanityManager = new VanityManager();
 
 //        Bukkit.getPluginManager().registerEvents(fishManager, this);
         Bukkit.getPluginManager().registerEvents(alloyManager, this);
@@ -235,5 +238,9 @@ public class DreamingWorld extends JavaPlugin implements Listener {
 
     public GemInfusionManager getGemInfusionManager() {
         return gemInfusionManager;
+    }
+
+    public VanityManager getVanityManager() {
+        return vanityManager;
     }
 }
