@@ -83,6 +83,10 @@ public class AltarChecker implements Listener {
 
         float stability = 5;
 
+        if (e.getClickedBlock() == null) {
+            return;
+        }
+
         for (Entity x : e.getClickedBlock().getWorld().getNearbyEntities(e.getClickedBlock().getLocation(), 35, 20, 35)) {
             if (x instanceof Item) {
                 if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(x.getLocation().add(0, -1.5, 0)) != null && DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(x.getLocation().add(0, -1.5, 0)).equals("main_pedestal")) {

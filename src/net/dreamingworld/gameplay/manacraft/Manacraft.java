@@ -12,6 +12,8 @@ import net.dreamingworld.gameplay.manacraft.researches.explorersboots.ExplorersB
 import net.dreamingworld.gameplay.manacraft.researches.geminfusion.GemInfusionResearch;
 import net.dreamingworld.gameplay.manacraft.researches.hotpeddle.HotPeddleResearch;
 import net.dreamingworld.gameplay.manacraft.researches.irontree.*;
+import net.dreamingworld.gameplay.manacraft.researches.activatedmanaarmour.ActivatedManaArmourResearch;
+import net.dreamingworld.gameplay.manacraft.researches.manaarmour.ManaArmour;
 import net.dreamingworld.gameplay.manacraft.researches.manaarmour.ManaArmourResearch;
 import net.dreamingworld.gameplay.manacraft.researches.managem.ManaGem;
 import net.dreamingworld.gameplay.manacraft.researches.manainfusion.ManaInfusion;
@@ -47,6 +49,7 @@ public class Manacraft {
         DreamingWorld.getInstance().getResearchManager().addResearch(new ManaPickaxeResearch());
         DreamingWorld.getInstance().getResearchManager().addResearch(new ActivatedManaPickaxeResearch());
         DreamingWorld.getInstance().getResearchManager().addResearch(new ManaArmourResearch());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new ActivatedManaArmourResearch());
         
         // Mobs
         DreamingWorld.getInstance().getEntityManager().addEntity("astral_creature", new AstralCreature());

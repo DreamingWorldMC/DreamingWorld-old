@@ -7,7 +7,6 @@ import net.dreamingworld.core.crafting.CustomRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -76,7 +75,7 @@ public class ManaArmour {
         lmeta = (LeatherArmorMeta)item.getItemMeta();
 
         lmeta.setDisplayName(ChatColor.AQUA + "Mana leggings");
-        lmeta.setColor(Color.LIME);
+        lmeta.setColor(Color.AQUA);
 
         lmeta.setLore(lore);
 
@@ -86,8 +85,8 @@ public class ManaArmour {
         TagWizard.addItemTag(item, "max_mana", "2000");
         TagWizard.addItemTag(item, "mana_line", "0");
 
-        DreamingWorld.getInstance().getItemManager().registerItem("green_iron_leggings", item);
-        DreamingWorld.getInstance().getCustomArmor().addPiece("green_iron_leggings", 5);
+        DreamingWorld.getInstance().getItemManager().registerItem("mana_leggings", item);
+        DreamingWorld.getInstance().getCustomArmor().addPiece("mana_leggings", 5);
 
         recipe = new CustomRecipe(item);
         recipe.shape(new String[] { "IMI", "I I", "I I" });
@@ -111,8 +110,8 @@ public class ManaArmour {
         TagWizard.addItemTag(item, "max_mana", "2000");
         TagWizard.addItemTag(item, "mana_line", "0");
 
-        DreamingWorld.getInstance().getItemManager().registerItem("green_iron_boots", item);
-        DreamingWorld.getInstance().getCustomArmor().addPiece("green_iron_boots", 4);
+        DreamingWorld.getInstance().getItemManager().registerItem("mana_boots", item);
+        DreamingWorld.getInstance().getCustomArmor().addPiece("mana_boots", 4);
 
         recipe = new CustomRecipe(item);
         recipe.shape(new String[] { "   ", "I I", "M M" });
