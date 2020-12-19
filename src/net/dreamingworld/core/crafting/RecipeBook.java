@@ -1,7 +1,6 @@
 package net.dreamingworld.core.crafting;
 
 import net.dreamingworld.DreamingWorld;
-import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.Util;
 import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.ui.ChestUI;
@@ -12,14 +11,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.text.Collator;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class RecipeBook implements Listener {
 
-    private List<Map<ItemStack, ItemStack[]>> pages;
-    private List<ChestUI> chests;
+    private final List<Map<ItemStack, ItemStack[]>> pages;
+    private final List<ChestUI> chests;
 
     public RecipeBook() {
         pages = new ArrayList<>();
@@ -120,11 +120,15 @@ public class RecipeBook implements Listener {
             pgs.put(result, matrix);
         }
 
-        Map<ItemStack, ItemStack[]> pgs_ = new TreeMap<>((t0, t1) -> {
-            String dn0 = TagWizard.getItemTag(t0, "id").replaceAll("§\\w", "");
-            String dn1 = TagWizard.getItemTag(t1, "id").replaceAll("§\\w", "");
+        Collator collator = Collator.getInstance(Locale.UK);
+        collator.setStrength(Collator.PRIMARY);
+        collator.setDecomposition(Collator.FULL_DECOMPOSITION);
 
-            return dn0.compareTo(dn1);
+        TreeMap<ItemStack, ItemStack[]> pgs_ = new TreeMap<>((t0, t1) -> {
+            String dn0 = t0.getItemMeta().getDisplayName().replaceAll("§\\w", "");
+            String dn1 = t1.getItemMeta().getDisplayName().replaceAll("§\\w", "");
+
+            return collator.compare(dn0, dn1);
         });
 
         pgs_.putAll(pgs);
