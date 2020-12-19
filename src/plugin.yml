@@ -39,7 +39,7 @@ commands:
   teleport:
     description: Teleportation request command
     permission: dreamingworld.teleport
-    aliases: [tp, plsservermovemeto]
+    aliases: [tp, plsservermovemeto, iwanttogotothisperson, tpa]
     usage: /<command> <player>
 
   teleportaccept:

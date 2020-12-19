@@ -46,6 +46,7 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
             add(Util.formatString("$(PC)/guild pole $(SC)- privatizes chunk where player are standing"));
             add(Util.formatString("$(PC)/guild invite <send|cancel> <player> $(SC)- invites (cancels invitation) player to guild"));
             add(Util.formatString("$(PC)/guild info $(SC)- prints guild info"));
+            add(Util.formatString("$(PC)/guild home $(SC)- Moves you to your guild's home"));
         }};
 
         ownerUsage = new ArrayList<String>() {{
@@ -53,6 +54,7 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
             add(Util.formatString("$(PC)/guild abandon $(SC)- chunk where you are standing will not belong to your guild..."));
             add(Util.formatString("$(PC)/guild kick <player> $(SC)- kicks specified player from guild"));
             add(Util.formatString("$(PC)/guild transfer <player> $(SC)- transfers guild ownership to player"));
+            add(Util.formatString("$(PC)/guild sethome $(SC)- Sets home of your guild"));
         }};
 
 
@@ -69,6 +71,7 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
             add("pole");
             add("invite");
             add("info");
+            add("home");
         }};
 
         ownerSubcommands = new ArrayList<String>() {{
@@ -76,6 +79,7 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
             add("abandon");
             add("kick");
             add("transfer");
+            add("sethome");
         }};
     }
 
@@ -414,6 +418,22 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
 
                 break;
 
+            case ("home"):
+                if (args.length != 1) {
+                    sender.sendMessage(Util.formatString("&4Wrong command usage!"));
+                    sender.sendMessage(Util.formatString("&4/guild home"));
+                    return true;
+                }
+
+                if (!member) {
+                    sender.sendMessage(Util.formatString("$(PC)You are not in guild"));
+                    return true;
+                }
+
+                DreamingWorld.getInstance().getGuildManager().teleportToHome(player);
+
+                break;
+
             ///////////////////////////////////////////////////////// Guild owners commands
 
             case ("abandon"):
@@ -550,6 +570,25 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
                 DreamingWorld.getInstance().getGuildManager().addPlayerToGuild(player.getUniqueId(), d[0], "member");
                 DreamingWorld.getInstance().getGuildManager().addPlayerToGuild(p.getUniqueId(), d[0], "owner");
 
+                return true;
+            case ("sethome"):
+                if (args.length != 1) {
+                    sender.sendMessage(Util.formatString("&4Wrong command usage!"));
+                    sender.sendMessage(Util.formatString("&4/guild sethome"));
+                    return true;
+                }
+
+                if (!member) {
+                    sender.sendMessage(Util.formatString("$(PC)You are not in guild"));
+                    return true;
+                }
+
+                if (!isOwner) {
+                    sender.sendMessage(Util.formatString("$(PC)Sorry, but you are not owner of this guild"));
+                    return true;
+                }
+
+                DreamingWorld.getInstance().getGuildManager().setHome(player);
                 break;
         }
 
