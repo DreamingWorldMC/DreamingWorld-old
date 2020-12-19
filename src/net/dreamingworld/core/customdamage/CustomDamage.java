@@ -155,6 +155,7 @@ public class CustomDamage implements Listener {
                         ItemMeta meta = armorItem.getItemMeta();
                         meta.setLore(lore);
                         armorItem.setItemMeta(meta);
+                        armorItem.setDurability((short) 0);
                     }
                 }
 
