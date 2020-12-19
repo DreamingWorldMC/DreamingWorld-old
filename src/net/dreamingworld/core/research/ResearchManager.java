@@ -4,6 +4,7 @@ import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.Util;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -16,13 +17,13 @@ import java.util.Map;
 
 public class ResearchManager {
 
-    private Map<String, Research> researches;
+    private final Map<String, Research> researches;
 
-    private Map<String, ItemStack> researchFinalBooks;
-    private Map<String, ItemStack> researchBooks;
+    private final Map<String, ItemStack> researchFinalBooks;
+    private final Map<String, ItemStack> researchBooks;
 
     // First one is which one and second one is from what
-    private Map<String, String> researchedFrom;
+    private final Map<String, String> researchedFrom;
 
     public ResearchManager() {
         researchedFrom = new HashMap<>();
@@ -33,6 +34,7 @@ public class ResearchManager {
 
     public void initializeResearchItems() {
         DreamingWorld.getInstance().getBlockManager().registerBlock(new ResearchBlock());
+        DreamingWorld.getInstance().getBlockManager().registerBlock(new ResearchChildBlock());
 
         addResearch(new BasicResearch());
 
@@ -64,7 +66,7 @@ public class ResearchManager {
             meta.addPage("∷ᒷᓭ∴ᔑ∷ᓵ⍑ \n \n Unfinished Research");
 
             lore.add(x.getValue().name);
-
+            meta.setAuthor(ChatColor.MAGIC + "somebody");
             meta.setLore(lore);
             item.setItemMeta(meta);
 
@@ -72,8 +74,8 @@ public class ResearchManager {
             TagWizard.addItemTag(item, "research", x.getKey());
 
             researchBooks.put(x.getKey(), item);
-
         }
+
         new ResearchRecipes();
     }
 
@@ -91,6 +93,10 @@ public class ResearchManager {
 
     public Research getResearch(String id) {
         return researches.get(id);
+    }
+
+    public void addParent(String child, String parent) {
+        researchedFrom.put(child, parent);
     }
 
     /**
@@ -113,12 +119,15 @@ public class ResearchManager {
      */
     public boolean playerHasResearch(Player p, String research) {
         for (ItemStack x : p.getInventory().getContents()) {
-            if (x.getType() == Material.WRITTEN_BOOK && TagWizard.getItemTag(x, "final_research") != null) {
-                if (research.equals(TagWizard.getItemTag(x, "research"))) {
-                    return true;
-                }
+            if (x != null && TagWizard.getItemTag(x, "id") != null && TagWizard.getItemTag(x, "id").equals("final_research") && research.equals(TagWizard.getItemTag(x, "research"))) {
+                return true;
             }
         }
+
         return false;
+    }
+
+    public Map<String, Research> getResearches() {
+        return researches;
     }
 }

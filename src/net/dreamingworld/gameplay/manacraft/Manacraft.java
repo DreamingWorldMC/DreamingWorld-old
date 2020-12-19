@@ -1,63 +1,58 @@
 package net.dreamingworld.gameplay.manacraft;
 
 import net.dreamingworld.DreamingWorld;
-import net.dreamingworld.gameplay.manacraft.armor.AstrumArmor;
-import net.dreamingworld.gameplay.manacraft.armor.GreenIronArmor;
-import net.dreamingworld.gameplay.manacraft.blocks.*;
-import net.dreamingworld.gameplay.manacraft.items.*;
+import net.dreamingworld.gameplay.manacraft.researches.activatedmanapickaxe.ActivatedManaPickaxeResearch;
+import net.dreamingworld.gameplay.manacraft.researches.advancedtools.AdvancedTools;
+import net.dreamingworld.gameplay.manacraft.researches.altarchecker.AltarCheckerResearch;
+import net.dreamingworld.gameplay.manacraft.researches.astrum.*;
 import net.dreamingworld.gameplay.manacraft.mobs.AstralCreature;
-import net.dreamingworld.gameplay.trees.IronTree;
-import net.dreamingworld.gameplay.trees.WhitePyramidTree;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import net.dreamingworld.gameplay.manacraft.researches.advancedmaterials.AdvancedMaterials;
+import net.dreamingworld.gameplay.manacraft.researches.astrumbow.AstrumBowResearch;
+import net.dreamingworld.gameplay.manacraft.researches.explorersboots.ExplorersBootsResearch;
+import net.dreamingworld.gameplay.manacraft.researches.geminfusion.GemInfusionResearch;
+import net.dreamingworld.gameplay.manacraft.researches.hotpeddle.HotPeddleResearch;
+import net.dreamingworld.gameplay.manacraft.researches.irontree.*;
+import net.dreamingworld.gameplay.manacraft.researches.activatedmanaarmour.ActivatedManaArmourResearch;
+import net.dreamingworld.gameplay.manacraft.researches.manaarmour.ManaArmour;
+import net.dreamingworld.gameplay.manacraft.researches.manaarmour.ManaArmourResearch;
+import net.dreamingworld.gameplay.manacraft.researches.managem.ManaGem;
+import net.dreamingworld.gameplay.manacraft.researches.manainfusion.ManaInfusion;
+import net.dreamingworld.gameplay.manacraft.researches.manamanipulation.ManaManipulation;
+import net.dreamingworld.gameplay.manacraft.researches.manapickaxe.ManaPickaxeResearch;
+import net.dreamingworld.gameplay.manacraft.researches.personalmanacapacitors.PersonalManaCapacitors;
+import net.dreamingworld.gameplay.manacraft.researches.plantsandcreatures.PlantsAndCreatures;
+import net.dreamingworld.gameplay.manacraft.researches.steamtomana.SteamToMana;
+import net.dreamingworld.gameplay.manacraft.researches.vapour.Vapour;
 
 public class Manacraft {
 
     public static void initialize() {
         long begin = System.currentTimeMillis();
 
-        // Items
-        new ManaFlowBinder();
-        new HotPeddle();
-        new HotSword();
-        new ManaCore();
-        new AdvancedStick();
-        new HotStaff();
-        new HardCoal();
-        new GreenIron();
-        new ManaGlass();
-        new ManaIngot();
-        new AstrumIngot();
-        new StarDust();
-        new AstrumSword();
-
-        // Armor
-        new GreenIronArmor();
-        new AstrumArmor();
-
-        // Blocks
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new BasicManaGenerator());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new IronTreeSapling());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new IronLeafBlock());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new GreenIronMaker());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new IronWoodBlock());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new ManaCapacitor());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new ManaInfuser());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new HolyLeafBlock());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new WhiteLogBlock());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new Boiler());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new SteamTurbine());
-        DreamingWorld.getInstance().getBlockManager().registerBlock(new WhitePlanks());
-
+        // Researches
+        DreamingWorld.getInstance().getResearchManager().addResearch(new AdvancedMaterials());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new ManaManipulation());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new AdvancedTools());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new ManaInfusion());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new PlantsAndCreatures());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new IronTreeResearch());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new Vapour());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new HotPeddleResearch());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new Astrum());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new AstrumBowResearch());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new SteamToMana());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new ExplorersBootsResearch());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new ManaGem());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new GemInfusionResearch());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new AltarCheckerResearch());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new PersonalManaCapacitors());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new ManaPickaxeResearch());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new ActivatedManaPickaxeResearch());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new ManaArmourResearch());
+        DreamingWorld.getInstance().getResearchManager().addResearch(new ActivatedManaArmourResearch());
+        
         // Mobs
         DreamingWorld.getInstance().getEntityManager().addEntity("astral_creature", new AstralCreature());
-
-        // Fusion
-        BasicManaGenerator.addResult(DreamingWorld.getInstance().getItemManager().get("ignium"), new BasicManaGenerator.FusionResult(100, 100, 1, new ItemStack(Material.COAL), 1, DreamingWorld.getInstance().getItemManager().get("hard_coal")));
-
-        // Structures
-        DreamingWorld.getInstance().getStructureManager().registerStructure("iron_tree", new IronTree());
-        DreamingWorld.getInstance().getStructureManager().registerStructure("white_pyramid_tree", new WhitePyramidTree());
 
         long time = System.currentTimeMillis() - begin;
 

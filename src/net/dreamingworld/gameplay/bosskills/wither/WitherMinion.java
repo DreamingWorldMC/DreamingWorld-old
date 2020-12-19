@@ -37,7 +37,5 @@ public class WitherMinion extends CustomEntity {
         drops.put(DreamingWorld.getInstance().getItemManager().get("wither_heart"), 25);
 
         effects.add(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 3));
-        effects.add(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 1));
     }
-
 }

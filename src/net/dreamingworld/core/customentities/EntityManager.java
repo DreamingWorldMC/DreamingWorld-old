@@ -34,7 +34,7 @@ public class EntityManager implements Listener {
                     }
                 }
 
-            }, 0, 80);
+            }, 0, 40);
         }
 
         public int getDamage(LivingEntity e) {

@@ -5,6 +5,63 @@ authors: [Konstantin Tolstoy, Stepan Gaidukevich]
 website: dreamingworld.net
 
 commands:
+  channel:
+    description: Changes chat channel
+    permission: dreamingworld.channel
+    aliases: [ch, chat, chatchannel, cc]
+    usage: /<command> <global|local>
+
+  tell:
+    description: Sends private message to specified player
+    permission: dreamingworld.tell
+    aliases: [msg, w]
+    usage: /<command> <player> <message...>
+
+  global:
+    description: Sends message to global chat instantly
+    permission: dreamingworld.instantmessage
+    aliases: [g]
+    usage: /<command> <message...>
+
+  local:
+    description: Sends message to local chat instantly
+    permission: dreamingworld.instantmessage
+    aliases: [l]
+    usage: /<command> <message...>
+
+  reply:
+    description: Sends reply to last direct message
+    permission: dreamingworld.reply
+    aliases: [r]
+    usage: /<command> <message...>
+
+
+  teleport:
+    description: Teleportation request command
+    permission: dreamingworld.teleport
+    aliases: [tp, plsservermovemeto]
+    usage: /<command> <player>
+
+  teleportaccept:
+    description: Accepts teleportation request
+    permission: dreamingworld.teleportaccept
+    aliases: [tpaccept]
+    usage: /<command> [player]
+
+  teleportdeny:
+    description: Denies teleportation request
+    permission: dreamingworld.teleportdeny
+    aliases: [tpdeny]
+    usage: /<command> [player]
+
+
+  rank:
+    description: Rank management
+    permission: dreamingworld.rank
+    aliases: [rn, rk, rnk, perm, perms, permissions]
+    usage: /<command> <player> <rank>
+
+
   dwgive:
     description: Gives DreamingWorld item to player
     permission: dreamingworld.give
@@ -18,10 +75,22 @@ commands:
     usage: /<command> <player> <mob>
 
   dwstructure:
-    description: Generates structure at player's postion
+    description: Generates structure at player's target
     permission: dreamingworld.structure
     aliases: [dwstruct, dwstr]
     usage: /<command> <structure>
+
+  dwresearch:
+    description: Gives research to player
+    permission: dreamingworld.research
+    aliases: [dwr]
+    usage: /<command> <player> <research>
+
+  systeminfo:
+    description: Shows server status
+    permission: dreamingworld.systeminfo
+    aliases: [sysinfo, si, servhealth, health]
+    usage: /<command>
 
 
   recipes:
@@ -34,5 +103,67 @@ commands:
   guild:
     description: Guild management
     permission: dreamingworld.guilds
-    aliases: [g, guilds]
-    usage: fak
+    usage: Type /guild help for info
+
+
+permissions:
+  dreamingworld.chat.*:
+    children:
+      dreamingworld.channel: true
+      dreamingworld.tell: true
+      dreamingworld.instantmessage: true
+
+  dreamingworld.debug.*:
+    children:
+      dreamingworld.give: true
+      dreamingworld.summon: true
+      dreamingworld.structure: true
+      dreamingworld.research: true
+      dreamingworld.systeminfo: true
+
+  dreamingworld.gameplay.*:
+    children:
+      dreamingworld.teleport: true
+      dreamingworld.teleportaccept: true
+      dreamingworld.teleportdeny: true
+      dreamingworld.recipes: true
+      dreamingworld.guilds: true
+
+
+  # Chat
+  dreamingworld.channel:
+    default: true
+  dreamingworld.tell:
+    default: true
+  dreamingworld.instantmessage:
+    default: true
+
+  # Gameplay
+  # Teleportation
+  dreamingworld.teleport:
+    default: true
+  dreamingworld.teleportaccept:
+    default: true
+  dreamingworld.teleportdeny:
+    default: true
+  # Other
+  dreamingworld.recipes:
+    default: true
+  dreamingworld.guilds:
+    default: true
+
+  # Shit
+  dreamingworld.rank:
+    default: op
+
+  # Debug
+  dreamingworld.give:
+    default: op
+  dreamingworld.summon:
+    default: op
+  dreamingworld.structure:
+    default: op
+  dreamingworld.research:
+    default: op
+  dreamingworld.systeminfo:
+    default: op

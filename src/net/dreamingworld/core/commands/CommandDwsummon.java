@@ -49,18 +49,12 @@ public class CommandDwsummon implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLine, String[] args) {
         if (args.length == 1) {
-            List<String> names = new ArrayList<>();
-
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                names.add(player.getName());
-            }
-
-            return Util.smartAutocomplete(names, args);
+            return Util.smartAutocomplete(DreamingWorld.playerNames, args);
         } else if (args.length == 2) {
             return Util.smartAutocomplete(DreamingWorld.getInstance().getEntityManager().getIds(), args);
         }
 
-        return null;
+        return new ArrayList<>();
     }
 }
 

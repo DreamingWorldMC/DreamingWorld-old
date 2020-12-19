@@ -5,12 +5,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommandRecipes implements CommandExecutor, TabCompleter {
 
     public CommandRecipes() {
         Bukkit.getPluginCommand("recipes").setExecutor(this);
+        Bukkit.getPluginCommand("recipes").setTabCompleter(this);
     }
 
     @Override
@@ -31,6 +33,6 @@ public class CommandRecipes implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLine, String[] args) {
-        return null;
+        return new ArrayList<>();
     }
 }

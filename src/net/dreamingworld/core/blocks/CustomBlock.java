@@ -1,7 +1,6 @@
 package net.dreamingworld.core.blocks;
 
 import net.dreamingworld.DreamingWorld;
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -40,6 +39,10 @@ public abstract class CustomBlock implements Runnable, Listener {
 
     public void place(Block block) { }
 
+    public boolean blockBreak(Block block) {
+        return true;
+    }
+
 
     @EventHandler
     public void onPlace(BlockPlaceEvent e) {
@@ -59,7 +62,10 @@ public abstract class CustomBlock implements Runnable, Listener {
 
         if (DreamingWorld.getInstance().getBlockManager().removeBlock(loc, id)) {
             e.setCancelled(true);
-            loc.getWorld().dropItem(loc, item);
+            if (blockBreak(e.getBlock())) {
+                item.setAmount(1);
+                loc.getWorld().dropItem(loc, item);
+            }
         }
     }
 
