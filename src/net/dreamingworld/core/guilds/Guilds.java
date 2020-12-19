@@ -161,7 +161,7 @@ public class Guilds implements Listener {
 
 
     public String getChunkOwner(Chunk chunk) {
-        ConfigurationSection chunks = config.getConfigurationSection("chunks");
+        ConfigurationSection chunks = config.getConfigurationSection("chunks").getConfigurationSection(chunk.getWorld().getName());
 
         if (chunks == null) {
             return null;
@@ -173,8 +173,11 @@ public class Guilds implements Listener {
     public void setChunkOwner(Chunk chunk, String guild) {
         ConfigurationSection chunks = config.getConfigurationSection("chunks").getConfigurationSection(chunk.getWorld().getName());
 
-        if (chunks == null) {
+        if (config.getConfigurationSection("chunks") == null) {
             chunks = config.createSection("chunks");
+        }
+        if (chunks == null) {
+            chunks = config.getConfigurationSection("chunks").createSection(chunk.getWorld().getName());
         }
 
         chunks.set(chunk.getX() + "_" + chunk.getZ(), guild);
