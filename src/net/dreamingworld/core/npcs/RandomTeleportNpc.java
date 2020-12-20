@@ -68,10 +68,10 @@ public class RandomTeleportNpc implements Listener {
     public void onClick(PlayerInteractEvent e) {
         if (e.getPlayer().getWorld().getName().equals("spawn") && e.getPlayer().getLocation().distance(location) < 4) {
             for (int i = 0; i < 3; i++) {
-                Location loc = new Location(Bukkit.getWorld("world"), ThreadLocalRandom.current().nextInt(-6400001, 6400001), 0, ThreadLocalRandom.current().nextInt(-6400001, 6400001));
+                Location loc = new Location(Bukkit.getWorld("world"), ThreadLocalRandom.current().nextInt(-160001, 160001), 0, ThreadLocalRandom.current().nextInt(-6400001, 6400001));
 
                 if (loc.getWorld().getHighestBlockAt(loc).getRelative(BlockFace.DOWN).getType() == Material.GRASS && DreamingWorld.getInstance().getGuildManager().getChunkOwner(loc.getChunk()) == null) {
-                    e.getPlayer().teleport(loc);
+                    e.getPlayer().teleport(loc.add(0, loc.getWorld().getHighestBlockAt(loc).getY(), 0));
                     e.getPlayer().sendMessage(ChatColor.AQUA + "Thanks for using our flying services.");
                     return;
                 }
