@@ -48,8 +48,6 @@ public class CommandSpawn implements CommandExecutor, Listener {
 
     @EventHandler
     public void onRespawn(PlayerRespawnEvent e) {
-        if (null == e.getPlayer().getBedSpawnLocation()) {
-            Bukkit.getScheduler().runTaskLater(DreamingWorld.getInstance(), () -> e.getPlayer().teleport(location), 1);
-        }
+        e.setRespawnLocation(location);
     }
 }
