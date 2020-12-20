@@ -120,21 +120,8 @@ public class RecipeBook implements Listener {
             pgs.put(result, matrix);
         }
 
-        Collator collator = Collator.getInstance(Locale.UK);
-        collator.setStrength(Collator.PRIMARY);
-        collator.setDecomposition(Collator.FULL_DECOMPOSITION);
-
-        TreeMap<ItemStack, ItemStack[]> pgs_ = new TreeMap<>((t0, t1) -> {
-            String dn0 = t0.getItemMeta().getDisplayName().replaceAll("§\\w", "");
-            String dn1 = t1.getItemMeta().getDisplayName().replaceAll("§\\w", "");
-
-            return collator.compare(dn0, dn1);
-        });
-
-        pgs_.putAll(pgs);
-
-        List<ItemStack[]> previews = (List<ItemStack[]>) (Object) Util.splitArray(pgs_.keySet().toArray(), 7);
-        List<ItemStack[][]> shapes = (List<ItemStack[][]>) (Object) Util.splitArray(pgs_.values().toArray(), 7);
+        List<ItemStack[]> previews = (List<ItemStack[]>) (Object) Util.splitArray(pgs.keySet().toArray(), 7);
+        List<ItemStack[][]> shapes = (List<ItemStack[][]>) (Object) Util.splitArray(pgs.values().toArray(), 7);
 
         for (int i = 0; i < previews.size(); i++) {
             List<ItemStack> keys = Arrays.asList(previews.get(i));

@@ -135,6 +135,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         new TeleportCommands();
         new CommandSystemInfo();
         new CommandSpawn();
+        new CommandOverrides();
 
         new RandomTeleportNpc();
 

@@ -161,6 +161,10 @@ public class Guilds implements Listener {
 
 
     public String getChunkOwner(Chunk chunk) {
+        if (chunk.getWorld().getName().equals("spawn")) {
+            return "spawn";
+        }
+
         ConfigurationSection chunks = config.getConfigurationSection("chunks").getConfigurationSection(chunk.getWorld().getName());
 
         if (chunks == null) {
@@ -409,7 +413,10 @@ public class Guilds implements Listener {
         String g = getPlayerGuild(player)[0];
 
         if (o != null && !Objects.equals(o, g)) {
-            player.sendMessage(Util.formatString("$(PC)This chunk belongs to $(SC)" + o + "$(PC). Hands off!"));
+            if (!o.equals("spawn")) {
+                player.sendMessage(Util.formatString("$(PC)This chunk belongs to $(SC)" + o + "$(PC). Hands off!"));
+            }
+
             e.setCancelled(true);
         }
     }
@@ -436,7 +443,7 @@ public class Guilds implements Listener {
         if (g != null && config.getConfigurationSection("guilds").getConfigurationSection(g).getString("home") != null) {
             String[] str = config.getConfigurationSection("guilds").getConfigurationSection(g).getString("home").split("_");
 
-            player.teleport(new Location(Bukkit.getWorld(str[3]), Integer.valueOf(str[0]), Integer.valueOf(str[1]), Integer.valueOf(str[2])));
+            player.teleport(new Location(Bukkit.getWorld(str[3]), Integer.parseInt(str[0]), Integer.parseInt(str[1]), Integer.parseInt(str[2])));
         } else {
             player.sendMessage(ChatColor.DARK_RED + "You are not in a guild or your guild does not have a home");
         }
