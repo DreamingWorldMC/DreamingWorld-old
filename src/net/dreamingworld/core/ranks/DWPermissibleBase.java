@@ -38,11 +38,7 @@ public class DWPermissibleBase extends PermissibleBase {
             return true;
         }
 
-        if (rankPerms.contains(inName)) {
-            return true;
-        }
-
-        if (defPerms.contains(inName)) {
+        if (rankPerms.contains(inName) || defPerms.contains(inName)) {
             return true;
         }
 
