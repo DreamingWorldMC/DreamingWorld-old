@@ -4,23 +4,21 @@ import com.mojang.authlib.GameProfile;
 import net.dreamingworld.DreamingWorld;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.world.ChunkLoadEvent;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomTeleportNpc implements Listener {
 
@@ -56,6 +54,7 @@ public class RandomTeleportNpc implements Listener {
                 PlayerConnection connection = ((CraftPlayer) e.getPlayer()).getHandle().playerConnection;
                 connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc));
                 connection.sendPacket(new PacketPlayOutNamedEntitySpawn(npc));
+                connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc));
             }
         }
         else {
@@ -63,5 +62,22 @@ public class RandomTeleportNpc implements Listener {
                 players.remove(e.getPlayer().getName());
             }
         }
+    }
+
+    @EventHandler
+    public void onClick(PlayerInteractEvent e) {
+        if (e.getPlayer().getWorld().getName().equals("spawn") && e.getPlayer().getLocation().distance(location) < 4) {
+            for (int i = 0; i < 3; i++) {
+                Location loc = new Location(Bukkit.getWorld("world"), ThreadLocalRandom.current().nextInt(-6400001, 6400001), 0, ThreadLocalRandom.current().nextInt(-6400001, 6400001));
+
+                if (loc.getWorld().getHighestBlockAt(loc).getRelative(BlockFace.DOWN).getType() == Material.GRASS && DreamingWorld.getInstance().getGuildManager().getChunkOwner(loc.getChunk()) == null) {
+                    e.getPlayer().teleport(loc);
+                    e.getPlayer().sendMessage(ChatColor.AQUA + "Thanks for using our flying services.");
+                    return;
+                }
+            }
+            e.getPlayer().sendMessage(ChatColor.DARK_RED + "I was not able to find where to fly to.");
+        }
+
     }
 }
