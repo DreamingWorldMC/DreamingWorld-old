@@ -39,7 +39,7 @@ commands:
   teleport:
     description: Teleportation request command
     permission: dreamingworld.teleport
-    aliases: [tp, plsservermovemeto, iwanttogotothisperson, tpa]
+    aliases: [tp, tpa]
     usage: /<command> <player>
 
   teleportaccept:
@@ -57,7 +57,6 @@ commands:
   spawn:
     description: Teleports player to spawn
     permission: dreamingworld.teleport
-    aliases: [thefirstplaceonthisserver]
     usage: /<command>
 
 
