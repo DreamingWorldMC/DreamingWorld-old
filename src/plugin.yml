@@ -54,6 +54,12 @@ commands:
     aliases: [tpdeny]
     usage: /<command> [player]
 
+  spawn:
+    description: Teleports player to spawn
+    permission: dreamingworld.teleport
+    aliases: [thefirstplaceonthisserver]
+    usage: /<command>
+
 
   rank:
     description: Rank management

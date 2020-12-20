@@ -15,6 +15,7 @@ import net.dreamingworld.core.geminfusion.GemInfusionManager;
 import net.dreamingworld.core.guilds.Guilds;
 import net.dreamingworld.core.guilds.CommandGuild;
 import net.dreamingworld.core.manainfusion.ManaInfusionManager;
+import net.dreamingworld.core.npcs.RandomTeleportNpc;
 import net.dreamingworld.core.ranks.RankManager;
 import net.dreamingworld.core.research.ResearchManager;
 import net.dreamingworld.core.structures.StructureManager;
@@ -130,6 +131,9 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         new CommandDwresearch();
         new TeleportCommands();
         new CommandSystemInfo();
+        new CommandSpawn();
+
+        new RandomTeleportNpc();
 
         alloyManager.registerAlloy(Material.COAL_ORE, new Ignium());
         alloyManager.registerAlloy(Material.COAL_ORE, new Energium());
