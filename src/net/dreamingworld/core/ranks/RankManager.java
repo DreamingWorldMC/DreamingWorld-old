@@ -6,6 +6,7 @@ import net.dreamingworld.core.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftHumanEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -14,6 +15,8 @@ import org.bukkit.permissions.PermissionAttachment;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -165,17 +168,18 @@ public class RankManager implements Listener {
         }
 
         for (String permission : getRankPermissions(rank)) {
-            if (permission.equals("*")) {
-                for (Permission p : Bukkit.getPluginManager().getPermissions()) {
-                    attachment.setPermission(p, true);
-                }
-
-                e.getPlayer().setOp(true);
-
-                break;
-            }
-
             attachment.setPermission(permission, true);
+        }
+
+        try {
+            Field field = CraftHumanEntity.class.getDeclaredField("perm");
+            field.setAccessible(true);
+            Field mField = field.getClass().getDeclaredField("modifiers");
+            mField.setAccessible(true);
+            mField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+            field.set(e.getPlayer(), new DWPermissibleBase(e.getPlayer()));
+        } catch (NoSuchFieldException | IllegalAccessException ex) {
+            ex.printStackTrace();
         }
 
         e.getPlayer().setDisplayName(getRankPrefix(rank) + e.getPlayer().getName() + getRankPostfix(rank));

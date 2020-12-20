@@ -1,5 +1,6 @@
 package net.dreamingworld;
 
+import net.dreamingworld.core.AutoBroadcast;
 import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.blocks.BlockManager;
 import net.dreamingworld.core.chat.ChatManager;
@@ -109,6 +110,8 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         rankManager = new RankManager();
         gemInfusionManager = new GemInfusionManager();
         vanityManager = new VanityManager();
+
+        new AutoBroadcast();
 
 //        Bukkit.getPluginManager().registerEvents(fishManager, this);
         Bukkit.getPluginManager().registerEvents(alloyManager, this);
