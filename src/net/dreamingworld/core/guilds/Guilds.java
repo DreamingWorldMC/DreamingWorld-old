@@ -421,31 +421,26 @@ public class Guilds implements Listener {
         }
     }
 
-    public void setHome(Player player) {
-        String o = getChunkOwner(player.getLocation().getChunk());
-        String g = getPlayerGuild(player)[0];
+    public int setHome(Location location, String guild) {
+        String o = getChunkOwner(location.getChunk());
 
-        if (g != null && g.equals(o)) {
-            if (getPlayerGuild(player)[1].equals("owner")) {
-                config.getConfigurationSection("guilds").getConfigurationSection(g).set("home", player.getLocation().getBlockX() + "_" + (int)player.getLocation().getBlockY() + "_" + (int)player.getLocation().getBlockZ() + "_" + player.getLocation().getWorld().getName());
-                player.sendMessage("Guild's home set.");
-            } else {
-                player.sendMessage(ChatColor.DARK_RED + "You are not the owner of your guild");
-            }
-        } else {
-            player.sendMessage(ChatColor.DARK_RED + "Your guild is not owner of this chunk");
+        if (!guild.equals(o)) {
+            return -1;
         }
+
+        config.getConfigurationSection("guilds").getConfigurationSection(guild).set("home", location.getBlockX() + "_" + location.getBlockY() + "_" + location.getBlockZ() + "_" + location.getWorld().getName());
+
+        return 0;
     }
 
-    public void teleportToHome(Player player) {
-        String g = getPlayerGuild(player)[0];
+    public Location getHomeLocation(String guild) {
+        String s = config.getConfigurationSection("guilds").getConfigurationSection(guild).getString("home");
 
-        if (g != null && config.getConfigurationSection("guilds").getConfigurationSection(g).getString("home") != null) {
-            String[] str = config.getConfigurationSection("guilds").getConfigurationSection(g).getString("home").split("_");
-
-            player.teleport(new Location(Bukkit.getWorld(str[3]), Integer.parseInt(str[0]), Integer.parseInt(str[1]), Integer.parseInt(str[2])));
-        } else {
-            player.sendMessage(ChatColor.DARK_RED + "You are not in a guild or your guild does not have a home");
+        if (s == null) {
+            return null;
         }
+
+        String[] str = s.split("_");
+        return new Location(Bukkit.getWorld(str[3]), Integer.parseInt(str[0]), Integer.parseInt(str[1]), Integer.parseInt(str[2]));
     }
 }

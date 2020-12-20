@@ -4,10 +4,7 @@ import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.MojangAPI;
 import net.dreamingworld.core.Util;
 import net.dreamingworld.core.guilds.GuildInvites;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -416,7 +413,7 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
                 sender.sendMessage(Util.formatString("$(PC)Members: " + (members == null ? "&rn/a" : members)));
                 sender.sendMessage(Util.formatString("$(PC)Chunks: &r" + gm.getGuildChunkList(guild).size() + "/" + gm.getGuildMaxChunks(guild)));
 
-                break;
+                return true;
 
             case ("home"):
                 if (args.length != 1) {
@@ -430,9 +427,15 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                DreamingWorld.getInstance().getGuildManager().teleportToHome(player);
+                Location loc = DreamingWorld.getInstance().getGuildManager().getHomeLocation(d[0]);
 
-                break;
+                if (loc == null) {
+                    sender.sendMessage(Util.formatString("$(PC)Sorry, but your guild does not have a home"));
+                    return true;
+                }
+
+                player.teleport(loc);
+                return true;
 
             ///////////////////////////////////////////////////////// Guild owners commands
 
@@ -478,7 +481,7 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
                         break;
                 }
 
-                break;
+                return true;
 
             case ("kick"):
                 if (args.length != 2) {
@@ -571,6 +574,7 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
                 DreamingWorld.getInstance().getGuildManager().addPlayerToGuild(p.getUniqueId(), d[0], "owner");
 
                 return true;
+
             case ("sethome"):
                 if (args.length != 1) {
                     sender.sendMessage(Util.formatString("&4Wrong command usage!"));
@@ -588,8 +592,15 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                DreamingWorld.getInstance().getGuildManager().setHome(player);
-                break;
+                res = DreamingWorld.getInstance().getGuildManager().setHome(player.getLocation(), d[0]);
+
+                if (res == -1) {
+                    sender.sendMessage(Util.formatString("$(PC)Sorry, but this chunk does not belong to your guild"));
+                } else {
+                    sender.sendMessage(Util.formatString("$(PC)Guild home successfully set"));
+                }
+
+                return true;
         }
 
         return true;
