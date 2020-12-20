@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
@@ -47,6 +48,8 @@ public class CommandSpawn implements CommandExecutor, Listener {
 
     @EventHandler
     public void onRespawn(PlayerRespawnEvent e) {
-        e.getPlayer().teleport(location);
+        if (null == e.getPlayer().getBedSpawnLocation()) {
+            Bukkit.getScheduler().runTaskLater(DreamingWorld.getInstance(), () -> e.getPlayer().teleport(location), 1);
+        }
     }
 }
