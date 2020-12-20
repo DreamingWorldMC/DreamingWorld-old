@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class CommandSpawn implements CommandExecutor, Listener {
 
@@ -42,5 +43,10 @@ public class CommandSpawn implements CommandExecutor, Listener {
         if (!Bukkit.getOfflinePlayer(e.getPlayer().getName()).hasPlayedBefore()) {
             e.getPlayer().teleport(location);
         }
+    }
+
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent e) {
+        e.getPlayer().teleport(location);
     }
 }
