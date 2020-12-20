@@ -56,6 +56,10 @@ public class CustomDamage implements Listener {
         if (!(e.getEntity() instanceof LivingEntity)) {
             return;
         }
+        if (e.getDamager().getWorld().getName().equals("spawn")) {
+            e.setCancelled(true);
+            return;
+        }
 
         double finalDamage = e.getDamage();
 
