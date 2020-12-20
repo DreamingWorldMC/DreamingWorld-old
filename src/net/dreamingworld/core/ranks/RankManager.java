@@ -161,16 +161,6 @@ public class RankManager implements Listener {
             setPlayerRank(e.getPlayer().getName(), rank);
         }
 
-        PermissionAttachment attachment = e.getPlayer().addAttachment(DreamingWorld.getInstance());
-
-        for (String k : attachment.getPermissions().keySet()) {
-            attachment.unsetPermission(k);
-        }
-
-        for (String permission : getRankPermissions(rank)) {
-            attachment.setPermission(permission, true);
-        }
-
         try {
             Field field = CraftHumanEntity.class.getDeclaredField("perm");
             field.setAccessible(true);
