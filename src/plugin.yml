@@ -20,7 +20,7 @@ commands:
   global:
     description: Sends message to global chat instantly
     permission: dreamingworld.instantmessage
-    aliases: [g]
+    aliases: [gl, nl, notlocal]
     usage: /<command> <message...>
 
   local:
@@ -109,6 +109,7 @@ commands:
     description: Guild management
     permission: dreamingworld.guilds
     usage: Type /guild help for info
+    aliases: [g]
 
 
 permissions:
