@@ -3,14 +3,12 @@ package net.dreamingworld.core.customdamage;
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.Util;
+import net.minecraft.server.v1_8_R3.DamageSource;
 import net.minecraft.server.v1_8_R3.MathHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -258,7 +256,7 @@ public class CustomDamage implements Listener {
             int resDamage = MathHelper.clamp((int) startDamage - (int) removeDMG, 0, 10000);
 
             if (((Player) e.getEntity()).getHealth() + ((CraftPlayer) e.getEntity()).getHandle().getAbsorptionHearts() - resDamage > 0) {
-                ((Player) e.getEntity()).damage(resDamage);
+                ((CraftPlayer) e.getEntity()).getHandle().damageEntity(DamageSource.OUT_OF_WORLD, resDamage);
             } else {
                 String deathMessage = Util.formatString(((CraftPlayer) e.getEntity()).getDisplayName() + deathMsg.getOrDefault(e.getCause(), " &7died from &7&kIDKDONTADDEDYET"));
 
