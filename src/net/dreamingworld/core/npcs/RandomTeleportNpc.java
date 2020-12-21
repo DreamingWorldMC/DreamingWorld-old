@@ -16,6 +16,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -73,6 +75,13 @@ public class RandomTeleportNpc implements Listener {
             }
 
             e.getPlayer().sendMessage(ChatColor.DARK_RED + "I was not able to find where to fly");
+        }
+    }
+
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent e) {
+        if (players.contains(e.getPlayer().getName())) {
+            players.remove(e.getPlayer().getName());
         }
     }
 }
