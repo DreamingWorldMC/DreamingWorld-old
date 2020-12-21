@@ -256,7 +256,7 @@ public class CustomDamage implements Listener {
             int resDamage = MathHelper.clamp((int) startDamage - (int) removeDMG, 0, 10000);
 
             if (((Player) e.getEntity()).getHealth() + ((CraftPlayer) e.getEntity()).getHandle().getAbsorptionHearts() - resDamage > 0) {
-                ((CraftPlayer) e.getEntity()).getHandle().damageEntity(DamageSource.OUT_OF_WORLD, resDamage);
+                ((CraftPlayer) e.getEntity()).getHandle().damageEntity(DamageSource.GENERIC, resDamage);
             } else {
                 String deathMessage = Util.formatString(((CraftPlayer) e.getEntity()).getDisplayName() + deathMsg.getOrDefault(e.getCause(), " &7died from &7&kIDKDONTADDEDYET"));
 
