@@ -15,7 +15,7 @@ import java.util.List;
 public class Manium extends OreAlloy {
 
     public Manium() {
-        chance = 5;
+        chance = 25;
         dropOnBreak = false;
         dropOnSmelt = true;
 
