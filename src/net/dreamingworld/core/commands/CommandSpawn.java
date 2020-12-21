@@ -8,16 +8,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class CommandSpawn implements CommandExecutor, Listener {
 
-    Location location;
+    private final Location location;
 
     public CommandSpawn() {
-
         if (Bukkit.getWorld("spawn") == null) {
             Bukkit.createWorld(new WorldCreator("spawn").environment(World.Environment.THE_END));
         }
@@ -34,6 +32,7 @@ public class CommandSpawn implements CommandExecutor, Listener {
         if (!(sender instanceof Player)) {
             return true;
         }
+
         ((Player) sender).teleport(location);
 
         return true;
