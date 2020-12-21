@@ -30,6 +30,7 @@ import net.dreamingworld.gameplay.fishing.Fishing;
 import net.dreamingworld.gameplay.foodcraft.Foodcraft;
 import net.dreamingworld.gameplay.manacraft.Manacraft;
 import net.dreamingworld.gameplay.obelisks.Obelisks;
+import net.dreamingworld.gameplay.qolgear.QOLGear;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -150,6 +151,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         Fishing.initialize();
         Foodcraft.initialize();
         BossKills.initialize();
+        QOLGear.initialize();
 
         new Obelisks();
 
