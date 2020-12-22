@@ -40,10 +40,12 @@ public class Elevator extends CustomBlock {
 
         DreamingWorld.getInstance().getItemManager().registerItem(id, item);
 
+        item.setAmount(4);
+
         CustomRecipe recipe = new CustomRecipe(item);
         recipe.shape(new String[] { "III", "IBI", "III" });
-        recipe.setVanillaIngredient('I', Material.ENDER_PEARL);
-        recipe.setVanillaIngredient('B', Material.WOOL);
+        recipe.setVanillaIngredient('B', Material.ENDER_PEARL);
+        recipe.setVanillaIngredient('I', Material.WOOL);
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }
