@@ -434,7 +434,9 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                player.teleport(loc);
+                sender.sendMessage(Util.formatString("$(PC)You will be teleported to guild home in $(SC)5 seconds"));
+                Bukkit.getScheduler().scheduleSyncDelayedTask(DreamingWorld.getInstance(), () -> player.teleport(loc), 100);
+                
                 return true;
 
             ///////////////////////////////////////////////////////// Guild owners commands
