@@ -20,7 +20,7 @@ commands:
   global:
     description: Sends message to global chat instantly
     permission: dreamingworld.instantmessage
-    aliases: [g]
+    aliases: [gl, nl, notlocal]
     usage: /<command> <message...>
 
   local:
@@ -39,7 +39,7 @@ commands:
   teleport:
     description: Teleportation request command
     permission: dreamingworld.teleport
-    aliases: [tp, plsservermovemeto]
+    aliases: [tp, tpa]
     usage: /<command> <player>
 
   teleportaccept:
@@ -53,6 +53,11 @@ commands:
     permission: dreamingworld.teleportdeny
     aliases: [tpdeny]
     usage: /<command> [player]
+
+  spawn:
+    description: Teleports player to spawn
+    permission: dreamingworld.teleport
+    usage: /<command>
 
 
   rank:
@@ -104,7 +109,20 @@ commands:
     description: Guild management
     permission: dreamingworld.guilds
     usage: Type /guild help for info
+    aliases: [g]
 
+
+  website:
+    description: WebsiteLink
+    permission: dreamingworld.instantmessage
+    usage: /<command>
+    aliases: [ws]
+
+  rules:
+    description: Rules
+    permission: dreamingworld.instantmessage
+    usage: /<command>
+    aliases: [noanarchy]
 
 permissions:
   dreamingworld.chat.*:
@@ -128,7 +146,6 @@ permissions:
       dreamingworld.teleportdeny: true
       dreamingworld.recipes: true
       dreamingworld.guilds: true
-
 
   # Chat
   dreamingworld.channel:

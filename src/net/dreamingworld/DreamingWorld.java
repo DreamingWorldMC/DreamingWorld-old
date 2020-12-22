@@ -1,5 +1,6 @@
 package net.dreamingworld;
 
+import net.dreamingworld.core.AutoBroadcast;
 import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.blocks.BlockManager;
 import net.dreamingworld.core.chat.ChatManager;
@@ -15,6 +16,7 @@ import net.dreamingworld.core.geminfusion.GemInfusionManager;
 import net.dreamingworld.core.guilds.Guilds;
 import net.dreamingworld.core.guilds.CommandGuild;
 import net.dreamingworld.core.manainfusion.ManaInfusionManager;
+import net.dreamingworld.core.npcs.RandomTeleportNpc;
 import net.dreamingworld.core.ranks.RankManager;
 import net.dreamingworld.core.research.ResearchManager;
 import net.dreamingworld.core.structures.StructureManager;
@@ -28,6 +30,7 @@ import net.dreamingworld.gameplay.fishing.Fishing;
 import net.dreamingworld.gameplay.foodcraft.Foodcraft;
 import net.dreamingworld.gameplay.manacraft.Manacraft;
 import net.dreamingworld.gameplay.obelisks.Obelisks;
+import net.dreamingworld.gameplay.qolgear.QOLGear;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -109,6 +112,8 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         gemInfusionManager = new GemInfusionManager();
         vanityManager = new VanityManager();
 
+        new AutoBroadcast();
+
 //        Bukkit.getPluginManager().registerEvents(fishManager, this);
         Bukkit.getPluginManager().registerEvents(alloyManager, this);
         Bukkit.getPluginManager().registerEvents(blockManager, this);
@@ -130,6 +135,12 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         new CommandDwresearch();
         new TeleportCommands();
         new CommandSystemInfo();
+        new CommandSpawn();
+        new CommandOverrides();
+        new CommandWebsite();
+        new CommandRules();
+
+        new RandomTeleportNpc();
 
         alloyManager.registerAlloy(Material.COAL_ORE, new Ignium());
         alloyManager.registerAlloy(Material.COAL_ORE, new Energium());
@@ -142,6 +153,7 @@ public class DreamingWorld extends JavaPlugin implements Listener {
         Fishing.initialize();
         Foodcraft.initialize();
         BossKills.initialize();
+        QOLGear.initialize();
 
         new Obelisks();
 

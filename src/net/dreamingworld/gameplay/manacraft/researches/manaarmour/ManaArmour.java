@@ -39,7 +39,7 @@ public class ManaArmour {
         CustomRecipe recipe = new CustomRecipe(item);
         recipe.shape(new String[] { "IMI", "I I", "   " });
         recipe.setCustomIngredient('I', "green_iron_ingot");
-        recipe.setCustomIngredient('M', "mana_battey");
+        recipe.setCustomIngredient('M', "mana_battery");
 
 
         
@@ -66,7 +66,7 @@ public class ManaArmour {
         recipe = new CustomRecipe(item);
         recipe.shape(new String[] { "M M", "IMI", "IMI" });
         recipe.setCustomIngredient('I', "mana_ingot");
-        recipe.setCustomIngredient('M', "mana_battey");
+        recipe.setCustomIngredient('M', "mana_battery");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
@@ -91,7 +91,7 @@ public class ManaArmour {
         recipe = new CustomRecipe(item);
         recipe.shape(new String[] { "IMI", "I I", "I I" });
         recipe.setCustomIngredient('I', "mana_ingot");
-        recipe.setCustomIngredient('M', "mana_battey");
+        recipe.setCustomIngredient('M', "mana_battery");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 

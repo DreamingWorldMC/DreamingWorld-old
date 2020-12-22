@@ -77,7 +77,8 @@ public class AlloyManager implements Listener {
                 }
             }
         }
-
-        e.getBlock().getLocation().getWorld().dropItem(e.getBlock().getLocation().add(0, 1, 0), drop);
+        if (!drop.getType().equals(Material.AIR)) {
+            e.getBlock().getLocation().getWorld().dropItem(e.getBlock().getLocation().add(0, 1, 0), drop);
+        }
     }
 }

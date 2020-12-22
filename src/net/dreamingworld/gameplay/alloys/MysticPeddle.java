@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class MysticPeddle extends OreAlloy {
 
     public MysticPeddle() {
-        chance = 4;
+        chance = 2;
         dropOnBreak = true;
         dropOnSmelt = true;
 

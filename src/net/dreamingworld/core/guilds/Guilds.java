@@ -161,6 +161,10 @@ public class Guilds implements Listener {
 
 
     public String getChunkOwner(Chunk chunk) {
+        if (chunk.getWorld().getName().equals("spawn")) {
+            return "spawn";
+        }
+
         ConfigurationSection chunks = config.getConfigurationSection("chunks").getConfigurationSection(chunk.getWorld().getName());
 
         if (chunks == null) {
@@ -173,8 +177,11 @@ public class Guilds implements Listener {
     public void setChunkOwner(Chunk chunk, String guild) {
         ConfigurationSection chunks = config.getConfigurationSection("chunks").getConfigurationSection(chunk.getWorld().getName());
 
-        if (chunks == null) {
+        if (config.getConfigurationSection("chunks") == null) {
             chunks = config.createSection("chunks");
+        }
+        if (chunks == null) {
+            chunks = config.getConfigurationSection("chunks").createSection(chunk.getWorld().getName());
         }
 
         chunks.set(chunk.getX() + "_" + chunk.getZ(), guild);
@@ -406,8 +413,34 @@ public class Guilds implements Listener {
         String g = getPlayerGuild(player)[0];
 
         if (o != null && !Objects.equals(o, g)) {
-            player.sendMessage(Util.formatString("$(PC)This chunk belongs to $(SC)" + o + "$(PC). Hands off!"));
+            if (!o.equals("spawn")) {
+                player.sendMessage(Util.formatString("$(PC)This chunk belongs to $(SC)" + o + "$(PC). Hands off!"));
+            }
+
             e.setCancelled(true);
         }
+    }
+
+    public int setHome(Location location, String guild) {
+        String o = getChunkOwner(location.getChunk());
+
+        if (!guild.equals(o)) {
+            return -1;
+        }
+
+        config.getConfigurationSection("guilds").getConfigurationSection(guild).set("home", location.getBlockX() + "_" + location.getBlockY() + "_" + location.getBlockZ() + "_" + location.getWorld().getName());
+
+        return 0;
+    }
+
+    public Location getHomeLocation(String guild) {
+        String s = config.getConfigurationSection("guilds").getConfigurationSection(guild).getString("home");
+
+        if (s == null) {
+            return null;
+        }
+
+        String[] str = s.split("_");
+        return new Location(Bukkit.getWorld(str[3]), Integer.parseInt(str[0]), Integer.parseInt(str[1]), Integer.parseInt(str[2]));
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 public class Uranium extends OreAlloy {
 
     public Uranium() {
-        chance = 1;
+        chance = 5;
         dropOnBreak = false;
         dropOnSmelt = true;
 

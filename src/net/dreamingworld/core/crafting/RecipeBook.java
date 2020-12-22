@@ -1,6 +1,7 @@
 package net.dreamingworld.core.crafting;
 
 import net.dreamingworld.DreamingWorld;
+import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.Util;
 import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.ui.ChestUI;
@@ -11,7 +12,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.text.Collator;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -56,7 +56,20 @@ public class RecipeBook implements Listener {
             showToPlayer((Player) e.getWhoClicked(), page + 1);
         } else if (!e.getInventory().getItem(slot).isSimilar(UtilItems.nothing())) {
             ItemStack item = e.getInventory().getItem(slot);
-            ItemStack[] items = pages.get(page).get(item);
+            ItemStack[] items = null;
+
+            for (Map.Entry<ItemStack, ItemStack[]> entry : pages.get(page).entrySet()) {
+                String id0 = TagWizard.getItemTag(entry.getKey(), "id");
+                String id1 = TagWizard.getItemTag(item, "id");
+
+                if (id0.equals(id1)) {
+                    items = entry.getValue();
+                }
+            }
+
+            if (items == null) {
+                return;
+            }
 
             ChestUI ui = new ChestUI("Recipe View", 5);
 
@@ -82,6 +95,7 @@ public class RecipeBook implements Listener {
 
             int i = 1;
             for (ItemStack preview : page.keySet()) {
+                preview.setAmount(1);
                 ui.putItem(i, preview);
                 i++;
             }
@@ -112,6 +126,7 @@ public class RecipeBook implements Listener {
                     for (int j = 0; j < 3; j++) {
                         if (recipe.getShape()[i].toCharArray()[j] == e.getKey()) {
                             matrix[i * 3 + j] = e.getValue();
+                            matrix[i * 3 + j].setAmount(1);
                         }
                     }
                 }
@@ -120,21 +135,8 @@ public class RecipeBook implements Listener {
             pgs.put(result, matrix);
         }
 
-        Collator collator = Collator.getInstance(Locale.UK);
-        collator.setStrength(Collator.PRIMARY);
-        collator.setDecomposition(Collator.FULL_DECOMPOSITION);
-
-        TreeMap<ItemStack, ItemStack[]> pgs_ = new TreeMap<>((t0, t1) -> {
-            String dn0 = t0.getItemMeta().getDisplayName().replaceAll("§\\w", "");
-            String dn1 = t1.getItemMeta().getDisplayName().replaceAll("§\\w", "");
-
-            return collator.compare(dn0, dn1);
-        });
-
-        pgs_.putAll(pgs);
-
-        List<ItemStack[]> previews = (List<ItemStack[]>) (Object) Util.splitArray(pgs_.keySet().toArray(), 7);
-        List<ItemStack[][]> shapes = (List<ItemStack[][]>) (Object) Util.splitArray(pgs_.values().toArray(), 7);
+        List<ItemStack[]> previews = (List<ItemStack[]>) (Object) Util.splitArray(pgs.keySet().toArray(), 7);
+        List<ItemStack[][]> shapes = (List<ItemStack[][]>) (Object) Util.splitArray(pgs.values().toArray(), 7);
 
         for (int i = 0; i < previews.size(); i++) {
             List<ItemStack> keys = Arrays.asList(previews.get(i));
