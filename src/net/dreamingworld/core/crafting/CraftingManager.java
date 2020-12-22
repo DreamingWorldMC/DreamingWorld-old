@@ -30,7 +30,6 @@ public class CraftingManager implements Listener {
         Iterator<Recipe> it = Bukkit.recipeIterator();
         while (it.hasNext()) {
             Recipe r = it.next();
-
             vanillaResults.add(r.getResult());
         }
     }
