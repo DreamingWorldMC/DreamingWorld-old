@@ -26,7 +26,7 @@ public class CommandRecipes implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        DreamingWorld.getInstance().getRecipeBook().showToPlayer((Player) sender, 0);
+        DreamingWorld.getInstance().getRecipeBook().showRecipeBook((Player) sender);
 
         return true;
     }

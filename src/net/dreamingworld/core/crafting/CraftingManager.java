@@ -49,6 +49,11 @@ public class CraftingManager implements Listener {
     }
 
 
+    public boolean canCraft(Player player, ItemStack item) {
+        return !(itemsRequiringResearch.containsKey(TagWizard.getItemTag(item, "id")) && !DreamingWorld.getInstance().getResearchManager().playerHasResearch(player, itemsRequiringResearch.get(TagWizard.getItemTag(item, "id"))));
+    }
+
+
     @EventHandler
     public void onCraftPrepare(PrepareItemCraftEvent e) {
         CraftingInventory inventory = e.getInventory();
@@ -77,11 +82,9 @@ public class CraftingManager implements Listener {
 
     @EventHandler
     public void onTake(CraftItemEvent e) {
-        if (itemsRequiringResearch.containsKey(TagWizard.getItemTag(e.getCurrentItem(), "id"))) {
-            if (!DreamingWorld.getInstance().getResearchManager().playerHasResearch((Player) e.getWhoClicked(), itemsRequiringResearch.get(TagWizard.getItemTag(e.getCurrentItem(), "id")))) {
-                e.getWhoClicked().sendMessage(ChatColor.DARK_RED + "You don't have needed research in your inventory.");
-                e.setCancelled(true);
-            }
+        if (!canCraft((Player) e.getWhoClicked(), e.getCurrentItem())) {
+            e.getWhoClicked().sendMessage(ChatColor.DARK_RED + "You don't have needed research in your inventory.");
+            e.setCancelled(true);
         }
     }
 }
