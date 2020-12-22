@@ -10,10 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
-import org.bukkit.inventory.CraftingInventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.*;
 
 import java.util.*;
 
@@ -34,9 +31,7 @@ public class CraftingManager implements Listener {
         while (it.hasNext()) {
             Recipe r = it.next();
 
-            if (r instanceof ShapedRecipe) {
-                vanillaResults.add(r.getResult());
-            }
+            vanillaResults.add(r.getResult());
         }
     }
 
