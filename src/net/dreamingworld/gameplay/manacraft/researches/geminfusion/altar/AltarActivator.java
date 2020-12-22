@@ -36,7 +36,7 @@ public class AltarActivator implements Listener {
         lore.add("");
         lore.add(ChatColor.WHITE + "Gems:");
         lore.add(Util.formatString("&7- &eAir gems: &f0"));
-        lore.add(Util.formatString("&7- &eAir gems: &f0"));
+        lore.add(Util.formatString("&7- &eWater gems: &f0"));
         lore.add(Util.formatString("&7- &4Fire gems: &f0"));
         lore.add(Util.formatString("&7- &bMana gems: &f0"));
         lore.add(Util.formatString("&7- &8Earth gems: &f0"));
