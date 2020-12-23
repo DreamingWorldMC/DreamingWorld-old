@@ -9,6 +9,7 @@ import org.bukkit.inventory.meta.BookMeta;
 import java.util.HashMap;
 
 public class ManaManipulation extends Research {
+
     public ManaManipulation() {
         id = "mana_manipulation";
         name = "Mana manipulation";
@@ -33,6 +34,9 @@ public class ManaManipulation extends Research {
         DreamingWorld.getInstance().getBlockManager().registerBlock(new ManaCapacitor());
         DreamingWorld.getInstance().getBlockManager().registerBlock(new BasicManaGenerator());
 
-        BasicManaGenerator.addResult(DreamingWorld.getInstance().getItemManager().get("ignium"), new BasicManaGenerator.FusionResult(100, 100));
+        BasicManaGenerator.addResult(new ItemStack(Material.COAL), 1);
+        BasicManaGenerator.addResult(new ItemStack(Material.COAL_BLOCK), 3);
+        BasicManaGenerator.addResult(DreamingWorld.getInstance().getItemManager().get("ignium"), 3);
+        BasicManaGenerator.addResult(DreamingWorld.getInstance().getItemManager().get("hard_coal"), 5);
     }
 }

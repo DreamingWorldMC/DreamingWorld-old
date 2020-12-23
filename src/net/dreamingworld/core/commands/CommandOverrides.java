@@ -28,7 +28,7 @@ public class CommandOverrides implements Listener {
             e.setCancelled(true);
 
             for (Player player : Bukkit.getOnlinePlayers()) {
-                player.kickPlayer(Util.formatString("$(PC)Server is reloading :)"));
+                player.kickPlayer(Util.formatString("$(PC)Do not worry friends, server is reloading :)"));
             }
 
             Bukkit.getServer().reload();

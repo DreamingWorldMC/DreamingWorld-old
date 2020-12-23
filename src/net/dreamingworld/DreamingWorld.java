@@ -1,7 +1,6 @@
 package net.dreamingworld;
 
-import net.dreamingworld.core.AutoBroadcast;
-import net.dreamingworld.core.UtilItems;
+import net.dreamingworld.core.*;
 import net.dreamingworld.core.blocks.BlockManager;
 import net.dreamingworld.core.chat.ChatManager;
 import net.dreamingworld.core.commands.*;
@@ -22,7 +21,6 @@ import net.dreamingworld.core.research.ResearchManager;
 import net.dreamingworld.core.structures.StructureManager;
 import net.dreamingworld.core.vanity.VanityManager;
 import net.dreamingworld.gameplay.alloys.*;
-import net.dreamingworld.core.ItemManager;
 import net.dreamingworld.core.alloys.AlloyManager;
 import net.dreamingworld.core.crafting.CraftingManager;
 import net.dreamingworld.gameplay.bosskills.BossKills;
@@ -168,11 +166,15 @@ public class DreamingWorld extends JavaPlugin implements Listener {
 
     public void onDisable() {
         Bukkit.getScheduler().cancelAllTasks();
+        getBlockManager().getBlockDataManager().saveAll();
     }
 
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
+        e.getPlayer().sendMessage(Util.formatString("$(PC)Welcome to $(SC)DreamingWorld$(PC) alpha!"));
+        PacketWizard.tellraw(e.getPlayer(), "[\"\",{\"text\":\"You can join our \",\"color\":\"gold\"},{\"text\":\"Discord\",\"underlined\":true,\"color\":\"blue\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"https://discord.gg/xUVwfFS6pX\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":{\"text\":\"Click!\"}}}]");
+
         playerNames.add(e.getPlayer().getName());
     }
 

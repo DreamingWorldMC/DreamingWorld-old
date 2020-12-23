@@ -3,6 +3,9 @@ package net.dreamingworld.core.blocks;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.dreamingworld.DreamingWorld;
+import net.minecraft.server.v1_8_R3.Tuple;
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -13,15 +16,20 @@ import java.util.Map;
 
 public class BlockDataManager {
 
-    public BlockDataManager() {
+    private final Map<Chunk, Tuple<File, YamlConfiguration>> chunkFiles;
 
+    public BlockDataManager() {
+        chunkFiles = new HashMap<>();
+
+        Bukkit.getScheduler().runTaskTimerAsynchronously(DreamingWorld.getInstance(), this::saveAll, 0, 40);
     }
 
     public void setBlockTag(Location location, String name, String value) {
         Map<String, String> data = getBlockData(location);
 
-        if (data == null)
+        if (data == null) {
             data = new HashMap<>();
+        }
 
         data.put(name, value);
 
@@ -31,11 +39,13 @@ public class BlockDataManager {
     public String getBlockTag(Location location, String name) {
         Map<String, String> data = getBlockData(location);
 
-        if (data == null)
+        if (data == null) {
             return null;
+        }
 
-        if (data.containsKey(name))
+        if (data.containsKey(name)) {
             return data.get(name);
+        }
 
         return null;
     }
@@ -49,58 +59,70 @@ public class BlockDataManager {
     public Map<String, String> getBlockData(Location location) {
         String json = getBlockInfo(location, "data");
 
-        if (json != null)
+        if (json != null) {
             return new Gson().fromJson(json, new TypeToken<HashMap<String, String>>() {}.getType());
+        }
 
         return null;
     }
 
 
     protected void setBlockInfo(Location location, String id, String value) {
-        File chunkFile = new File(DreamingWorld.dataDirectory + "blocks/" + location.getWorld().getName() + "/", location.getChunk().getX() + "_" + location.getChunk().getZ());
-        YamlConfiguration data = YamlConfiguration.loadConfiguration(chunkFile);
+        YamlConfiguration data = getChunkConfig(location.getChunk()).b();
 
         String s = location.getBlockX() + "_" + location.getBlockY() + "_" + location.getBlockZ();
 
-        if (data.getConfigurationSection("blocks") == null)
+        if (data.getConfigurationSection("blocks") == null) {
             data.createSection("blocks");
+        }
 
         data.getConfigurationSection("blocks").set(s + "." + id, value);
-
-        try {
-            data.save(chunkFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     protected String getBlockInfo(Location location, String id) {
-        File chunkFile = new File(DreamingWorld.dataDirectory + "blocks/" + location.getWorld().getName() + "/", location.getChunk().getX() + "_" + location.getChunk().getZ());
-        if (!chunkFile.exists())
-            return null;
-
-        YamlConfiguration data = YamlConfiguration.loadConfiguration(chunkFile);
+        YamlConfiguration data = getChunkConfig(location.getChunk()).b();
 
         String s = location.getBlockX() + "_" + location.getBlockY() + "_" + location.getBlockZ();
 
-        if (data.getConfigurationSection("blocks") != null && data.getConfigurationSection("blocks").getKeys(false).contains(s))
+        if (data.getConfigurationSection("blocks") != null && data.getConfigurationSection("blocks").getKeys(false).contains(s)) {
             return data.getConfigurationSection("blocks").getConfigurationSection(s).getString(id);
+        }
 
         return null;
     }
 
     protected void removeBlockInfoSection(Location location) {
-        File chunkFile = new File(DreamingWorld.dataDirectory + "blocks/" + location.getWorld().getName() + "/", location.getChunk().getX() + "_" + location.getChunk().getZ());
-        YamlConfiguration data = YamlConfiguration.loadConfiguration(chunkFile);
+        YamlConfiguration data = getChunkConfig(location.getChunk()).b();
 
         String s = location.getBlockX() + "_" + location.getBlockY() + "_" + location.getBlockZ();
-        if (data.getConfigurationSection("blocks") != null && data.getConfigurationSection("blocks").getKeys(false).contains(s))
-            data.getConfigurationSection("blocks").set(s, null);
 
-        try {
-            data.save(chunkFile);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (data.getConfigurationSection("blocks") != null && data.getConfigurationSection("blocks").getKeys(false).contains(s)) {
+            data.getConfigurationSection("blocks").set(s, null);
+        }
+    }
+
+
+    public Tuple<File, YamlConfiguration> getChunkConfig(Chunk chunk) {
+        if (chunkFiles.containsKey(chunk)) {
+            return chunkFiles.get(chunk);
+        }
+
+        File chunkFile = new File(DreamingWorld.dataDirectory + "blocks/" + chunk.getWorld().getName() + "/", chunk.getX() + "_" + chunk.getZ());
+        YamlConfiguration data = YamlConfiguration.loadConfiguration(chunkFile);
+
+        Tuple<File, YamlConfiguration> t = new Tuple<>(chunkFile, data);
+        chunkFiles.put(chunk, t);
+
+        return t;
+    }
+
+    public void saveAll() {
+        for (Map.Entry<Chunk, Tuple<File, YamlConfiguration>> e : chunkFiles.entrySet()) {
+            try {
+                e.getValue().b().save(e.getValue().a());
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
     }
 }

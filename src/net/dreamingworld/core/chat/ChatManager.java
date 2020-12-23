@@ -19,7 +19,7 @@ import java.util.UUID;
 
 public class ChatManager implements Listener {
 
-    private Map<UUID, ChannelType> channels;
+    private final Map<UUID, ChannelType> channels;
 
     public ChatManager() {
         new CommandTell();
@@ -54,6 +54,8 @@ public class ChatManager implements Listener {
         if (channel == ChannelType.LOCAL) {
             player.sendMessage(message);
         }
+
+        Bukkit.getLogger().info("[CHAT] " + player.getName() + ": " + msg);
     }
 
 

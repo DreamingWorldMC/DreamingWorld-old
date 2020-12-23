@@ -56,35 +56,43 @@ public class Boiler extends CustomBlock implements Listener {
 
     @Override
     public void tick(Location location) {
-        if (0 < Integer.valueOf(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "fuel_left"))) {
-            DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(location, "fuel_left", String.valueOf(Integer.valueOf(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "fuel_left")) - 1));
+        if (0 < Integer.parseInt(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "fuel_left"))) {
+            DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(location, "fuel_left", String.valueOf(Integer.parseInt(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "fuel_left")) - 1));
 
             if (DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()), "needsSteam") != null && DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()), "needsSteam").equals("true") && location.getWorld().getBlockAt(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ())).getType() == Material.STATIONARY_WATER) {
                 DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()), "vapour", String.valueOf(Integer.valueOf(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()), "vapour")) + 1));
             }
+
             PacketWizard.sendParticle(EnumParticle.ENCHANTMENT_TABLE, location.add(0.5, 0.5, 0.5), 10);
         }
     }
 
     @EventHandler
     public void onClick(PlayerInteractEvent e) {
-        if (e.getItem() == null || e.getClickedBlock() == null || e.getAction() != Action.RIGHT_CLICK_BLOCK || DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()) == null || TagWizard.getItemTag(e.getItem(), "id") == null) {
+        if (e.getClickedBlock() == null || e.getAction() != Action.RIGHT_CLICK_BLOCK || DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()) == null) {
             return;
         }
 
         if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()).equals("boiler") && !e.getPlayer().isSneaking()) {
             e.setCancelled(true);
             boolean takeItem = false;
+
+            if (e.getItem() == null || TagWizard.getItemTag(e.getItem(), "id") == null) {
+                e.getPlayer().sendMessage(Util.formatString("$(PC)Click on boiler with ignium or hard coal in your hand"));
+                return;
+            }
+
             switch (TagWizard.getItemTag(e.getItem(), "id")) {
                 case ("ignium"):
-                    DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(e.getClickedBlock().getLocation(), "fuel_left", String.valueOf(Integer.valueOf(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(e.getClickedBlock().getLocation(), "fuel_left")) + 40));
+                    DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(e.getClickedBlock().getLocation(), "fuel_left", String.valueOf(Integer.parseInt(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(e.getClickedBlock().getLocation(), "fuel_left")) + 40));
                     takeItem = true;
                     break;
                 case ("hard_coal"):
-                    DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(e.getClickedBlock().getLocation(), "fuel_left", String.valueOf(Integer.valueOf(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(e.getClickedBlock().getLocation(), "fuel_left")) + 200));
+                    DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(e.getClickedBlock().getLocation(), "fuel_left", String.valueOf(Integer.parseInt(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(e.getClickedBlock().getLocation(), "fuel_left")) + 200));
                     takeItem = true;
                     break;
             }
+
             if (takeItem) {
                 if (e.getPlayer().getInventory().getItemInHand().getAmount() > 1) {
                     e.getPlayer().getInventory().getItemInHand().setAmount(e.getPlayer().getInventory().getItemInHand().getAmount() - 1);
