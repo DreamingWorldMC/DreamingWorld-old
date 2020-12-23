@@ -2,24 +2,17 @@ package net.dreamingworld.gameplay.manacraft.researches.manamanipulation;
 
 import net.dreamingworld.DreamingWorld;
 import net.dreamingworld.core.PacketWizard;
+import net.dreamingworld.core.TagWizard;
 import net.dreamingworld.core.Util;
-import net.dreamingworld.core.UtilItems;
 import net.dreamingworld.core.crafting.CustomRecipe;
 import net.dreamingworld.core.mana.ManaContainer;
-import net.dreamingworld.core.ui.ChestUI;
-import net.dreamingworld.core.ui.SlotInteractType;
 import net.minecraft.server.v1_8_R3.EnumParticle;
-import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -28,25 +21,11 @@ import java.util.*;
 
 public class BasicManaGenerator extends ManaContainer {
 
-    public static class FusionResult {
-
-        public final int manaOutput;
-        public final int fusionTime;
-
-        public FusionResult(int manaOutput, int fusionTime) {
-            this.manaOutput = manaOutput;
-            this.fusionTime = fusionTime;
-        }
-    }
-
-
-    private final Map<Player, Tuple<ChestUI, Location>> viewers;
-    private static final Map<ItemStack, FusionResult> results;
+    private static final Map<ItemStack, Integer> results;
 
     static {
         results = new HashMap<>();
     }
-
 
     public BasicManaGenerator() {
         id = "basic_mana_generator";
@@ -73,134 +52,95 @@ public class BasicManaGenerator extends ManaContainer {
         recipe.setResearch("mana_manipulation");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
-
-        viewers = new HashMap<>();
     }
 
 
-    public static void addResult(ItemStack item, FusionResult result) {
-        results.put(item, result);
+    public static void addResult(ItemStack item, int fuelCount) {
+        results.put(item, fuelCount);
     }
 
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent e) {
-        if (e.isCancelled())
+    public void onClick(PlayerInteractEvent e) {
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK || DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()) == null) {
             return;
+        }
 
-        if (e.getAction() != Action.RIGHT_CLICK_BLOCK)
-            return;
+        ItemStack item = e.getItem();
 
-        if (id.equals(DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()))) {
+        if (DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getClickedBlock().getLocation()).equals(id)) {
             e.setCancelled(true);
 
-            if ("true".equals(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(e.getClickedBlock().getLocation(), "locked"))) {
-                e.getPlayer().sendMessage(Util.formatString("$(PC)Mana generator is generating mana now. $(SC)Don`t disturb."));
+            if (e.getItem() == null) {
                 return;
             }
 
-            ChestUI ui = new ChestUI("Basic Mana Generator", 3);
-            ui.fill(UtilItems.nothing());
+            int fuelCount = -1;
 
-            ui.putItem(4, 1, new ItemStack(Material.AIR));
-            ui.setSlotInteractType(2, 1, SlotInteractType.PUT_ONLY);
+            for (Map.Entry<ItemStack, Integer> et : results.entrySet()) {
+                if (et.getKey().isSimilar(item)) {
+                    fuelCount = et.getValue();
+                    break;
+                }
+            }
 
-            ItemStack manameter = new ItemStack(Material.STAINED_GLASS_PANE);
-            manameter.setDurability((short) 3);
-            ItemMeta meta = manameter.getItemMeta();
-            meta.setDisplayName(getMana(e.getClickedBlock().getLocation()) + "/" + getMaxMana(e.getClickedBlock().getLocation()) + " lmml");
-            manameter.setItemMeta(meta);
-
-            ui.putItem(4, 2, manameter);
-
-            ui.show(e.getPlayer());
-            viewers.put(e.getPlayer(), new Tuple<>(ui, e.getClickedBlock().getLocation()));
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onClick(InventoryClickEvent e) {
-        if (!(e.getWhoClicked() instanceof Player))
-            return;
-
-        if (!viewers.containsKey(e.getWhoClicked()))
-            return;
-
-        if (e.getAction() != InventoryAction.PLACE_SOME && e.getAction() != InventoryAction.PLACE_ONE && e.getAction() != InventoryAction.PLACE_ALL)
-            return;
-
-        Tuple<ChestUI, Location> t = viewers.get(e.getWhoClicked());
-
-        ChestUI ui = t.a();
-        Location loc = t.b();
-
-        if ("true".equals(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(loc, "locked")))
-            return;
-
-        if (e.getSlot() != 13)
-            return;
-
-        ItemStack item = e.getCursor();
-
-        if (item == null || item.getType() == Material.AIR)
-            return;
-
-        FusionResult res = null;
-
-        for (Map.Entry<ItemStack, FusionResult> entry : results.entrySet())
-            if (entry.getKey().isSimilar(item))
-                res = entry.getValue();
-
-        if (res == null)
-            return;
-
-        int amount = item.getAmount();
-        e.getWhoClicked().setItemOnCursor(new ItemStack(Material.AIR));
-
-        e.getWhoClicked().closeInventory();
-
-        DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(loc, "locked", "true");
-
-        FusionResult finalRes = res;
-        Bukkit.getScheduler().runTaskLaterAsynchronously(DreamingWorld.getInstance(), () -> {
-            for (int i = 0; i <= amount; i++) {
-                int currentMana = getMana(loc);
-                int available = getMaxMana(loc) - currentMana;
-                int toStore = Math.min(available, finalRes.manaOutput);
-
-                setMana(loc, currentMana + toStore);
-
-                if (toStore > available) {
-                    PacketWizard.sendParticle(EnumParticle.EXPLOSION_HUGE, loc, (toStore - available) / 10);
+            if (fuelCount == -1) {
+                if (!(item.getItemMeta() != null && TagWizard.getItemTag(item, "id").equals("mana_glass"))) {
+                    e.getPlayer().sendMessage(Util.formatString("$(SC)THIS $(PC)does not looks like a fuel"));
                 }
 
-                DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(loc, "locked", "false");
+                return;
             }
-        }, res.fusionTime * amount);
-    }
 
-    @EventHandler
-    public void onInventoryClose(InventoryCloseEvent e) {
-        viewers.remove(e.getPlayer());
-    }
+            if (!e.getPlayer().isSneaking()) {
+                int f = Integer.parseInt(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(e.getClickedBlock().getLocation(), "fuel_left")) + fuelCount;
+                DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(e.getClickedBlock().getLocation(), "fuel_left", String.valueOf(f));
 
+                e.getPlayer().sendMessage(Util.formatString("$(PC)Added $(SC)" + fuelCount + " $(PC)units of fuel"));
+
+                if (e.getPlayer().getInventory().getItemInHand().getAmount() > 1) {
+                    e.getPlayer().getInventory().getItemInHand().setAmount(item.getAmount() - 1);
+                } else {
+                    e.getPlayer().setItemInHand(new ItemStack(Material.AIR));
+                }
+            } else {
+                int f = Integer.parseInt(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(e.getClickedBlock().getLocation(), "fuel_left")) + fuelCount * e.getPlayer().getInventory().getItemInHand().getAmount();
+                DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(e.getClickedBlock().getLocation(), "fuel_left", String.valueOf(f));
+                e.getPlayer().sendMessage(Util.formatString("$(PC)Added $(SC)" + (fuelCount * e.getPlayer().getInventory().getItemInHand().getAmount()) + " $(PC)units of fuel"));
+                e.getPlayer().setItemInHand(new ItemStack(Material.AIR));
+            }
+        }
+     }
 
     @Override
     public void place(Block block) {
-        setMaxMana(block.getLocation(), 1000);
+        setMaxMana(block.getLocation(), 3000);
         setMana(block.getLocation(), 0);
 
         DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(block.getLocation(), "maxOutput", "20");
+        DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(block.getLocation(), "fuel_left", "0");
+        DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(block.getLocation(), "progress", "0");
     }
 
     @Override
     public void tick(Location location) {
         manaTick(location);
 
-        if ("true".equals(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "locked"))) {
-            PacketWizard.sendParticle(EnumParticle.CRIT_MAGIC, location.add(0.5, 0.5, 0.5), 50);
-        } else {
-            PacketWizard.sendParticle(EnumParticle.ENCHANTMENT_TABLE, location.add(0.5, 0.5, 0.5), 100);
+        int fuel = Integer.parseInt(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "fuel_left"));
+        int progress = Integer.parseInt(DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getBlockTag(location, "progress"));
+
+        if (fuel > 0 && getMaxMana(location) > (getMana(location) + 2)) {
+            if (progress > 5) {
+                progress = 0;
+                fuel -= 1;
+                setMana(location, getMana(location) + 2);
+                PacketWizard.sendParticle(EnumParticle.FLAME, location.add(0.5, 0.5, 0.5), 2);
+            } else {
+                progress++;
+            }
         }
+
+        DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(location, "fuel_left", String.valueOf(fuel));
+        DreamingWorld.getInstance().getBlockManager().getBlockDataManager().setBlockTag(location, "progress", String.valueOf(progress));
     }
 }

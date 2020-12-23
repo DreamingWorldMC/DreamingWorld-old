@@ -36,7 +36,7 @@ public class AltarActivator implements Listener {
         lore.add("");
         lore.add(ChatColor.WHITE + "Gems:");
         lore.add(Util.formatString("&7- &eAir gems: &f0"));
-        lore.add(Util.formatString("&7- &eAir gems: &f0"));
+        lore.add(Util.formatString("&7- &1Water gems: &f0"));
         lore.add(Util.formatString("&7- &4Fire gems: &f0"));
         lore.add(Util.formatString("&7- &bMana gems: &f0"));
         lore.add(Util.formatString("&7- &8Earth gems: &f0"));
@@ -80,22 +80,30 @@ public class AltarActivator implements Listener {
 
                 for (ItemStack x : e.getPlayer().getInventory().getContents()) {
                     if (x != null && x.getItemMeta() != null && TagWizard.getItemTag(x, "id") != null && TagWizard.getItemTag(x, "id").endsWith("_gem")) {
-                        if (TagWizard.getItemTag(x, "id").equals("air_gem")) {
-                            TagWizard.addItemTag(e.getPlayer().getItemInHand(), "air", String.valueOf(x.getAmount() + Integer.parseInt(TagWizard.getItemTag(e.getPlayer().getItemInHand(), "air"))));
-                        } else if (TagWizard.getItemTag(x, "id").equals("water_gem")) {
-                            TagWizard.addItemTag(e.getPlayer().getItemInHand(), "water", String.valueOf(x.getAmount() + Integer.parseInt(TagWizard.getItemTag(e.getPlayer().getItemInHand(), "water"))));
-                        } else if (TagWizard.getItemTag(x, "id").equals("fire_gem")) {
-                            TagWizard.addItemTag(e.getPlayer().getItemInHand(), "fire", String.valueOf(x.getAmount() + Integer.parseInt(TagWizard.getItemTag(e.getPlayer().getItemInHand(), "fire"))));
-                        } else if (TagWizard.getItemTag(x, "id").equals("earth_gem")) {
-                            TagWizard.addItemTag(e.getPlayer().getItemInHand(), "earth", String.valueOf(x.getAmount() + Integer.parseInt(TagWizard.getItemTag(e.getPlayer().getItemInHand(), "earth"))));
-                        } else if (TagWizard.getItemTag(x, "id").equals("mana_gem")) {
-                            TagWizard.addItemTag(e.getPlayer().getItemInHand(), "mana", String.valueOf(x.getAmount() + Integer.parseInt(TagWizard.getItemTag(e.getPlayer().getItemInHand(), "mana"))));
+                        switch (TagWizard.getItemTag(x, "id")) {
+                            case "air_gem":
+                                TagWizard.addItemTag(e.getPlayer().getItemInHand(), "air", String.valueOf(x.getAmount() + Integer.parseInt(TagWizard.getItemTag(e.getPlayer().getItemInHand(), "air"))));
+                                break;
+                            case "water_gem":
+                                TagWizard.addItemTag(e.getPlayer().getItemInHand(), "water", String.valueOf(x.getAmount() + Integer.parseInt(TagWizard.getItemTag(e.getPlayer().getItemInHand(), "water"))));
+                                break;
+                            case "fire_gem":
+                                TagWizard.addItemTag(e.getPlayer().getItemInHand(), "fire", String.valueOf(x.getAmount() + Integer.parseInt(TagWizard.getItemTag(e.getPlayer().getItemInHand(), "fire"))));
+                                break;
+                            case "earth_gem":
+                                TagWizard.addItemTag(e.getPlayer().getItemInHand(), "earth", String.valueOf(x.getAmount() + Integer.parseInt(TagWizard.getItemTag(e.getPlayer().getItemInHand(), "earth"))));
+                                break;
+                            case "mana_gem":
+                                TagWizard.addItemTag(e.getPlayer().getItemInHand(), "mana", String.valueOf(x.getAmount() + Integer.parseInt(TagWizard.getItemTag(e.getPlayer().getItemInHand(), "mana"))));
+                                break;
                         }
 
                         e.getPlayer().getInventory().clear(slot);
                     }
+
                     slot++;
                 }
+
                 e.getPlayer().setFireTicks(150);
 
                 updateDescription(e.getPlayer().getItemInHand());
@@ -105,7 +113,7 @@ public class AltarActivator implements Listener {
         }
     }
 
-    public static ItemStack updateDescription(ItemStack item) {
+    public static void updateDescription(ItemStack item) {
         List<String> lore = item.getItemMeta().getLore();
 
         lore.set(3, Util.formatString("&7- &eAir gems: &f" + Integer.parseInt(TagWizard.getItemTag(item, "air"))));
@@ -117,7 +125,5 @@ public class AltarActivator implements Listener {
         ItemMeta meta = item.getItemMeta();
         meta.setLore(lore);
         item.setItemMeta(meta);
-
-        return item;
     }
 }

@@ -31,8 +31,9 @@ public class ManaGlass implements Listener {
 
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.GRAY + "Shows stats about block you just clicked");
+        lore.add(ChatColor.GRAY + "I think you should not try to fill it...");
 
-
+        meta.setLore(lore);
         item.setItemMeta(meta);
         DreamingWorld.getInstance().getItemManager().registerItem("mana_glass", item);
 
@@ -51,8 +52,9 @@ public class ManaGlass implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
-        if (e.getItem() == null || e.getClickedBlock() == null || !DreamingWorld.getInstance().getItemManager().checkItemAuthenticity(e.getItem(), "mana_glass"))
+        if (e.getItem() == null || e.getClickedBlock() == null || !DreamingWorld.getInstance().getItemManager().checkItemAuthenticity(e.getItem(), "mana_glass")) {
             return;
+        }
 
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             e.setCancelled(true);

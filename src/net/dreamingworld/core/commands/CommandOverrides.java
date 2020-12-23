@@ -23,12 +23,12 @@ public class CommandOverrides implements Listener {
             e.setCancelled(true);
 
             p.sendMessage(Util.formatString("$(PC)PaperSpigot version: $(SC)" + Bukkit.getServer().getBukkitVersion()));
-            p.sendMessage(Util.formatString("$(PC)DreamingWorld plugin is $(SC)v" + DreamingWorld.getInstance().getDescription().getVersion()));
+            p.sendMessage(Util.formatString("$(PC)DreamingWorld plugin version: $(SC)" + DreamingWorld.getInstance().getDescription().getVersion()));
         } else if ((m.startsWith("/reload") || m.startsWith("/rl")) && p.hasPermission("bukkit.command.reload")) {
             e.setCancelled(true);
 
             for (Player player : Bukkit.getOnlinePlayers()) {
-                player.kickPlayer(Util.formatString("$(PC)Server is reloading :)"));
+                player.kickPlayer(Util.formatString("$(PC)Do not worry friends, server is reloading :)"));
             }
 
             Bukkit.getServer().reload();

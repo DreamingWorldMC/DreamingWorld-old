@@ -11,10 +11,10 @@ import java.util.*;
 
 public class BlockManager implements Listener {
 
-    private Map<String, CustomBlock> blocks;
-    private Set<Chunk> loadedChunks;
+    private final Map<String, CustomBlock> blocks;
+    private final Set<Chunk> loadedChunks;
 
-    private BlockDataManager bdm; // Bondage Domination Masochism
+    private final BlockDataManager bdm; // Bondage Domination Masochism
 
     public BlockManager() {
         blocks = new HashMap<>();

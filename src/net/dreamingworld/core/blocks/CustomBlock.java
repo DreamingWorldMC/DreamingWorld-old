@@ -1,6 +1,7 @@
 package net.dreamingworld.core.blocks;
 
 import net.dreamingworld.DreamingWorld;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -12,7 +13,6 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.File;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
@@ -110,16 +110,13 @@ public abstract class CustomBlock implements Runnable, Listener {
     @Override
     public void run() {
         for (Chunk chunk : DreamingWorld.getInstance().getBlockManager().getLoadedChunks()) {
-            File chunkFile = new File(DreamingWorld.dataDirectory + "blocks/" + chunk.getWorld().getName() + "/", chunk.getX() + "_" + chunk.getZ());
-            if (!chunkFile.exists())
-                continue;
-
-            YamlConfiguration data = YamlConfiguration.loadConfiguration(chunkFile);
+            YamlConfiguration data = DreamingWorld.getInstance().getBlockManager().getBlockDataManager().getChunkConfig(chunk).b();
 
             ConfigurationSection blocksSection = data.getConfigurationSection("blocks");
 
-            if (blocksSection == null)
-                return;
+            if (blocksSection == null) {
+                continue;
+            }
 
             Set<String> blocks = blocksSection.getKeys(false);
 
