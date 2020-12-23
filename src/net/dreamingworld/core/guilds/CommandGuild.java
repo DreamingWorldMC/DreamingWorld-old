@@ -611,12 +611,11 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
 
             case("top"):
                 gm = DreamingWorld.getInstance().getGuildManager();
-                sender.sendMessage("$(PC)Guild leaderboard:");
+                sender.sendMessage(Util.formatString("$(PC)Guild leaderboard:"));
                 for (int i = 0; i < 5 ; i++) {
-                    sender.sendMessage(Util.formatString("$(PC)" + (i+1) + ". &r" + gm.getGuildAt(i) + "&b:"));
-                    sender.sendMessage(Util.formatString("  $(PC)Chunks: &r" + gm.getGuildChunkList(gm.getGuildAt(i)).size() + "/" + gm.getGuildMaxChunks(gm.getGuildAt(i))));
-                    sender.sendMessage(Util.formatString("  $(PC)Points: &r" + gm.getGuildPoints(gm.getGuildAt(i))));
-                    sender.sendMessage(Util.formatString(""));
+                    sender.sendMessage(Util.formatString("$(PC)" + (i + 1) + ". &r" + gm.getGuildAt(i) + "&b:"));
+                    sender.sendMessage(Util.formatString("$(PC)Chunks: &r" + gm.getGuildChunkList(gm.getGuildAt(i)).size() + "/" + gm.getGuildMaxChunks(gm.getGuildAt(i))));
+                    sender.sendMessage(Util.formatString("$(PC)Points: &r" + gm.getGuildPoints(gm.getGuildAt(i))));
                 }
                 return true;
         }
