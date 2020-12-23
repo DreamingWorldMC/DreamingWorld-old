@@ -39,6 +39,8 @@ public class AstrumSword implements Listener {
         recipe.setCustomIngredient('I', "astrum_ingot");
         recipe.setCustomIngredient('B', "advanced_rod");
 
+        recipe.setResearch("astrum");
+
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
         DreamingWorld.getInstance().getCustomWeaponManager().addWeapon("astrum_sword", 10);
         Bukkit.getPluginManager().registerEvents(this, DreamingWorld.getInstance());

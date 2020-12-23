@@ -41,8 +41,8 @@ public class ManaArmour {
         recipe.setCustomIngredient('I', "green_iron_ingot");
         recipe.setCustomIngredient('M', "mana_battery");
 
+        recipe.setResearch("mana_armour");
 
-        
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
         item = new ItemStack(Material.LEATHER_CHESTPLATE);
@@ -67,6 +67,8 @@ public class ManaArmour {
         recipe.shape(new String[] { "M M", "IMI", "IMI" });
         recipe.setCustomIngredient('I', "mana_ingot");
         recipe.setCustomIngredient('M', "mana_battery");
+
+        recipe.setResearch("mana_armour");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
@@ -93,6 +95,8 @@ public class ManaArmour {
         recipe.setCustomIngredient('I', "mana_ingot");
         recipe.setCustomIngredient('M', "mana_battery");
 
+        recipe.setResearch("mana_armour");
+
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
 
@@ -117,6 +121,8 @@ public class ManaArmour {
         recipe.shape(new String[] { "   ", "I I", "M M" });
         recipe.setCustomIngredient('I', "green_iron_ingot");
         recipe.setCustomIngredient('M', "mana_battery");
+
+        recipe.setResearch("mana_armour");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }

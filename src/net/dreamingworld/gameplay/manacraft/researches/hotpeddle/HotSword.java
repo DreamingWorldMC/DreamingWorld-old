@@ -37,6 +37,8 @@ public class HotSword {
         recipe.setCustomIngredient('I', "hot_peddle");
         recipe.setVanillaIngredient('B', Material.STICK);
 
+        recipe.setResearch("hot_peddle");
+
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
         DreamingWorld.getInstance().getCustomWeaponManager().addWeapon("hot_sword", 8);
     }

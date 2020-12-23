@@ -3,6 +3,7 @@ package net.dreamingworld.core.customentities;
 import net.dreamingworld.DreamingWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,15 +27,20 @@ public class EntityManager implements Listener {
 
             Bukkit.getScheduler().runTaskTimer(DreamingWorld.getInstance(), () -> {
                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                    for (Map.Entry<String, String> x : spawnEntities.entrySet()){
+                    mainEntitySpawnLoop : for (Map.Entry<String, String> x : spawnEntities.entrySet()){
                         Location sloc = EntityGeneration.genEntity(p, x.getValue());
-                        if (sloc != null && p.getWorld().getNearbyEntities(sloc, 50,50,50).size() > 15) {
+                        if (sloc != null && p.getWorld().getNearbyEntities(sloc, 50,50,50).size() < 25) {
+                            for (Entity ent : p.getWorld().getNearbyEntities(sloc, 25,25,25)) {
+                                if (ent instanceof Player) {
+                                    continue mainEntitySpawnLoop;
+                                }
+                            }
                             summonEntity(sloc, x.getKey());
                         }
                     }
                 }
 
-            }, 0, 40);
+            }, 0, 100);
         }
 
         public int getDamage(LivingEntity e) {

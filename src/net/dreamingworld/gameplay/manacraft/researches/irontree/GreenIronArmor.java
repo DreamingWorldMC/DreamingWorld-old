@@ -30,6 +30,8 @@ public class GreenIronArmor {
         recipe.setVanillaIngredient('D', Material.DIAMOND);
         recipe.setCustomIngredient('M', "advanced_rod");
 
+        recipe.setResearch("iron_tree");
+
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
         item = new ItemStack(Material.LEATHER_CHESTPLATE);
@@ -49,6 +51,8 @@ public class GreenIronArmor {
         recipe.setVanillaIngredient('D', Material.DIAMOND);
         recipe.setCustomIngredient('M', "mana_core");
 
+        recipe.setResearch("iron_tree");
+
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
 
@@ -67,6 +71,8 @@ public class GreenIronArmor {
         recipe.setCustomIngredient('I', "green_iron_ingot");
         recipe.setVanillaIngredient('D', Material.DIAMOND);
 
+        recipe.setResearch("iron_tree");
+
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
 
@@ -79,6 +85,8 @@ public class GreenIronArmor {
         item.setItemMeta(lmeta);
         DreamingWorld.getInstance().getItemManager().registerItem("green_iron_boots", item);
         DreamingWorld.getInstance().getCustomArmor().addPiece("green_iron_boots", 4);
+
+        recipe.setResearch("iron_tree");
 
         recipe = new CustomRecipe(item);
         recipe.shape(new String[] { "M M", "I I", "D D" });

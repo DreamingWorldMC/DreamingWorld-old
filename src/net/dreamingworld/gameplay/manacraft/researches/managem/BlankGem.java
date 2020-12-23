@@ -23,7 +23,7 @@ public class BlankGem {
         DreamingWorld.getInstance().getItemManager().registerItem("blank_gem", item);
 
         CustomRecipe recipe = new CustomRecipe(item);
-        recipe.shape(new String[] { "III", "IMI", "III" });
+        recipe.shape(new String[] { " I ", "IMI", " I " });
         recipe.setVanillaIngredient('I', Material.GLASS);
         recipe.setCustomIngredient('M', "manium");
 

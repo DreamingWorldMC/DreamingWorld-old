@@ -24,6 +24,8 @@ public class IronTreeResearch extends Research {
 
         book.addPage( "Making your own tree sapplings maybe out of iron but still this is useful, maybe you could get some special iron out of this");
 
+        book.addPage( "Drop any part of an iron tree on green iron maker to make green iron.");
+
         DreamingWorld.getInstance().getResearchManager().addParent("iron_tree", "plants_and_creatures");
 
         DreamingWorld.getInstance().getBlockManager().registerBlock(new IronTreeSapling());

@@ -32,6 +32,8 @@ public class AstrumArmor {
         recipe.setVanillaIngredient('D', Material.DIAMOND);
         recipe.setCustomIngredient('M', "advanced_rod");
 
+        recipe.setResearch("astrum");
+
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
         item = new ItemStack(Material.DIAMOND_CHESTPLATE);
@@ -50,6 +52,8 @@ public class AstrumArmor {
         recipe.setVanillaIngredient('D', Material.DIAMOND);
         recipe.setCustomIngredient('M', "mana_core");
 
+        recipe.setResearch("astrum");
+
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
 
@@ -66,6 +70,8 @@ public class AstrumArmor {
         recipe.shape(new String[] { "IDI", "I I", "D D" });
         recipe.setCustomIngredient('I', "astrum_ingot");
         recipe.setVanillaIngredient('D', Material.DIAMOND);
+
+        recipe.setResearch("astrum");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
 
@@ -84,6 +90,8 @@ public class AstrumArmor {
         recipe.setCustomIngredient('I', "astrum_ingot");
         recipe.setVanillaIngredient('D', Material.DIAMOND);
         recipe.setCustomIngredient('M', "mana_core");
+
+        recipe.setResearch("astrum");
 
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }

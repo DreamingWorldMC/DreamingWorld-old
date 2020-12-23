@@ -26,7 +26,7 @@ public class ManaPickaxeResearch extends Research {
         book.addPage("Good for mining");
 
 
-        DreamingWorld.getInstance().getResearchManager().addParent("mana_pickaxe", "personal_mana_capacitor");
+        DreamingWorld.getInstance().getResearchManager().addParent("mana_pickaxe", "personal_mana_capacitors");
 
         new ManaPickaxe();
     }

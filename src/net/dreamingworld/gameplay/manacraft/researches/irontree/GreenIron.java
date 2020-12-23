@@ -39,6 +39,8 @@ public class GreenIron {
         recipe.shape(new String[] { "III", "III", "III" });
         recipe.setCustomIngredient('I', "green_iron_nugget");
 
+        recipe.setResearch("astrum");
+
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }
 }

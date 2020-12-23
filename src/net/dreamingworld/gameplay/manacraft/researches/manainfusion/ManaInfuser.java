@@ -42,6 +42,8 @@ public class ManaInfuser extends ManaContainer {
         recipe.setCustomIngredient('C', "mana_capacitor");
         recipe.setVanillaIngredient('G', Material.GOLD_INGOT);
 
+        recipe.setResearch("mana_infusion");
+
         DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }
 

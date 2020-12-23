@@ -35,6 +35,7 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
             add(Util.formatString("$(PC)/guild create <name> &r- $(SC)creates new guild"));
             add(Util.formatString("$(PC)/guild join <name> $(SC)- adds you to guild as member (if you invited)"));
             add(Util.formatString("$(PC)/guild reject <name> &r- $(SC)rejects invite to guild"));
+            add(Util.formatString("$(PC)/guild top &r- $(SC)displays guild top"));
         }};
 
         memberUsage = new ArrayList<String>() {{
@@ -43,7 +44,8 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
             add(Util.formatString("$(PC)/guild pole $(SC)- privatizes chunk where player are standing"));
             add(Util.formatString("$(PC)/guild invite <send|cancel> <player> $(SC)- invites (cancels invitation) player to guild"));
             add(Util.formatString("$(PC)/guild info $(SC)- prints guild info"));
-            add(Util.formatString("$(PC)/guild home $(SC)- Moves you to your guild's home"));
+            add(Util.formatString("$(PC)/guild home $(SC)- moves you to your guild's home"));
+            add(Util.formatString("$(PC)/guild top &r- $(SC)displays guild top"));
         }};
 
         ownerUsage = new ArrayList<String>() {{
@@ -60,6 +62,7 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
             add("create");
             add("join");
             add("reject");
+            add("top");
         }};
 
         memberSubcommands = new ArrayList<String>() {{
@@ -412,6 +415,8 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
                 sender.sendMessage(Util.formatString("$(PC)Owner: " + (owner == null ? "&rn/a" : owner)));
                 sender.sendMessage(Util.formatString("$(PC)Members: " + (members == null ? "&rn/a" : members)));
                 sender.sendMessage(Util.formatString("$(PC)Chunks: &r" + gm.getGuildChunkList(guild).size() + "/" + gm.getGuildMaxChunks(guild)));
+                sender.sendMessage(Util.formatString("$(PC)Guild points: &r" + gm.getGuildPoints(guild)));
+                sender.sendMessage(Util.formatString("$(PC)Position: &r" + (gm.getGuildPosition(guild) + 1)));
 
                 return true;
 
@@ -602,6 +607,17 @@ public class CommandGuild implements CommandExecutor, TabCompleter {
                     sender.sendMessage(Util.formatString("$(PC)Guild home successfully set"));
                 }
 
+                return true;
+
+            case("top"):
+                gm = DreamingWorld.getInstance().getGuildManager();
+                sender.sendMessage("$(PC)Guild leaderboard:");
+                for (int i = 0; i < 5 ; i++) {
+                    sender.sendMessage(Util.formatString("$(PC)" + (i+1) + ". &r" + gm.getGuildAt(i) + "&b:"));
+                    sender.sendMessage(Util.formatString("  $(PC)Chunks: &r" + gm.getGuildChunkList(gm.getGuildAt(i)).size() + "/" + gm.getGuildMaxChunks(gm.getGuildAt(i))));
+                    sender.sendMessage(Util.formatString("  $(PC)Points: &r" + gm.getGuildPoints(gm.getGuildAt(i))));
+                    sender.sendMessage(Util.formatString(""));
+                }
                 return true;
         }
 

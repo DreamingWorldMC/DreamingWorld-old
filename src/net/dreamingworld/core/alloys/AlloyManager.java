@@ -11,6 +11,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class AlloyManager implements Listener {
 
@@ -39,9 +40,12 @@ public class AlloyManager implements Listener {
                     break;
             }
         }
-
-        if (drop.getType() != Material.AIR && !e.getPlayer().getItemInHand().getEnchantments().containsKey(Enchantment.SILK_TOUCH) && e.getPlayer().getItemInHand().getType() != Material.SHEARS)
+        if (drop.getType() != Material.AIR && !e.getPlayer().getItemInHand().getEnchantments().containsKey(Enchantment.SILK_TOUCH) && e.getPlayer().getItemInHand().getType() != Material.SHEARS) {
+            if (e.getPlayer().getItemInHand().containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS)) {
+                drop.setAmount(ThreadLocalRandom.current().nextInt(1, e.getPlayer().getItemInHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS)));
+            }
             e.getBlock().getLocation().getWorld().dropItem(e.getBlock().getLocation(), drop);
+        }
     }
 
     @EventHandler

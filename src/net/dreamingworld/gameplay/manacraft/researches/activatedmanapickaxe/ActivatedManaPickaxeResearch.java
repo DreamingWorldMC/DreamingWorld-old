@@ -43,7 +43,7 @@ public class ActivatedManaPickaxeResearch extends Research {
                 "-Obsidian" +
                 "-Gold block");
 
-        DreamingWorld.getInstance().getResearchManager().addParent("mana_pickaxe", "personal_mana_capacitor");
+        DreamingWorld.getInstance().getResearchManager().addParent("activated_mana_pickaxe", "mana_pickaxe");
 
         new ActivatedManaPickaxe();
     }

@@ -26,7 +26,7 @@ public class ManaArmourResearch extends Research {
 
         book.addPage("Better defence");
 
-        DreamingWorld.getInstance().getResearchManager().addParent("mana_armour", "personal_mana_capacitor");
+        DreamingWorld.getInstance().getResearchManager().addParent("mana_armour", "personal_mana_capacitors");
 
         new ManaArmour();
     }

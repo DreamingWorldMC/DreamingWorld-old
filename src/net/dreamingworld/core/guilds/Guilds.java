@@ -7,6 +7,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
@@ -28,40 +29,76 @@ public class Guilds implements Listener {
     private final File file;
     private final YamlConfiguration config;
 
+    // guild save values needed to not destroy server's cpu on every /guild info and /guild top
+    private List<String> top;
+    private Map<String, Integer> guildPos;
+
     public Guilds() {
-        file = new File(DreamingWorld.dataDirectory + "guilds/", "guilds.yml");
-        config = YamlConfiguration.loadConfiguration(file);
+            file = new File(DreamingWorld.dataDirectory + "guilds/", "guilds.yml");
+            config = YamlConfiguration.loadConfiguration(file);
 
-        if (config.getConfigurationSection("guilds") == null) {
-            config.createSection("guilds");
-        }
+            top = new ArrayList<>();
+            guildPos = new HashMap<>();
 
-        if (config.getConfigurationSection("chunks") == null) {
-            config.createSection("chunks");
-        }
-
-        GuildInvites.initializeInvites();
-
-        Bukkit.getScheduler().runTaskTimerAsynchronously(DreamingWorld.getInstance(), () -> { // Player actionbar update
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                String o = getChunkOwner(player.getLocation().getChunk());
-                String pg = getPlayerGuild(player)[0];
-
-                String g = o == null ? Util.formatString("&4Wilderness") : ((pg != null && pg.equals(o)) ? ChatColor.GREEN : ChatColor.GOLD) + o;
-
-                PacketWizard.sendActionBar(player, "[" + g + ChatColor.RESET + "]");
-            }
-        }, 0, 20);
-
-        Bukkit.getScheduler().runTaskTimerAsynchronously(DreamingWorld.getInstance(), () -> { // Config save
-            try {
-                config.save(file);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (config.getConfigurationSection("guilds") == null) {
+                config.createSection("guilds");
             }
 
-            GuildInvites.saveConfig();
-        }, 0, 100);
+            if (config.getConfigurationSection("chunks") == null) {
+                config.createSection("chunks");
+            }
+
+            GuildInvites.initializeInvites();
+
+            Bukkit.getScheduler().runTaskTimerAsynchronously(DreamingWorld.getInstance(), () -> { // Player actionbar update
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    String o = getChunkOwner(player.getLocation().getChunk());
+                    String pg = getPlayerGuild(player)[0];
+
+                    String g = o == null ? Util.formatString("&4Wilderness") : ((pg != null && pg.equals(o)) ? ChatColor.GREEN : ChatColor.GOLD) + o;
+
+                    PacketWizard.sendActionBar(player, "[" + g + ChatColor.RESET + "]");
+                }
+            }, 0, 20);
+
+            Bukkit.getScheduler().runTaskTimerAsynchronously(DreamingWorld.getInstance(), () -> { // Config save
+                try {
+                    config.save(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                GuildInvites.saveConfig();
+            }, 0, 100);
+
+            Bukkit.getScheduler().runTaskTimerAsynchronously(DreamingWorld.getInstance(), () -> { // Config save
+                Map<String, Integer> localGuildPos = new HashMap<>();
+
+                for (String x : config.getConfigurationSection("guilds").getKeys(false)) {
+                    localGuildPos.put(x, getGuildPoints(x));
+                }
+
+                List<String> localTop = new ArrayList<>();
+
+                for (Map.Entry<String, Integer> x : localGuildPos.entrySet()) {
+
+                    for (String str : localTop) {
+                        if (getGuildPoints(str) < x.getValue()) {
+                            localTop.add(localTop.indexOf(str), x.getKey());
+                            break;
+                        }
+                    }
+                    if (!localTop.contains(x.getKey())) {
+                        localTop.add(x.getKey());
+                    }
+                }
+                for (String x : localTop) {
+                    localGuildPos.replace(x, localTop.indexOf(x));
+                }
+
+                top = localTop;
+                guildPos = localGuildPos;
+            }, 0, 600);
     }
 
 
@@ -442,5 +479,64 @@ public class Guilds implements Listener {
 
         String[] str = s.split("_");
         return new Location(Bukkit.getWorld(str[3]), Integer.parseInt(str[0]), Integer.parseInt(str[1]), Integer.parseInt(str[2]));
+    }
+
+    //GUILD TOP
+    public int getGuildPoints(String guild) {
+        String s = config.getConfigurationSection("guilds").getConfigurationSection(guild).getString("points");
+
+        if (s == null) {
+            return 0;
+        } else {
+            return Integer.parseInt(s);
+        }
+    }
+
+    public void addGuildPoints(String guild, int points) {
+        String s = config.getConfigurationSection("guilds").getConfigurationSection(guild).getString("points");
+
+        int i;
+
+        if (s == null) {
+            i = points;
+        } else {
+            i = Integer.parseInt(s) + points;
+        }
+        config.getConfigurationSection("guilds").getConfigurationSection(guild).set("points", i);
+    }
+
+    public int getGuildPosition(String guild) {
+        if (guildPos.containsKey(guild)) {
+            return guildPos.get(guild);
+        } else {
+            return -1;
+        }
+     }
+
+    public String getGuildAt(int pos) {
+        return top.get(pos);
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onBreakBlock(BlockBreakEvent e) {
+        if (getPlayerGuild(e.getPlayer())[0] != null && !e.getPlayer().getItemInHand().getEnchantments().containsValue(Enchantment.SILK_TOUCH) &&DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getBlock().getLocation()) == null) {
+            switch(e.getBlock().getType()) {
+                case DIAMOND_ORE:
+                    addGuildPoints(getPlayerGuild(e.getPlayer())[0], 5);
+                    break;
+                case LAPIS_ORE:
+                    addGuildPoints(getPlayerGuild(e.getPlayer())[0], 3);
+                    break;
+                case EMERALD_ORE:
+                    addGuildPoints(getPlayerGuild(e.getPlayer())[0], 10);
+                    break;
+                case COAL_ORE:
+                    addGuildPoints(getPlayerGuild(e.getPlayer())[0], 1);
+                    break;
+                case REDSTONE_ORE:
+                    addGuildPoints(getPlayerGuild(e.getPlayer())[0], 2);
+                    break;
+            }
+        }
     }
 }
