@@ -481,7 +481,7 @@ public class Guilds implements Listener {
         return new Location(Bukkit.getWorld(str[3]), Integer.parseInt(str[0]), Integer.parseInt(str[1]), Integer.parseInt(str[2]));
     }
 
-    //GUILD TOP
+
     public int getGuildPoints(String guild) {
         String s = config.getConfigurationSection("guilds").getConfigurationSection(guild).getString("points");
 
@@ -494,32 +494,20 @@ public class Guilds implements Listener {
 
     public void addGuildPoints(String guild, int points) {
         String s = config.getConfigurationSection("guilds").getConfigurationSection(guild).getString("points");
-
-        int i;
-
-        if (s == null) {
-            i = points;
-        } else {
-            i = Integer.parseInt(s) + points;
-        }
-        config.getConfigurationSection("guilds").getConfigurationSection(guild).set("points", i);
+        config.getConfigurationSection("guilds").getConfigurationSection(guild).set("points", s == null ? points : Integer.parseInt(s) + points);
     }
 
     public int getGuildPosition(String guild) {
-        if (guildPos.containsKey(guild)) {
-            return guildPos.get(guild);
-        } else {
-            return -1;
-        }
+        return guildPos.getOrDefault(guild, -1);
      }
 
-    public String getGuildAt(int pos) {
-        return top.get(pos);
+    public String getGuildTopPlace(int position) {
+        return top.get(position);
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onBreakBlock(BlockBreakEvent e) {
-        if (getPlayerGuild(e.getPlayer())[0] != null && !e.getPlayer().getItemInHand().getEnchantments().containsValue(Enchantment.SILK_TOUCH) &&DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getBlock().getLocation()) == null) {
+        if (getPlayerGuild(e.getPlayer())[0] != null && !e.getPlayer().getItemInHand().getEnchantments().containsKey(Enchantment.SILK_TOUCH) &&DreamingWorld.getInstance().getBlockManager().getCustomBlockAt(e.getBlock().getLocation()) == null) {
             switch(e.getBlock().getType()) {
                 case DIAMOND_ORE:
                     addGuildPoints(getPlayerGuild(e.getPlayer())[0], 5);
