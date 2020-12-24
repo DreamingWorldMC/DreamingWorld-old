@@ -8,7 +8,7 @@ public class DeathMessages {
     public DeathMessages() {
         CustomDamage cd = DreamingWorld.getInstance().getCustomDamageManager();
 
-        cd.addDeathMessage(EntityDamageEvent.DamageCause.FALL, " &ffallen to his death");
+        cd.addDeathMessage(EntityDamageEvent.DamageCause.FALL, " &ffallen to there death");
 
         cd.addDeathMessage(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION, " &fexploded");
         cd.addDeathMessage(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION, " &fexploded");
@@ -32,5 +32,7 @@ public class DeathMessages {
         cd.addDeathMessage(EntityDamageEvent.DamageCause.STARVATION, " &fstarved to death");
 
         cd.addDeathMessage(EntityDamageEvent.DamageCause.WITHER, " &fwithered away");
+
+        cd.addDeathMessage(EntityDamageEvent.DamageCause.FIRE_TICK, " &fgot deep fried");
     }
 }
