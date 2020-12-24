@@ -17,6 +17,7 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.util.Vector;
@@ -532,6 +533,16 @@ public class Guilds implements Listener {
                 case REDSTONE_ORE:
                     addGuildPoints(getPlayerGuild(e.getPlayer())[0], 2);
                     break;
+            }
+        }
+    }
+
+    @EventHandler
+    public void onSmelt(FurnaceSmeltEvent e) {
+        if (getChunkOwner(e.getBlock().getChunk()) != null) {
+            addGuildPoints(getChunkOwner(e.getBlock().getChunk()), 5);
+            if (e.getSource().getType() == Material.DIAMOND_ORE) {
+                addGuildPoints(getChunkOwner(e.getBlock().getChunk()), 20);
             }
         }
     }
