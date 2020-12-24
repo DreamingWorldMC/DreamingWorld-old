@@ -51,6 +51,11 @@ public class EntityGeneration {
                     return p.getWorld().getHighestBlockAt(x, z).getLocation();
                 }
                 break;
+            case ("DAY_TOP"):
+                if (p.getWorld().getHighestBlockAt(x, z).getLightLevel() > 6) {
+                    return p.getWorld().getHighestBlockAt(x, z).getLocation();
+                }
+                break;
         }
 
         return null;

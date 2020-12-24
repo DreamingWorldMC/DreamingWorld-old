@@ -35,8 +35,8 @@ public class ManaManipulation extends Research {
         DreamingWorld.getInstance().getBlockManager().registerBlock(new BasicManaGenerator());
 
         BasicManaGenerator.addResult(new ItemStack(Material.COAL), 1);
-        BasicManaGenerator.addResult(new ItemStack(Material.COAL_BLOCK), 3);
-        BasicManaGenerator.addResult(DreamingWorld.getInstance().getItemManager().get("ignium"), 3);
-        BasicManaGenerator.addResult(DreamingWorld.getInstance().getItemManager().get("hard_coal"), 5);
+        BasicManaGenerator.addResult(new ItemStack(Material.COAL_BLOCK), 10);
+        BasicManaGenerator.addResult(DreamingWorld.getInstance().getItemManager().get("ignium"), 5);
+        BasicManaGenerator.addResult(DreamingWorld.getInstance().getItemManager().get("hard_coal"), 20);
     }
 }

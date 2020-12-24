@@ -29,7 +29,7 @@ public class EntityManager implements Listener {
                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                     mainEntitySpawnLoop : for (Map.Entry<String, String> x : spawnEntities.entrySet()){
                         Location sloc = EntityGeneration.genEntity(p, x.getValue());
-                        if (sloc != null && p.getWorld().getNearbyEntities(sloc, 50,50,50).size() < 25) {
+                        if (sloc != null && p.getWorld().getNearbyEntities(sloc, 50,50,50).size() < 40) {
                             for (Entity ent : p.getWorld().getNearbyEntities(sloc, 25,25,25)) {
                                 if (ent instanceof Player) {
                                     continue mainEntitySpawnLoop;

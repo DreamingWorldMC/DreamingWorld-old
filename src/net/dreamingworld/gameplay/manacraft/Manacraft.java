@@ -1,6 +1,7 @@
 package net.dreamingworld.gameplay.manacraft;
 
 import net.dreamingworld.DreamingWorld;
+import net.dreamingworld.gameplay.manacraft.mobs.Moobloom;
 import net.dreamingworld.gameplay.manacraft.researches.activatedmanapickaxe.ActivatedManaPickaxeResearch;
 import net.dreamingworld.gameplay.manacraft.researches.advancedtools.AdvancedTools;
 import net.dreamingworld.gameplay.manacraft.researches.altarchecker.AltarCheckerResearch;
@@ -53,6 +54,7 @@ public class Manacraft {
         
         // Mobs
         DreamingWorld.getInstance().getEntityManager().addEntity("astral_creature", new AstralCreature());
+        DreamingWorld.getInstance().getEntityManager().addEntity("moobloom", new Moobloom());
 
         long time = System.currentTimeMillis() - begin;
 

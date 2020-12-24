@@ -10,7 +10,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class HardCoal {
-
     public HardCoal() {
         ItemStack item = new ItemStack(Material.COAL);
         ItemMeta meta = item.getItemMeta();
@@ -22,5 +21,14 @@ public class HardCoal {
 
         item.setItemMeta(meta);
         DreamingWorld.getInstance().getItemManager().registerItem("hard_coal", item);
+
+        CustomRecipe recipe = new CustomRecipe(item);
+        recipe.shape(new String[] { "GGG", "GCG", "GGG" });
+        recipe.setVanillaIngredient('G', Material.COAL);
+        recipe.setCustomIngredient('C', "manium");
+
+        recipe.setResearch("mana_manipulation");
+
+        DreamingWorld.getInstance().getCraftingManager().registerRecipe(recipe);
     }
 }

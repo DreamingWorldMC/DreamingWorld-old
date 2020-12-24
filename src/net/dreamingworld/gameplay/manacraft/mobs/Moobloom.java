@@ -23,7 +23,7 @@ public class Moobloom extends CustomEntity implements Listener {
         entityType = EntityType.SHEEP;
         damage = 0;
 
-        spawnType = "FOREST_TOP";
+        spawnType = "DAY_TOP";
 
         expDrop = 15;
 
@@ -32,7 +32,7 @@ public class Moobloom extends CustomEntity implements Listener {
         drops = new HashMap<>();
         effects = new ArrayList<>();
 
-        drops.put(DreamingWorld.getInstance().getItemManager().get("star_dust"), 10);
+        drops.put(DreamingWorld.getInstance().getItemManager().get("star_dust"), 75);
 
         effects.add(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1));
 
