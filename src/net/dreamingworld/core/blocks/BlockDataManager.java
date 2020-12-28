@@ -8,20 +8,45 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.world.ChunkUnloadEvent;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BlockDataManager {
+public class BlockDataManager implements Listener {
 
     private final Map<Chunk, Tuple<File, YamlConfiguration>> chunkFiles;
+
+    private int i = 0;
 
     public BlockDataManager() {
         chunkFiles = new HashMap<>();
 
-        Bukkit.getScheduler().runTaskTimerAsynchronously(DreamingWorld.getInstance(), this::saveAll, 0, 40);
+        Bukkit.getScheduler().runTaskTimer(DreamingWorld.getInstance(), () -> {
+            if (chunkFiles.size() < 1) {
+                return;
+            }
+
+            if (i >= chunkFiles.size()) {
+                i = 0;
+            }
+
+            Tuple<File, YamlConfiguration> t = (Tuple<File, YamlConfiguration>) chunkFiles.values().toArray()[i];
+
+            try {
+                t.b().save(t.a());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            i++;
+        }, 10, 10);
+
+        Bukkit.getPluginManager().registerEvents(this, DreamingWorld.getInstance());
     }
 
     public void setBlockTag(Location location, String name, String value) {
@@ -124,5 +149,27 @@ public class BlockDataManager {
                 ioException.printStackTrace();
             }
         }
+    }
+
+
+    @EventHandler
+    public void onChunkUnload(ChunkUnloadEvent e) {
+        Bukkit.getScheduler().runTaskLater(DreamingWorld.getInstance(), () -> {
+            Chunk c = e.getChunk();
+            if (!c.isLoaded()) {
+
+                Tuple<File, YamlConfiguration> t = chunkFiles.get(c);
+
+                if (t != null) {
+                    try {
+                        t.b().save(t.a());
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+
+                    chunkFiles.remove(c);
+                }
+            }
+        }, 100);
     }
 }

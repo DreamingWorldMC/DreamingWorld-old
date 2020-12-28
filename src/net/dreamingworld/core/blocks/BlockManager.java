@@ -21,10 +21,6 @@ public class BlockManager implements Listener {
         loadedChunks = new HashSet<>();
 
         bdm = new BlockDataManager();
-
-        for (World world : Bukkit.getWorlds()) { // /rl protection
-            Collections.addAll(loadedChunks, world.getLoadedChunks());
-        }
     }
 
 

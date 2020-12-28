@@ -85,8 +85,8 @@ public class BasicManaGenerator extends ManaContainer {
             }
 
             if (fuelCount == -1) {
-                if (!(item.getItemMeta() != null && TagWizard.getItemTag(item, "id").equals("mana_glass"))) {
-                    e.getPlayer().sendMessage(Util.formatString("$(SC)THIS $(PC)does not looks like a fuel"));
+                if (!(item.getItemMeta() != null && "mana_glass".equals(TagWizard.getItemTag(item, "id")))) {
+                    e.getPlayer().sendMessage(Util.formatString("$(SC)THIS $(PC)does not look like a fuel"));
                 }
 
                 return;
